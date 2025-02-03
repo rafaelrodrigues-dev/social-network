@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Connect | Home</title>
+    <link rel="stylesheet" href="{% static 'global/css/styles.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">SocialConnect</div>
+        <input type="text" class="search-bar" placeholder="Pesquisar amigos e conteúdo">
+        <div class="nav-icons">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-icon">📷</div>
+            <div class="nav-icon">🔔</div>
+            <div class="nav-icon">👤</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar left-sidebar">
+            <div class="profile-card">
+                <div class="profile-pic" style="background-color: #ddd;"></div>
+                <h3>Maria Silva</h3>
+                <p class="username">@maria_silva</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active">Feed de Notícias</a>
+                <a href="#" class="nav-link">Meu Perfil</a>
+                <a href="#" class="nav-link">Mensagens</a>
+                <a href="#" class="nav-link">Eventos</a>
+                <a href="#" class="nav-link">Grupos</a>
+            </nav>
+        </aside>
+
+        <!-- Main Feed -->
+        <main class="main-feed">
+            <div class="create-post">
+                <div class="post-author">
+                    <div class="profile-pic sm" style="background-color: #ddd;"></div>
+                </div>
+                <input type="text" class="post-input" placeholder="Compartilhe suas ideias...">
+                <button class="post-button">Publicar</button>
+            </div>
+
+            <article class="post">
+                <div class="post-header">
+                    <div class="author-info">
+                        <div class="profile-pic sm" style="background-color: #ddd;"></div>
+                        <div>
+                            <h4>João Pereira</h4>
+                            <p class="post-time">@joaop · 45 minutos atrás</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="post-content">Acabei de experimentar o novo recurso de stories da plataforma. Adorei a integração com as câmeras 360°! 📸🌐</p>
+                <div class="post-actions">
+                    <button class="action-btn like">👍 Curtir</button>
+                    <button class="action-btn comment">💬 Comentar</button>
+                    <button class="action-btn share">↪ Compartilhar</button>
+                </div>
+            </article>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar right-sidebar">
+            <h3 class="sidebar-title">Eventos Populares</h3>
+            <div class="event-card">
+                <h4>Conferência Tech 2024</h4>
+                <p class="event-date">📅 15-17 Março</p>
+                <p class="event-location">📍 Centro de Convenções</p>
+                <button class="event-btn">Participar</button>
+            </div>
+            
+            <h3 class="sidebar-title">Amigos Online</h3>
+            <div class="friend-list">
+                <div class="friend">
+                    <div class="profile-pic xs" style="background-color: #ddd;"></div>
+                    <span>Ana Costa</span>
+                </div>
+                <div class="friend">
+                    <div class="profile-pic xs" style="background-color: #ddd;"></div>
+                    <span>Carlos Lima</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>
