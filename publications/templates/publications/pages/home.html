@@ -47,24 +47,25 @@
                 <input type="text" class="post-input" placeholder="Compartilhe suas ideias...">
                 <button class="post-button">Publicar</button>
             </div>
-
-            <article class="post">
-                <div class="post-header">
-                    <div class="author-info">
-                        <div class="profile-pic sm" style="background-color: #ddd;"></div>
-                        <div>
-                            <h4>João Pereira</h4>
-                            <p class="post-time">@joaop · 45 minutos atrás</p>
+            {% for publication in publications %}
+                <article class="post">
+                    <div class="post-header">
+                        <div class="author-info">
+                            <div class="profile-pic sm" style="background-color: #ddd;"></div>
+                            <div>
+                                <h4>{{ publication.author.first_name }}</h4>
+                                <p class="post-time">@{{ publication.author.username }} · {{ publication.created_at }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <p class="post-content">Acabei de experimentar o novo recurso de stories da plataforma. Adorei a integração com as câmeras 360°! 📸🌐</p>
-                <div class="post-actions">
-                    <button class="action-btn like">👍 Curtir</button>
-                    <button class="action-btn comment">💬 Comentar</button>
-                    <button class="action-btn share">↪ Compartilhar</button>
-                </div>
-            </article>
+                    <p class="post-content">{{ publication.text }}</p>
+                    <div class="post-actions">
+                        <button class="action-btn like">👍 Curtir</button>
+                        <button class="action-btn comment">💬 Comentar</button>
+                        <button class="action-btn share">↪ Compartilhar</button>
+                    </div>
+                </article>
+            {% endfor  %}
         </main>
 
         <!-- Right Sidebar -->
