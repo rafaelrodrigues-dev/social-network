@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Publication(models.Model):
     text = models.TextField(_("Text"))
-    img = models.ImageField(_("Image"), upload_to='publications/images/%Y/m%/%d',blank=True,default='')
+    img = models.ImageField(_("Image"), upload_to='publications/images/%Y/%m/%d/',blank=True,default='')
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
 

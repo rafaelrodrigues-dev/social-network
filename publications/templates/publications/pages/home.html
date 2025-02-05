@@ -1,24 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Connect | Home</title>
-    <link rel="stylesheet" href="{% static 'global/css/styles.css' %}">
-</head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">SocialConnect</div>
-        <input type="text" class="search-bar" placeholder="Pesquisar amigos e conteúdo">
-        <div class="nav-icons">
-            <div class="nav-icon">🏠</div>
-            <div class="nav-icon">📷</div>
-            <div class="nav-icon">🔔</div>
-            <div class="nav-icon">👤</div>
-        </div>
-    </nav>
+    {% include "publications/partials/head.html" %}
+    {% include "publications/partials/navbar.html" %}
 
     <!-- Main Content -->
     <div class="container">
@@ -49,19 +31,10 @@
             </div>
             {% for publication in publications %}
                 <article class="post">
-                    <div class="post-header">
-                        <div class="author-info">
-                            <div class="profile-pic sm" style="background-color: #ddd;"></div>
-                            <div>
-                                <h4>{{ publication.author.first_name }}</h4>
-                                <p class="post-time">@{{ publication.author.username }} · {{ publication.created_at }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="post-content">{{ publication.text }}</p>
+                    {% include "publications/partials/publication.html" %}
                     <div class="post-actions">
                         <button class="action-btn like">👍 Curtir</button>
-                        <button class="action-btn comment">💬 Comentar</button>
+                        <button class="action-btn ">💬 Comentar</button>
                         <button class="action-btn share">↪ Compartilhar</button>
                     </div>
                 </article>

@@ -40,6 +40,7 @@ body {
     color: var(--primary-blue);
     font-weight: 700;
     letter-spacing: -1px;
+    text-decoration: none;
 }
 
 .search-bar {
@@ -295,5 +296,135 @@ body {
     
     .left-sidebar {
         order: -1;
+    }
+}
+
+/* Adicionando ao CSS existente */
+
+/* Post Detail Page */
+.detail-container {
+    max-width: 800px;
+    grid-template-columns: 1fr;
+    margin-top: 6rem;
+}
+
+.post-detail {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.post.expanded {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.post-media {
+    margin: 1.5rem 0;
+}
+
+.post-image {
+    width: 100%;
+    border-radius: 0.5rem;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.post-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1rem 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Comments Section */
+.comments-section {
+    margin-top: 2rem;
+}
+
+.comments-section h3 {
+    margin-bottom: 1.5rem;
+}
+
+.comment-form {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.comment-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid #ddd;
+    background-color: var(--background);
+}
+
+.comment-button {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.comment {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: var(--background);
+}
+
+.comment-author {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.comment-time {
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+
+.comment-content {
+    margin-left: 2.8rem;
+    line-height: 1.5;
+}
+
+.comment-actions {
+    margin-left: 2.8rem;
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+/* Responsividade para Detail Page */
+@media (max-width: 768px) {
+    .detail-container {
+        padding: 1rem;
+        margin-top: 5rem;
+    }
+    
+    .post-detail {
+        padding: 1rem;
+    }
+    
+    .comment-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .comment-input {
+        width: 100%;
+    }
+    
+    .comment-button {
+        width: 100%;
     }
 }
