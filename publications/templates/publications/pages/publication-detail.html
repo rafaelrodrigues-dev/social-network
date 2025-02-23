@@ -1,64 +1,22 @@
-{% include "publications/partials/head.html" %}
-    {% include "publications/partials/navbar.html" %}
-    <!-- Main Content -->
-    <div class="container detail-container">
-        <!-- Post Detail -->
-        <main class="post-detail">
-            <article class="post expanded">
-                {% include "publications/partials/publication.html" %}
-                <div class="post-stats">
-                    <span>👍 128 curtidas</span>
-                    <span>💬 23 comentários</span>
-                    <span>↪ 7 compartilhamentos</span>
-                </div>
-                <div class="post-actions">
-                    <button class="action-btn like">👍 Curtir</button>
-                    <button class="action-btn comment">💬 Comentar</button>
-                    <button class="action-btn share">↪ Compartilhar</button>
-                </div>
-            </article>
+{% extends "global/base.html" %}
+{% block content %}
+<main>
+        {% include "publications/partials/publication.html" %}
 
-            <!-- Comments Section -->
-            <section class="comments-section">
-                <h3>Comentários (23)</h3>
-                
-                <div class="comment-form">
-                    <div class="profile-pic xs" style="background-color: #ddd;"></div>
-                    <input type="text" placeholder="Adicione um comentário..." class="comment-input">
-                    <button class="comment-button">Comentar</button>
+        <h3>Commments</h3>
+        <section class=" post-detail comments">
+                <div class="post-header comment">
+                    <img src="https://placehold.co/30x30" alt="">
+                    <div><span>@username</span></div>
                 </div>
-
-                <div class="comment">
-                    <div class="comment-author">
-                        <div class="profile-pic xs" style="background-color: #eee;"></div>
-                        <div>
-                            <h4>Ana Costa</h4>
-                            <p class="comment-time">30 minutos atrás</p>
-                        </div>
-                    </div>
-                    <p class="comment-content">Concordo plenamente! A integração ficou incrível 👏</p>
-                    <div class="comment-actions">
-                        <button class="action-btn">👍 12</button>
-                        <button class="action-btn">Responder</button>
-                    </div>
-                </div>
-
-                <div class="comment">
-                    <div class="comment-author">
-                        <div class="profile-pic xs" style="background-color: #eee;"></div>
-                        <div>
-                            <h4>Carlos Lima</h4>
-                            <p class="comment-time">1 hora atrás</p>
-                        </div>
-                    </div>
-                    <p class="comment-content">Alguém sabe se funciona com câmeras DSLR também?</p>
-                    <div class="comment-actions">
-                        <button class="action-btn">👍 8</button>
-                        <button class="action-btn">Responder</button>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-</body>
-</html>
+                    <div><p> This is a comment</p></div>  
+        </section>
+        <div class="comment-form">
+            <form method="post" action="">
+                {% csrf_token %}
+                <textarea name="content" placeholder="Adicione um comentário..." required></textarea>
+                <button type="submit">Comment</button>
+            </form>
+        </div>
+</main>
+{% endblock content %}

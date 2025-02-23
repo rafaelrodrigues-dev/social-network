@@ -1,68 +1,11 @@
-<body>
-    {% include "publications/partials/head.html" %}
-    {% include "publications/partials/navbar.html" %}
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Left Sidebar -->
-        <aside class="sidebar left-sidebar">
-            <div class="profile-card">
-                <div class="profile-pic" style="background-color: #ddd;"></div>
-                <h3>Maria Silva</h3>
-                <p class="username">@maria_silva</p>
-            </div>
-            <nav class="sidebar-nav">
-                <a href="#" class="nav-link active">Feed de Notícias</a>
-                <a href="#" class="nav-link">Meu Perfil</a>
-                <a href="#" class="nav-link">Mensagens</a>
-                <a href="#" class="nav-link">Eventos</a>
-                <a href="#" class="nav-link">Grupos</a>
-            </nav>
-        </aside>
-
-        <!-- Main Feed -->
-        <main class="main-feed">
-            <div class="create-post">
-                <div class="post-author">
-                    <div class="profile-pic sm" style="background-color: #ddd;"></div>
-                </div>
-                <input type="text" class="post-input" placeholder="Compartilhe suas ideias...">
-                <button class="post-button">Publicar</button>
-            </div>
-            {% for publication in publications %}
-                <article class="post">
-                    {% include "publications/partials/publication.html" %}
-                    <div class="post-actions">
-                        <button class="action-btn like">👍 Curtir</button>
-                        <button class="action-btn ">💬 Comentar</button>
-                        <button class="action-btn share">↪ Compartilhar</button>
-                    </div>
-                </article>
-            {% endfor  %}
-        </main>
-
-        <!-- Right Sidebar -->
-        <aside class="sidebar right-sidebar">
-            <h3 class="sidebar-title">Eventos Populares</h3>
-            <div class="event-card">
-                <h4>Conferência Tech 2024</h4>
-                <p class="event-date">📅 15-17 Março</p>
-                <p class="event-location">📍 Centro de Convenções</p>
-                <button class="event-btn">Participar</button>
-            </div>
-            
-            <h3 class="sidebar-title">Amigos Online</h3>
-            <div class="friend-list">
-                <div class="friend">
-                    <div class="profile-pic xs" style="background-color: #ddd;"></div>
-                    <span>Ana Costa</span>
-                </div>
-                <div class="friend">
-                    <div class="profile-pic xs" style="background-color: #ddd;"></div>
-                    <span>Carlos Lima</span>
-                </div>
-            </div>
-        </aside>
-    </div>
-</body>
-</html>
+{% extends "global/base.html" %}
+{% block content %}
+<main>
+    <section class="posts">
+        <h2>Lastest posts</h2>
+        {% for publication in publications %}
+            {% include "publications/partials/publication.html" %}
+        {% endfor %}
+    </section>
+</main>
+{% endblock content %}

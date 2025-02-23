@@ -11,4 +11,5 @@ def publication_detail(request,pk):
     publication = Publication.objects.all().filter(pk=pk).first()
     return render(request,'publications/pages/publication-detail.html',{
         'publication':publication,
+        'is_detail':True,
     })

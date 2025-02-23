@@ -1,19 +1,22 @@
 {% block content %}
+<div class="post">
     <div class="post-header">
-        <div class="author-info">
-            <div class="profile-pic sm" style="background-color: #ddd;"></div>
-            <div>
-                <h4>{{publication.author.first_name}}</h4>
-                <p class="post-time">@{{publication.author.username}} · {{publication.created_at}}</p>
-            </div>
-        </div>
+        <img src="https://placehold.co/40x40" alt="">
+        <div><span>@{{ publication.author.username }}  </span> </div>
+        <div><small>{{ publication.created_at|timesince }} atrás</small></div>
     </div>
-    <p class="post-content">
-        {{publication.text}}
-    </p>
+    <p>{{ publication.text }}</p>
     {% if publication.img %}
-        <div class="post-media">
-            <img src="{{ publication.img.url }}" alt="Imagem do post" class="post-image">
-        </div>
+        {{ publication.img }}
     {% endif %}
+    <div class="post-actions">
+        <button>Like</button>
+        {% if is_detail is True %}
+            <span>1 like(s)</span>
+        {% else %}
+            <a href="{% url 'publications:publication-detail' publication.id %}">
+            <button>Comment</button></a>
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}
