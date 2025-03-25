@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-19 14:30-0300\n"
+"POT-Creation-Date: 2025-02-27 21:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\authors\forms.py:8
-msgid "Username"
-msgstr ""
+#: .\authors\forms.py:9
+msgid "Male"
+msgstr "Masculino"
 
-#: .\authors\forms.py:10 .\authors\models.py:6
+#: .\authors\forms.py:10
+msgid "Female"
+msgstr "Feminino"
+
+#: .\authors\forms.py:11
+msgid "Search me"
+msgstr "Sei lá"
+
+#: .\authors\forms.py:12
+msgid "Other"
+msgstr "Outro"
+
+#: .\authors\forms.py:19
+msgid "Username"
+msgstr "Nome de Usúario"
+
+#: .\authors\forms.py:28
+msgid "First name"
+msgstr "Primeiro Nome"
+
+#: .\authors\forms.py:34
+msgid "Last name"
+msgstr "Sobrenome"
+
+#: .\authors\forms.py:41 .\authors\models.py:6
 msgid "Date of birth"
 msgstr "Data de Nascimento"
 
-#: .\authors\models.py:7
+#: .\authors\forms.py:46 .\authors\models.py:7
 msgid "Gender"
 msgstr "Gênero"
 

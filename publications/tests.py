@@ -1,7 +1,10 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from publications.models import Publication
 from django.urls import reverse
+
+User = get_user_model()
+
 
 class PublicationTest(TestCase):
     # homepage
