@@ -15,7 +15,7 @@ CHOICES = [
 
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(
-        max_length=15,
+        max_length=20,
         min_length=4,
         label=_('Username'),
     )
@@ -50,16 +50,15 @@ class RegisterForm(forms.ModelForm):
     def clean_username(self):
         data = self.cleaned_data["username"]
         if User.objects.filter(username=data).exists():
-            raise ValidationError('This username is already in use',code='invalid')
+            raise ValidationError(_('This username is already in use'))
         if not data.isalnum():
-            raise ValidationError('This field must contain only letters and numbers')
+            raise ValidationError(_('Username must be alphanumeric'))
         return data
-    
-    
+
     def clean_email(self):
         data = self.cleaned_data["email"]
         if User.objects.filter(email=data).exists():
-            raise ValidationError('This email is already in use')
+            raise ValidationError(_('This email is already in use'))
         return data
 
 

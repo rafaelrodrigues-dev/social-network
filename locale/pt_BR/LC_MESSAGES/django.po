@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-27 21:08-0300\n"
+"POT-Creation-Date: 2025-03-29 20:22-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,25 +34,39 @@ msgstr "Sei lá"
 msgid "Other"
 msgstr "Outro"
 
-#: .\authors\forms.py:19
+#: .\authors\forms.py:20
 msgid "Username"
 msgstr "Nome de Usúario"
 
-#: .\authors\forms.py:28
+#: .\authors\forms.py:29
 msgid "First name"
 msgstr "Primeiro Nome"
 
-#: .\authors\forms.py:34
+#: .\authors\forms.py:35
 msgid "Last name"
 msgstr "Sobrenome"
 
-#: .\authors\forms.py:41 .\authors\models.py:6
+#: .\authors\forms.py:42 .\authors\models.py:6
+#: .\authors\tests\test_authors_register.py:11
 msgid "Date of birth"
 msgstr "Data de Nascimento"
 
-#: .\authors\forms.py:46 .\authors\models.py:7
+#: .\authors\forms.py:47 .\authors\models.py:7
+#: .\authors\tests\test_authors_register.py:12
 msgid "Gender"
 msgstr "Gênero"
+
+#: .\authors\forms.py:53 .\authors\tests\test_authors_register.py:33
+msgid "This username is already in use"
+msgstr "Este nome de usúario já está em uso."
+
+#: .\authors\forms.py:55 .\authors\tests\test_authors_register.py:41
+msgid "Username must be alphanumeric"
+msgstr "O nome de usúario precisa ser alfanúmerico."
+
+#: .\authors\forms.py:61 .\authors\tests\test_authors_register.py:50
+msgid "This email is already in use"
+msgstr "Este e-mail já está em uso."
 
 #: .\publications\models.py:7
 msgid "Text"

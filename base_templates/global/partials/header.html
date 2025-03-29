@@ -4,10 +4,10 @@
     <nav>
         <a href="{% url 'publications:home' %}">Home</a>
         {% if user.is_authenticated %}
-            <a href="profile">Profile</a>
-            <a href="logout">Logout</a>
+            <a href="#">Profile</a>
+            <a href="#">Logout</a>
         {% else %}
-            <a href="login">Login</a>
+            <a href="#">Login</a>
             <a href=" {% url 'authors:register' %} ">Register</a>
         {% endif %}
     </nav>

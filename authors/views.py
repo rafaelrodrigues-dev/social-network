@@ -29,10 +29,10 @@ def register_create(request):
             username=form.cleaned_data['username'],
             password=form.cleaned_data['password']
         )
+        login(request,authenticated_user)
 
-        if authenticated_user is not None:
-            login(request,authenticated_user)
-            
-            del(request.session['register_form_data'])
+        del(request.session['register_form_data'])
             
         return redirect(reverse('publications:home'))
+    
+    return redirect(reverse('authors:register'))
