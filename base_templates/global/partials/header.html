@@ -7,7 +7,7 @@
             <a href="#">Profile</a>
             <a href="#">Logout</a>
         {% else %}
-            <a href="#">Login</a>
+            <a href="{% url "authors:login" %}">Login</a>
             <a href=" {% url 'authors:register' %} ">Register</a>
         {% endif %}
     </nav>
