@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-29 20:22-0300\n"
+"POT-Creation-Date: 2025-03-31 21:15-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,55 +18,81 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\authors\forms.py:9
-msgid "Male"
-msgstr "Masculino"
-
-#: .\authors\forms.py:10
-msgid "Female"
-msgstr "Feminino"
-
-#: .\authors\forms.py:11
-msgid "Search me"
-msgstr "Sei lá"
-
-#: .\authors\forms.py:12
-msgid "Other"
-msgstr "Outro"
-
-#: .\authors\forms.py:20
+#: .\authors\forms\login_form.py:6 .\authors\forms\register_form.py:20
+#: .\authors\tests\test_authors_login_form.py:9
 msgid "Username"
 msgstr "Nome de Usúario"
 
-#: .\authors\forms.py:29
+#: .\authors\forms\login_form.py:8
+#: .\authors\tests\test_authors_login_form.py:10
+msgid "Password"
+msgstr "Senha"
+
+#: .\authors\forms\register_form.py:9
+msgid "Male"
+msgstr "Masculino"
+
+#: .\authors\forms\register_form.py:10
+msgid "Female"
+msgstr "Feminino"
+
+#: .\authors\forms\register_form.py:11
+msgid "Search me"
+msgstr "Sei lá"
+
+#: .\authors\forms\register_form.py:12
+msgid "Other"
+msgstr "Outro"
+
+#: .\authors\forms\register_form.py:29
 msgid "First name"
 msgstr "Primeiro Nome"
 
-#: .\authors\forms.py:35
+#: .\authors\forms\register_form.py:35
 msgid "Last name"
 msgstr "Sobrenome"
 
-#: .\authors\forms.py:42 .\authors\models.py:6
-#: .\authors\tests\test_authors_register.py:11
+#: .\authors\forms\register_form.py:42 .\authors\models.py:6
+#: .\authors\tests\test_authors_register_form.py:11
 msgid "Date of birth"
 msgstr "Data de Nascimento"
 
-#: .\authors\forms.py:47 .\authors\models.py:7
-#: .\authors\tests\test_authors_register.py:12
+#: .\authors\forms\register_form.py:47 .\authors\models.py:7
+#: .\authors\tests\test_authors_register_form.py:12
 msgid "Gender"
 msgstr "Gênero"
 
-#: .\authors\forms.py:53 .\authors\tests\test_authors_register.py:33
+#: .\authors\forms\register_form.py:53
+#: .\authors\tests\test_authors_register_form.py:33
 msgid "This username is already in use"
 msgstr "Este nome de usúario já está em uso."
 
-#: .\authors\forms.py:55 .\authors\tests\test_authors_register.py:41
+#: .\authors\forms\register_form.py:55
+#: .\authors\tests\test_authors_register_form.py:41
 msgid "Username must be alphanumeric"
 msgstr "O nome de usúario precisa ser alfanúmerico."
 
-#: .\authors\forms.py:61 .\authors\tests\test_authors_register.py:50
+#: .\authors\forms\register_form.py:61
+#: .\authors\tests\test_authors_register_form.py:50
 msgid "This email is already in use"
 msgstr "Este e-mail já está em uso."
+
+#: .\authors\views.py:38
+#: .\tests\functional_tests\authors\test_register_page.py:21
+msgid "User registered successfully"
+msgstr "Usúario registrado com sucesso"
+
+#: .\authors\views.py:65 .\tests\functional_tests\authors\test_login_page.py:33
+msgid "Login successful"
+msgstr "Usúario logado com sucesso"
+
+#: .\authors\views.py:70
+msgid "Invalid credentials"
+msgstr "Credencias inválidas"
+
+#: .\authors\views.py:73
+msgid "Invalid username or password"
+msgstr "Nome de Usúario ou senhas inválidos"
 
 #: .\publications\models.py:7
 msgid "Text"

@@ -154,14 +154,43 @@ footer {
     margin-top: 10px;
 }
 
-
 .form-group {
     margin-bottom: 15px;
 }
 
-.error-message {
-    color: red;
-    font-size: 0.875em;
-    margin-top: 5px;
+.messages {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #fff;
+    text-align: center;
+}
+
+.message-success {
+    background-color: #28a745; 
+    border: 1px solid #218838;
+}
+
+.message-error {
+    background-color: #dc3545; 
+    border: 1px solid #c82333;
+}
+
+.message-warning {
+    background-color: #ffc107; 
+    border: 1px solid #e0a800;
+    color: #212529;
+}
+
+.message-info {
+    background-color: #17a2b8; 
+    border: 1px solid #117a8b;
+}

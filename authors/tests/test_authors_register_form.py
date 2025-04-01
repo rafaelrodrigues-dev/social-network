@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 
 
 class AuthorsRegisterUnitTest(TestCase):
-    def test_fields_labels(self):
+    def test_register_form_fields_labels(self):
         form = RegisterForm()
         self.assertEqual(form['date_of_birth'].field.label, _('Date of birth'))
         self.assertEqual(form['gender'].field.label, _('Gender'))

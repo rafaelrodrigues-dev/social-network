@@ -2,6 +2,7 @@
 {% block content %}
 <main>
     <section class="posts">
+        {% include "global/partials/messages.html" %}
         <h2>Lastest posts</h2>
         {% for publication in publications %}
             {% include "publications/partials/publication.html" %}
