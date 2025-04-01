@@ -18,15 +18,12 @@ class AuthorsLoginTest(AuthorsTestBase):
         # Create user in database
         User.objects.create_user(username=username,password=password)
 
-        # Get form
-        form = self.driver.find_element(By.XPATH,'/html/body/main/section/form')
-
         # Fill out the form
         self.fill_field('//*[@id="id_username"]',username)
         self.fill_field('//*[@id="id_password"]',password)
 
         # Submit the form
-        form.submit()
+        self.driver.find_element(By.XPATH,'/html/body/main/section/form/button',).click()
 
         # Check if the user was logged in successfully
         self.assertIn(
