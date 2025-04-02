@@ -19,10 +19,30 @@ header .logo {
     font-weight: bold;
 }
 
-header nav a {
-    color: #fff;
+.navbar-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px; 
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-options li {
+    display: inline-block;
+}
+
+.navbar-options a {
     text-decoration: none;
-    margin-left: 15px;
+    color: #fff; 
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-options a:hover {
+    background-color: #555; 
 }
 
 main {

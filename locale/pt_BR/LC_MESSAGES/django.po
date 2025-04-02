@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-31 21:15-0300\n"
+"POT-Creation-Date: 2025-04-01 16:52-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,9 +82,9 @@ msgstr "Este e-mail já está em uso."
 msgid "User registered successfully"
 msgstr "Usúario registrado com sucesso"
 
-#: .\authors\views.py:65 .\tests\functional_tests\authors\test_login_page.py:33
+#: .\authors\views.py:65 .\tests\functional_tests\authors\test_login_page.py:30
 msgid "Login successful"
-msgstr "Usúario logado com sucesso"
+msgstr "Usúario foi conectado com sucesso"
 
 #: .\authors\views.py:70
 msgid "Invalid credentials"
@@ -93,6 +93,10 @@ msgstr "Credencias inválidas"
 #: .\authors\views.py:73
 msgid "Invalid username or password"
 msgstr "Nome de Usúario ou senhas inválidos"
+
+#: .\authors\views.py:79
+msgid "User has been logged out"
+msgstr "O usúario foi desconectado com sucesso"
 
 #: .\publications\models.py:7
 msgid "Text"

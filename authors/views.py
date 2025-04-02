@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from authors.forms import RegisterForm, LoginForm
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.http import Http404
-from django.contrib.auth import authenticate, login
+from django.http import Http404,HttpResponse
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
@@ -73,3 +74,13 @@ def login_create(request):
         messages.error(request,_('Invalid username or password'))
 
     return redirect(reverse('authors:login'))
+
+@login_required(login_url='authors:login')
+def logout_view(request):
+    logout(request)
+    messages.success(request,_('User has been logged out'))
+    return redirect('/')
+
+@login_required(login_url='authors:login')
+def profile(request):
+    return HttpResponse(f'{request.user.username}')
