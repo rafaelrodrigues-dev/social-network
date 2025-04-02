@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # My apps
     'publications',
     'authors',
+    'profiles',
 ]
 
 MIDDLEWARE = [

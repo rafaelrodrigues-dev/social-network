@@ -1,6 +1,7 @@
 {% extends "global/base.html" %}
 {% block content %}
 <main>
+    {% if publications %}
     <section class="posts">
         {% include "global/partials/messages.html" %}
         <h2>Lastest posts</h2>
@@ -8,5 +9,8 @@
             {% include "publications/partials/publication.html" %}
         {% endfor %}
     </section>
+    {% else %}
+        <h2>It looks like there's nothing around here...</h2>
+    {% endif %}
 </main>
 {% endblock content %}
