@@ -1,0 +1,38 @@
+{% extends "global/base.html" %}
+{% block content %}
+    <main>
+        <div class="profile-container">
+            <div class="profile-card">
+                <div class="profile-header">
+                    {% if profile.picture %}
+                    <img src="{{ profile.picture.url }}" alt="Foto de {{ profile.user.username }}" class="profile-picture">
+                    {% else %}
+                        <img src="https://placehold.co/600x400/orange/white" alt="" class="profile-picture">
+                    {% endif %}
+                    <h1 class="profile-username">@{{ profile.user.username }}</h1>
+                    <h2 class="profile-fullname">{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                    <p class="profile-bio">{{ profile.bio }}</p>
+                </div>
+                {% if request.user.username != profile.user.username %}
+                    <div class="profile-actions">
+                        {% if profile in request.user.profile.follow %}
+                            <button class="btn follow-btn">Follow</button>
+                        {% else %}
+                            <button class="btn unfollow-btn">Unfollow</button>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="profile-stats">
+                <div class="stat">
+                    <h3>Following</h3>
+                    <p>{{ profile.follow.count }}</p>
+                </div>
+                <div class="stat">
+                    <h3>Followers</h3>
+                    <p>{{ profile.followers.count }}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

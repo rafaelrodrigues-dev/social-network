@@ -5,7 +5,7 @@
         <ul class="navbar-options">
         <a href="{% url 'publications:home' %}">Home</a>
         {% if user.is_authenticated %}
-            <a href="#">Profile</a>
+            <a href="{% url "profiles:profile" request.user.username %}">Profile</a>
             <a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">Logout</a>
         {% else %}
             <a href="{% url "authors:login" %}">Login</a>
