@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from .models import Profile
 
 @login_required(login_url='authors:login')
@@ -12,7 +12,7 @@ def follow(request,username):
     profile = get_object_or_404(Profile,user__username=username)
     
     if request.user == profile.user:
-        return Http404()
+        return HttpResponse('You cannot follow yourself',status=403)
     
     if profile in request.user.profile.follow.all():
         profile.followers.remove(request.user.profile)
