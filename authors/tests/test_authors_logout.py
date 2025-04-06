@@ -30,7 +30,7 @@ class AuthorsLogoutTest(TestCase):
         self.client.get(self.logout_url)
         
         # Check if the user is logged out
-        response = self.client.get(reverse('authors:profile'))  # Assuming 'profile' requires login
+        response = self.client.get(reverse('profiles:profile',kwargs={'username':self.user.username}))  # Assuming 'profile' requires login
         self.assertEqual(response.status_code, 302)  # Redirect to login page
 
     def test_logout_without_login(self):

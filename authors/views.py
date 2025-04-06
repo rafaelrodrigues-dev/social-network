@@ -80,7 +80,3 @@ def logout_view(request):
     logout(request)
     messages.success(request,_('User has been logged out'))
     return redirect('/')
-
-@login_required(login_url='authors:login')
-def profile(request):
-    return HttpResponse(f'{request.user.username}')
