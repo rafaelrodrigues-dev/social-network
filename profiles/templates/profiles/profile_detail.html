@@ -15,11 +15,14 @@
                 </div>
                 {% if request.user.username != profile.user.username %}
                     <div class="profile-actions">
-                        {% if profile in request.user.profile.follow %}
-                            <button class="btn follow-btn">Follow</button>
-                        {% else %}
-                            <button class="btn unfollow-btn">Unfollow</button>
-                        {% endif %}
+                        <form action="{% url "profiles:follow" profile.user.username %}" method="post">
+                            {% csrf_token %}
+                            {% if not profile in request.user.profile.follow.all  %}
+                                <button class="btn follow-btn">Follow</button>
+                            {% else %}
+                                <button class="btn unfollow-btn">Unfollow</button>  
+                            {% endif %}
+                        </form>    
                     </div>
                 {% endif %}
             </div>
