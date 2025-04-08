@@ -6,4 +6,5 @@ app_name = 'publications'
 urlpatterns = [
     path('',views.home,name='home'),
     path('p/<int:pk>/',views.publication_detail,name='publication-detail'),
+    path('p/<int:pk>/like/',views.like,name='like'),
 ]

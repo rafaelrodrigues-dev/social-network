@@ -67,15 +67,34 @@ footer {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.post-header, .post-detail .post-header {
+.post-header, .post-detail {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.post-header img, .post-detail .post-header img {
+.post-header img, .post-detail {
     border-radius: 50%;
     margin-right: 10px;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+}
+
+.post-header small {
+    margin-left: 10px;
+    color: #686868;
+}
+
+.post-profile-user-link {
+    text-decoration: none;
+    color: #000; 
+}
+
+.post-profile-user-link span:hover {
+    color: #007bff;
 }
 
 .post-actions {
@@ -83,17 +102,22 @@ footer {
 }
 
 .post-actions button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 3px;
-    cursor: pointer;
+    margin: auto 5px;
 }
 
-.post-actions button:hover {
-    background-color: #0056b3;
+.like-button {
+    background-color: #f0f0f0;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.like-button.liked {
+    background-color: #ff4500;
+    color: #fff;
+    border: 1px solid #ff4500;
 }
 
 .comments {

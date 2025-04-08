@@ -1,19 +1,36 @@
 {% block content %}
 <div class="post">
     <div class="post-header">
-        <img src="https://placehold.co/40x40" alt="">
-        <div><span>@{{ publication.author.username }}  </span> </div>
-        <div><small>{{ publication.created_at|timesince }} atrás</small></div>
+        <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
+            {% if publication.author.profile.picture %}
+                <img src="{{ publication.author.profile.picture.url }}" alt="Profile picture">
+            {% else %}
+                <img src="https://placehold.co/40x40" alt="">
+            {% endif %}
+        </a>
+        <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
+            <span>@{{ publication.author.username }}</span>
+        </a>
+        <small>{{ publication.created_at|timesince }} atrás</small>
     </div>
     <p>{{ publication.text }}</p>
     {% if publication.img %}
-        {{ publication.img }}
+        <img src="{{ publication.img.url }}" alt="">
     {% endif %}
     <div class="post-actions">
-        <button>Like</button>
-        {% if is_detail is True %}
-            <span>1 like(s)</span>
+        {% if publication in request.user.likes.all %}
+            <button class="like-button liked" data-id="{{ publication.id }}">
+                Like
+            </button>
         {% else %}
+            <button class="like-button" data-id="{{ publication.id }}">
+                Like
+            </button>
+        {% endif %}
+        <span class="like-count">
+            {{ publication.like.count }}
+        </span>
+        {% if is_detail is not True %}
             <a href="{% url 'publications:publication-detail' publication.id %}">
             <button>Comment</button></a>
         {% endif %}
