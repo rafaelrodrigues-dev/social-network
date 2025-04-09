@@ -6,15 +6,17 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 def home(request):
-    publications = Publication.objects.all()
+    publications = Publication.objects.all().order_by('id')
     return render(request,'publications/pages/home.html',{
         'publications':publications
         })
 
 def publication_detail(request,pk):
     publication = get_object_or_404(Publication,pk=pk)
+    comments = Comment.objects.filter(publication=publication,).order_by('-id')
     return render(request,'publications/pages/publication-detail.html',{
         'publication':publication,
+        'comments':comments,
         'is_detail':True,
     })
 

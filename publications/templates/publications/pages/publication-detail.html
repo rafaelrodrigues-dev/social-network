@@ -3,20 +3,34 @@
 <main>
         {% include "publications/partials/publication.html" %}
 
-        <h3>Comments</h3>
-        <section class=" post-detail comments">
-                <div class="post-header comment">
-                    <img src="https://placehold.co/30x30" alt="">
-                    <div><span>@username</span></div>
-                </div>
-                    <div><p> This is a comment</p></div>  
-        </section>
         <div class="comment-form">
-            <form method="post" action="">
+            <form method="post" action="{% url "publications:comment" publication.id %}">
                 {% csrf_token %}
-                <textarea name="content" placeholder="Adicione um comentário..." required></textarea>
+                <textarea name="text" placeholder="Add a comment here..." required></textarea>
                 <button type="submit">Comment</button>
             </form>
         </div>
+        <h3>Comments</h3>
+        <section class="comments">
+            {% for comment in comments.all %}
+                <div class="post">
+                    <div class="post-header">
+                        <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
+                            {% if comment.author.profile.picture %}
+                                <img src="{{ comment.author.profile.picture.url }}" alt="Profile picture">
+                            {% else %}
+                                <img src="https://placehold.co/40x40" alt="">
+                            {% endif %}
+                        </a>
+                        <a href="{% url "profiles:profile" comment.author.username %}" class="post-profile-user-link">
+                            <span>@{{ comment.author.username }}</span>
+                        </a>
+                        <small>{{ comment.created_at|timesince }} atrás</small>
+                    </div>
+                    <div><p>{{ comment.text }}</p></div>
+                </div>
+            {% endfor %}  
+        </section>
+        
 </main>
 {% endblock content %}
