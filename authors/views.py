@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from authors.forms import RegisterForm, LoginForm
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.http import Http404,HttpResponse
+from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages

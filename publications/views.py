@@ -1,8 +1,10 @@
-from django.shortcuts import render
-from publications.models import Publication
+from django.shortcuts import render, redirect
+from publications.models import Publication,Comment
 from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse,Http404
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+
 def home(request):
     publications = Publication.objects.all()
     return render(request,'publications/pages/home.html',{
@@ -32,3 +34,20 @@ def like(request,pk):
         'liked': liked,
         'likes_count': f'{publication.like.count()}',
     })
+
+@login_required
+def comment(request,pk):
+    if request.method != 'POST':
+        raise Http404()
+    
+    publication = get_object_or_404(Publication,pk=pk)
+    text = request.POST.get('text')
+    author = request.user
+    Comment.objects.create(
+        publication=publication,
+        text=text,
+        author=author
+    )
+
+    return redirect(reverse('publications:publication-detail',kwargs={'pk':pk}))
+    

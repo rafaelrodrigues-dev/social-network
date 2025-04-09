@@ -21,3 +21,10 @@ class AuthorsRegisterTest(AuthorsTestBase):
             str(_('User registered successfully')),
             self.driver.find_element(By.TAG_NAME,'body').text
         )
+
+    def test_link_to_login(self):
+        self.driver.find_element(By.XPATH,'/html/body/main/section/p/a').click()
+        self.assertIn(
+            'Login',
+            self.driver.find_element(By.TAG_NAME,'body').text
+        )
