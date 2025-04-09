@@ -105,8 +105,8 @@ footer {
     margin: auto 5px;
 }
 
-.like-button {
-    background-color: #f0f0f0;
+.like-button .comment-button {
+    background-color: #007bff;
     color: #000;
     border: 1px solid #ccc;
     padding: 5px 10px;
