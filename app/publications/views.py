@@ -4,9 +4,10 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse,Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 
 def home(request):
-    publications = Publication.objects.all().order_by('id')
+    publications = Publication.objects.all().order_by('-id')
     return render(request,'publications/pages/home.html',{
         'publications':publications
         })
@@ -19,6 +20,18 @@ def publication_detail(request,pk):
         'comments':comments,
         'is_detail':True,
     })
+
+def search(request):
+    query = request.GET.get('q','')
+    results = Publication.objects.annotate(
+        search=SearchVector('text','author__username'),
+        rank=SearchRank(SearchVector('text','author__username'),query)
+    ).filter(search=query)
+    return render(request,'publications/pages/search_results.html',context={
+        'results':results,
+        'query':query
+    })
+
 
 @login_required(login_url='authors:login')
 def like(request,pk):

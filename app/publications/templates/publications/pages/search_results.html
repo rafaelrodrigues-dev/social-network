@@ -1,0 +1,15 @@
+{% extends "global/base.html" %}
+{% block content %}
+<main>
+    {% if results %}
+        <section class="posts">
+            <h2>Results</h2>
+            {% for publication in results %}
+                {% include "publications/partials/publication.html" %}
+            {% endfor %}
+        </section>
+    {% else %}
+        <h2>No results found</h2>
+    {% endif %}
+</main>
+{% endblock content %}  

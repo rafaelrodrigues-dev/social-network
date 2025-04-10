@@ -1,0 +1,6 @@
+<div class="search-container">
+    <form action="{% url "publications:search" %}" method="get">
+        <input type="search" name="q" placeholder="search something here..." class="search-input" required>
+        <button type="submit" class="search-button"><i class="material-symbols-outlined">search</i></button>
+    </form>
+</div>

@@ -2,7 +2,14 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #e7e7e7;
+}
+
+h2 {
+    font-family: 'Georgia', serif;
+    font-size: 28px;
+    margin: 10px;
+    color: #3a3b3b;
 }
 
 header {
@@ -45,26 +52,64 @@ header .logo {
     background-color: #555; 
 }
 
-main {
-    padding: 20px;
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
 }
 
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
+.search-container form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
-.post, .post-detail {
+.search-input {
+    width: 80%;
+    max-width: 700px;
+    font-size: 1rem; 
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    padding: 5px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.posts h2{
+    text-align: center;
+}
+
+.post {
     background-color: #fff;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin: 20px auto ;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
 }
 
 .post-header, .post-detail {
@@ -105,40 +150,46 @@ footer {
     margin: auto 5px;
 }
 
-.like-button .comment-button {
+.like-button, .comment-button {
     background-color: #007bff;
-    color: #000;
-    border: 1px solid #ccc;
+    color: #fff;
+    border: 1px solid #007bff;
     padding: 5px 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 5px;
 }
 
 .like-button.liked {
-    background-color: #ff4500;
+    background-color: rgb(255, 0, 98);
     color: #fff;
-    border: 1px solid #ff4500;
+    border: 1px solid rgb(255, 0, 98);
 }
 
 .comments {
     margin-top: 20px;
-    padding: 10px;
+}
+
+.comment {
+    padding: 15px;
+    margin-bottom: 10px;
     background-color: #f9f9f9;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
 }
 
 .comment-form {
-    margin-top: 20px;
+    margin-top: 100px;
     padding: 15px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
 }
 
 .comment-form textarea {
     width: 100%;
-    padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     resize: none;
