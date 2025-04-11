@@ -1,23 +1,31 @@
 FROM python:3.13.3-alpine
 
-COPY ./requirements.txt /tmp/requirements.txt
+ENV PYTHONDONTWRITEBYTECODE 1
+
+ENV PYTHONUNBUFFERED 1
+
 COPY ./app /app
+COPY ./scripts /scripts
+
 WORKDIR /app
+
 EXPOSE 8000
 
-RUN python -m venv /py && \
-    /py/bin/pip install --upgrade pip && \
-    apk add --update --no-cache postgresql-client && \
-    apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev && \ 
-    /py/bin/pip install -r /tmp/requirements.txt && \ 
-    rm -rf /tmp && \ 
-    apk del .tmp-build-deps && \
-    adduser \
-        --disabled-password \
-        --no-create-home \
-        django-user
+RUN python -m venv /venv && \
+    /venv/bin/pip install --upgrade pip && \
+    /venv/bin/pip install -r /app/requirements.txt && \
+    adduser --disabled-password --no-create-home duser && \
+    mkdir -p /data/web/static && \
+    mkdir -p /data/web/media && \
+    chown -R duser:duser /venv && \
+    chown -R duser:duser /data/web/static && \
+    chown -R duser:duser /data/web/media && \
+    chmod -R 755 /data/web/static && \
+    chmod -R 755 /data/web/media && \
+    chmod -R +x /scripts
 
-ENV PATH="/py/bin:$PATH"
+ENV PATH="/scripts:/venv/bin:$PATH"
 
-USER django-user
+USER duser
+
+CMD [ "commands.sh" ]

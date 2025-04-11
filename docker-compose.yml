@@ -3,13 +3,14 @@ version: '3.9'
 services:
   db:
     image: postgres
+    ports:
+      - "5432:5432"
     volumes:
       - db_socialnet:/var/lib/postgresql/data
     env_file:
-      - ./dotenv/.env
-
-    ports:
-      - "5432:5432"
+      - ./dotenv_files/.env
+    networks:
+      - socialnet-network
 
   app:
     build:
@@ -17,14 +18,16 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "./app:/app"
-    command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      - ./app:/app
     env_file:
-      - ./dotenv/.env
+      - ./dotenv_files/.env
+    networks:
+    - socialnet-network
     depends_on:
       - db
 
 volumes:
   db_socialnet:
+
+networks:
+  socialnet-network:
