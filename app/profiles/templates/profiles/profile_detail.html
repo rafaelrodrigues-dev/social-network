@@ -13,7 +13,7 @@
                     <h2 class="profile-fullname">{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                     <p class="profile-bio">{{ profile.bio }}</p>
                 </div>
-                {% if request.user.username != profile.user.username %}
+                {% if request.user != profile.user %}
                     <div class="profile-actions">
                         <form action="{% url "profiles:follow" profile.user.username %}" method="post">
                             {% csrf_token %}
@@ -37,5 +37,15 @@
                 </div>
             </div>
         </div>
+        {% if request.user == profile.user %}
+            <div class="create-publication">
+                <a href="{% url "profiles:new_publication" request.user.username %}" class="btn create-btn">Add publication</a>
+            </div>
+        {% endif %}
+        <section class="posts">
+            {% for publication in publications %}
+                {% include "global/partials/publication.html" %}
+            {% endfor %}
+        </section>
     </main>
 {% endblock content %}

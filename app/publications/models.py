@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 class Publication(models.Model):
-    text = models.TextField(_("Text"))
+    text = models.TextField(_("Text"),max_length=500)
     img = models.ImageField(_("Image"), upload_to='publications/images/%Y/%m/%d/',blank=True,default='')
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User,related_name='publications',on_delete=models.CASCADE)
