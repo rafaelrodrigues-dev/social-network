@@ -34,7 +34,7 @@ def register_create(request):
         )
         login(request,authenticated_user)
 
-        del(request.session['register_form_data'])
+        request.session.pop('register_form_data',None)
 
         messages.success(request,_('User registered successfully'))
 

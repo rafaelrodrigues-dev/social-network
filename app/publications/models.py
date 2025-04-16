@@ -22,4 +22,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User,related_name='comments',on_delete=models.CASCADE)
     like = models.ManyToManyField(User,related_name='comment_likes',blank=True)
+
+    def __str__(self):
+        return f'comment from publication id:{self.publication.id}'
     
