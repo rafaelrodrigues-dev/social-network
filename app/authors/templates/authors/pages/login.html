@@ -1,7 +1,7 @@
 {% extends "global/base.html" %}
 {% block content %}
 <main>
-    <section class="register-form">
+    <section class="form-card">
         <h2>Login</h2>
         <form method="post" action="{% url "authors:login_create" %}">
             {% csrf_token %}

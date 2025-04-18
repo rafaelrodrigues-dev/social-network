@@ -1,14 +1,14 @@
 {% extends "global/base.html" %}
 {% block content %}
-<main >
+<main>
     {% include "global/partials/messages.html" %}
-    <div class="create-publication-card">
+    <div class="form-card">
         <h2>Create Publication</h2>
         <form action="{% url "profiles:new_publication_create" request.user.username %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{form.text.as_field_group}}
             {{form.img.as_field_group}}
-            <button type="submit" class="btn create-btn">Post</button>
+            <button type="submit">Post</button>
         </form>
     </div>
 </main>

@@ -11,8 +11,11 @@
     </head>
 <body>
     {% include "global/partials/header.html" %}
-    {% include "global/partials/search.html" %}
-    {% block content %}{% endblock content %}
+        {% include "global/partials/navrail.html" %}
+        <div class="main-content">
+            {% include "global/partials/search.html" %}
+            {% block content %}{% endblock content %}
+        </div>
     <script src="{% static "global/js/script.js" %}"></script>
 </body>
 </html>

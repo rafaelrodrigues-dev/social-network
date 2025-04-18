@@ -2,7 +2,7 @@
 
 {% block content %}
     <main>
-        <section class="register-form">
+        <section class="form-card">
             <h2>Register</h2>
             <form method="post" action="{% url "authors:register_create" %}">
                 {% csrf_token %}

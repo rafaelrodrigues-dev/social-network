@@ -1,15 +1,15 @@
 <!-- Navbar -->
 <header>
     <div class="logo">Socialnet</div>
-    <nav>
-        <ul class="navbar-options">
-        <a href="{% url 'publications:home' %}">Home</a>
+    <nav class="header-nav">
+        <ul>
+        <li><a href="{% url 'publications:home' %}">Home</a></li>
         {% if user.is_authenticated %}
-            <a href="{% url "profiles:profile" request.user.username %}">Profile</a>
-            <a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">Logout</a>
+            <li><a href="{% url "profiles:profile" request.user.username %}">Profile</a></li>
+            <li><a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">Logout</a></li>
         {% else %}
-            <a href="{% url "authors:login" %}">Login</a>
-            <a href=" {% url 'authors:register' %} ">Register</a>
+        <li><a href="{% url "authors:login" %}">Login</a></li>
+        <li><a href=" {% url 'authors:register' %} ">Register</a></li>
         {% endif %}
         </ul>
     </nav>
