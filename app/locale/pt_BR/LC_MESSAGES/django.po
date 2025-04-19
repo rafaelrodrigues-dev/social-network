@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-15 14:18-0300\n"
+"POT-Creation-Date: 2025-04-18 22:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,48 +18,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\authors\forms\login_form.py:6 .\authors\forms\register_form.py:20
-#: .\authors\tests\test_authors_login.py:11
+#: .\authors\forms\edit_form.py:9 .\authors\forms\register_form.py:9
+msgid "Male"
+msgstr "Masculino"
+
+#: .\authors\forms\edit_form.py:10 .\authors\forms\register_form.py:10
+msgid "Female"
+msgstr "Feminino"
+
+#: .\authors\forms\edit_form.py:11 .\authors\forms\register_form.py:11
+msgid "Search me"
+msgstr "Sei lá"
+
+#: .\authors\forms\edit_form.py:12 .\authors\forms\register_form.py:12
+msgid "Other"
+msgstr "Outro"
+
+#: .\authors\forms\edit_form.py:28 .\authors\forms\login_form.py:6
+#: .\authors\forms\register_form.py:20 .\authors\tests\test_authors_login.py:11
 msgid "Username"
 msgstr "Nome de Usuário"
+
+#: .\authors\forms\edit_form.py:37 .\authors\forms\register_form.py:29
+msgid "First name"
+msgstr "Primeiro Nome"
+
+#: .\authors\forms\edit_form.py:43 .\authors\forms\register_form.py:35
+msgid "Last name"
+msgstr "Sobrenome"
+
+#: .\authors\forms\edit_form.py:48 .\authors\forms\register_form.py:42
+#: .\authors\models.py:6 .\authors\tests\test_authors_register.py:11
+msgid "Date of birth"
+msgstr "Data de Nascimento"
+
+#: .\authors\forms\edit_form.py:53 .\authors\forms\register_form.py:47
+#: .\authors\models.py:7 .\authors\tests\test_authors_register.py:12
+msgid "Gender"
+msgstr "Gênero"
+
+#: .\authors\forms\edit_form.py:56 .\profiles\models.py:11
+msgid "Picture"
+msgstr "Foto de perfil"
+
+#: .\authors\forms\edit_form.py:61 .\profiles\models.py:12
+msgid "Bio"
+msgstr "Biográfia"
 
 #: .\authors\forms\login_form.py:8 .\authors\tests\test_authors_login.py:12
 msgid "Password"
 msgstr "Senha"
-
-#: .\authors\forms\register_form.py:9
-msgid "Male"
-msgstr "Masculino"
-
-#: .\authors\forms\register_form.py:10
-msgid "Female"
-msgstr "Feminino"
-
-#: .\authors\forms\register_form.py:11
-msgid "Search me"
-msgstr "Sei lá"
-
-#: .\authors\forms\register_form.py:12
-msgid "Other"
-msgstr "Outro"
-
-#: .\authors\forms\register_form.py:29
-msgid "First name"
-msgstr "Primeiro Nome"
-
-#: .\authors\forms\register_form.py:35
-msgid "Last name"
-msgstr "Sobrenome"
-
-#: .\authors\forms\register_form.py:42 .\authors\models.py:6
-#: .\authors\tests\test_authors_register.py:11
-msgid "Date of birth"
-msgstr "Data de Nascimento"
-
-#: .\authors\forms\register_form.py:47 .\authors\models.py:7
-#: .\authors\tests\test_authors_register.py:12
-msgid "Gender"
-msgstr "Gênero"
 
 #: .\authors\forms\register_form.py:53
 #: .\authors\tests\test_authors_register.py:33
@@ -76,42 +84,34 @@ msgstr "O nome de usuário precisa ser alfanúmerico."
 msgid "This email is already in use"
 msgstr "Este e-mail já está em uso."
 
-#: .\authors\tests\test_authors_login.py:23 .\authors\views.py:74
+#: .\authors\tests\test_authors_login.py:23 .\authors\views.py:81
 msgid "Invalid username or password"
 msgstr "Nome de Usuário ou senhas inválidos"
 
-#: .\authors\tests\test_authors_login.py:30 .\authors\views.py:71
+#: .\authors\tests\test_authors_login.py:30 .\authors\views.py:78
 msgid "Invalid credentials"
 msgstr "Credencias inválidas"
 
-#: .\authors\views.py:39
+#: .\authors\views.py:46
 msgid "User registered successfully"
 msgstr "Usuário registrado com sucesso"
 
-#: .\authors\views.py:66
+#: .\authors\views.py:73
 msgid "Login successful"
 msgstr "Usuário foi conectado com sucesso"
 
-#: .\authors\views.py:81
+#: .\authors\views.py:88
 msgid "User has been logged out"
 msgstr "O usário foi desconectado com sucesso"
 
-#: .\profiles\forms.py:7 .\profiles\tests\test_new_publication.py:13
+#: .\profiles\forms.py:7 .\profiles\tests\test_new_publication.py:16
 msgid "Text publication"
 msgstr "Texto da publicação"
 
-#: .\profiles\forms.py:11 .\profiles\tests\test_new_publication.py:14
+#: .\profiles\forms.py:11 .\profiles\tests\test_new_publication.py:17
 #: .\publications\models.py:10
 msgid "Image"
 msgstr "Imagem"
-
-#: .\profiles\models.py:11
-msgid "Picture"
-msgstr "Foto de perfil"
-
-#: .\profiles\models.py:12
-msgid "Bio"
-msgstr "Biográfia"
 
 #: .\profiles\models.py:16
 msgid "Profile"
@@ -121,10 +121,9 @@ msgstr "Perfil"
 msgid "Profiles"
 msgstr "Perfis"
 
-#: .\profiles\views.py:57
-msgid "Unable to create publication"
-msgstr "Não foi possivel criar a publicação"
-
 #: .\publications\models.py:9 .\publications\models.py:21
 msgid "Text"
 msgstr "Texto"
+
+#~ msgid "Unable to create publication"
+#~ msgstr "Não foi possivel criar a publicação"

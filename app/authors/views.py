@@ -1,6 +1,8 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from authors.forms import RegisterForm, LoginForm
+from authors.forms import RegisterForm, LoginForm, EditAuthorForm
 from django.contrib.auth import get_user_model
+from django.views.generic import FormView
 from django.utils.translation import gettext_lazy as _
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
@@ -9,6 +11,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
+
+
+class EditAuthorView(LoginRequiredMixin,FormView):
+    template_name = 'authors/pages/edit.html'
+    form_class = EditAuthorForm
+
 
 def register_view(request):
     form_data = request.session.get('register_form_data',None)

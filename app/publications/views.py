@@ -22,7 +22,7 @@ def publication_detail(request,pk):
     })
 
 def search(request):
-    query = request.GET.get('q','')
+    query = SearchQuery(request.GET.get('q',''))
     results = Publication.objects.annotate(
         search=SearchVector('text','author__username'),
         rank=SearchRank(SearchVector('text','author__username'),query)

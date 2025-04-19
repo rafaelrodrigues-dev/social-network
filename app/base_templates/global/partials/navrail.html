@@ -3,6 +3,7 @@
         <li><a href="{% url 'publications:home' %}">Home</a></li>
         {% if user.is_authenticated %}
             <li><a href="{% url "profiles:profile" request.user.username %}">Profile</a></li>
+            <li><a href="{% url "authors:edit_author" %}">Settings</a></li>
             <li><a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">Logout</a></li>
         {% else %}
         <li><a href="{% url "authors:login" %}">Login</a></li>

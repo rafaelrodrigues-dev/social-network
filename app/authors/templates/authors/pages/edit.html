@@ -1,0 +1,17 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+<section class="form-card">
+    <h2>User edit</h2>
+    <form action="#" method="post">
+    {{ form.picture.as_field_group }}
+    {{ form.username.as_field_group }}
+    {{ form.first_name.as_field_group }}
+    {{ form.last_name.as_field_group }}
+    {{ form.bio.as_field_group }}
+    {{ form.date_of_birth.as_field_group }}
+    {{ form.gender.as_field_group }}
+    <button type="submit">Send</button>
+    </form>
+</section>
+{% endblock content %}
