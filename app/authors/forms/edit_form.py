@@ -28,10 +28,6 @@ class EditAuthorForm(forms.ModelForm):
         label=_('Username'),
     )
 
-    password = forms.CharField(
-        widget=forms.PasswordInput()
-    )
-
     first_name = forms.CharField(
         max_length=30,
         label=_('First name')
@@ -53,7 +49,11 @@ class EditAuthorForm(forms.ModelForm):
         label=_('Gender')
     )
     # Profile Model fields
-    picture = forms.ImageField(label=_('Picture'),required=False)
+    picture = forms.ImageField(
+        label=_('Picture'),
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'class':'custom-file-input'})
+    )
 
     bio = forms.CharField(
         widget=forms.Textarea,
@@ -82,4 +82,4 @@ class EditAuthorForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username','first_name','last_name','password','email','date_of_birth','gender')
+        fields = ('username','first_name','last_name','date_of_birth','gender')

@@ -6,7 +6,7 @@ from django.views.generic import FormView
 from django.utils.translation import gettext_lazy as _
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -16,7 +16,25 @@ User = get_user_model()
 class EditAuthorView(LoginRequiredMixin,FormView):
     template_name = 'authors/pages/edit.html'
     form_class = EditAuthorForm
+    success_url = reverse_lazy('publications:home')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.request.user
+        kwargs['user'] = self.request.user
+        
+        return kwargs
+    
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request,_('Profile updated syccessfuly'))
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
 
 def register_view(request):
     form_data = request.session.get('register_form_data',None)
