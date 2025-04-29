@@ -2,13 +2,14 @@
 {% block content %}
 <main>
     {% include "global/partials/messages.html" %}
-    {% if publications %}
+    {% if page_obj %}
     <section class="posts">
         <h2>Lastest posts</h2>
-        {% for publication in publications %}
-        {% include "global/partials/publication.html" %}
+        {% for publication in page_obj %}
+            {% include "global/partials/publication.html" %}
         {% endfor %}
     </section>
+    {% include "global/partials/pagination.html" %}
     {% else %}
         <h2>It looks like there's nothing around here...</h2>
     {% endif %}

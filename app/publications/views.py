@@ -1,15 +1,22 @@
+import os
 from django.shortcuts import render, redirect
 from publications.models import Publication,Comment
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse,Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
+from django.core.paginator import Paginator
+from django.contrib.postgres.search import SearchVector,SearchRank
+
+PER_PAGE = os.getenv('PER_PAGE',7)
 
 def home(request):
     publications = Publication.objects.all().order_by('-id')
+    paginator = Paginator(publications,PER_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request,'publications/pages/home.html',{
-        'publications':publications
+        'page_obj':page_obj,
         })
 
 def publication_detail(request,pk):
@@ -22,14 +29,17 @@ def publication_detail(request,pk):
     })
 
 def search(request):
-    query = SearchQuery(request.GET.get('q',''))
+    query = request.GET.get('q','')
     results = Publication.objects.annotate(
         search=SearchVector('text','author__username'),
         rank=SearchRank(SearchVector('text','author__username'),query)
     ).filter(search=query)
+    paginator = Paginator(results,PER_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request,'publications/pages/search_results.html',context={
-        'results':results,
-        'query':query
+        'page_obj':page_obj,
+        'additional_query':'&q=' + query
     })
 
 

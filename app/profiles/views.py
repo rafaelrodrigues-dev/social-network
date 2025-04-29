@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -6,6 +7,9 @@ from django.utils.translation import gettext_lazy as _
 from .models import Profile
 from .forms import PublicationForm
 from publications.models import Publication
+from django.core.paginator import Paginator
+
+PER_PAGE = os.getenv('PER_PAGE',7)
 
 @login_required(login_url='authors:login')
 def follow(request,username):
@@ -29,10 +33,13 @@ def follow(request,username):
 def profile_detail(request,username):
     profile = get_object_or_404(Profile,user__username=username)
     publications = Publication.objects.filter(author__profile=profile).order_by('-id')
+    paginator = Paginator(publications,PER_PAGE)
+    page_num = request.GET.get('page')
+    page_obj = paginator.get_page(page_num)
 
     return render(request,'profiles/profile_detail.html',context={
         'profile':profile,
-        'publications':publications
+        'page_obj':page_obj
     })
 
 @login_required()

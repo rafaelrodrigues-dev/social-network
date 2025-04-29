@@ -18,8 +18,8 @@ class TestSearch(TestCase):
             reverse('publications:search') + f'?q={search_term}',
             data={'q':search_term}
         )
-        self.assertIn(self.publication,response.context['results'])
-        self.assertNotIn(self.publication2,response.context['results'])
+        self.assertIn(self.publication,response.context['page_obj'])
+        self.assertNotIn(self.publication2,response.context['page_obj'])
     
     def test_search_by_author_publication(self):
         search_term = 'testuser'
@@ -27,6 +27,5 @@ class TestSearch(TestCase):
             reverse('publications:search') + f'?q={search_term}',
             data={'q':search_term}
         )
-        self.assertIn(self.publication,response.context['results'])
-        self.assertIn(self.publication2,response.context['results'])
-        
+        self.assertIn(self.publication,response.context['page_obj'])
+        self.assertIn(self.publication2,response.context['page_obj'])

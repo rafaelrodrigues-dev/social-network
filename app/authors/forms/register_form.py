@@ -44,7 +44,8 @@ class RegisterForm(forms.ModelForm):
 
     gender = forms.ChoiceField(
         choices=CHOICES,
-        label=_('Gender')
+        label=_('Gender'),
+        required=False,
     )
     
     def clean_username(self):

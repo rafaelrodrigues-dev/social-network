@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from profiles.models import Profile
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -22,12 +23,6 @@ class EditAuthorForm(forms.ModelForm):
             self.fields['picture'].initial = user.profile.picture
             self.fields['bio'].initial = user.profile.bio
 
-    username = forms.CharField(
-        max_length=20,
-        min_length=4,
-        label=_('Username'),
-    )
-
     first_name = forms.CharField(
         max_length=30,
         label=_('First name')
@@ -46,13 +41,14 @@ class EditAuthorForm(forms.ModelForm):
 
     gender = forms.ChoiceField(
         choices=CHOICES,
-        label=_('Gender')
+        label=_('Gender'),
+        required=False,
     )
     # Profile Model fields
     picture = forms.ImageField(
         label=_('Picture'),
         required=False,
-        widget=forms.ClearableFileInput(attrs={'class':'custom-file-input'})
+        widget=forms.FileInput()
     )
 
     bio = forms.CharField(
@@ -60,7 +56,7 @@ class EditAuthorForm(forms.ModelForm):
         required=False,
         label=_('Bio')
     )
-    
+ 
     def save(self, commit = True):
         user = super().save(commit)
         picture = self.cleaned_data.get('picture')
@@ -82,4 +78,4 @@ class EditAuthorForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username','first_name','last_name','date_of_birth','gender')
+        fields = ('first_name','last_name','date_of_birth','gender')

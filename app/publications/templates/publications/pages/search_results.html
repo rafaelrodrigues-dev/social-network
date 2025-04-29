@@ -1,13 +1,14 @@
 {% extends "global/base.html" %}
 {% block content %}
 <main>
-    {% if results %}
+    {% if page_obj %}
         <section class="posts">
             <h2>Results</h2>
-            {% for publication in results %}
+            {% for publication in page_obj %}
                 {% include "global/partials/publication.html" %}
             {% endfor %}
         </section>
+        {% include "global/partials/pagination.html" %}
     {% else %}
         <h2>No results found</h2>
     {% endif %}

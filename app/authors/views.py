@@ -27,14 +27,9 @@ class EditAuthorView(LoginRequiredMixin,FormView):
     
     def form_valid(self, form):
         form.save()
-        messages.success(self.request,_('Profile updated syccessfuly'))
+        messages.success(self.request,_('Profile updated successfuly'))
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        for field, errors in form.errors.items():
-            for error in errors:
-                messages.error(self.request, f"{field}: {error}")
-        return super().form_invalid(form)
 
 def register_view(request):
     form_data = request.session.get('register_form_data',None)

@@ -327,6 +327,15 @@ main {
     background-color: #0056b3;
 }
 
+.form-card img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #007bff;
+}
+
 .messages {
     margin: 20px auto;
     max-width: 600px;
@@ -473,6 +482,19 @@ main {
 
 .create-btn:hover {
     background-color: #218838;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.pagination button{
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 @media (max-width: 1660px) {

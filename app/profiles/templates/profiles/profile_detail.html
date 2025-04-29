@@ -43,9 +43,10 @@
             </div>
         {% endif %}
         <section class="posts">
-            {% for publication in publications %}
+            {% for publication in page_obj %}
                 {% include "global/partials/publication.html" %}
             {% endfor %}
         </section>
+        {% include "global/partials/pagination.html" %}
     </main>
 {% endblock content %}

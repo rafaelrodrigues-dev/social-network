@@ -6,8 +6,10 @@
     <h2>User edit</h2>
     <form action="{% url 'authors:edit_author' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {% if request.user.profile.picture %}
+            <img src="{{ request.user.profile.picture.url}}" alt="">
+        {% endif %}
         {{ form.picture.as_field_group }}
-        {{ form.username.as_field_group }}
         {{ form.first_name.as_field_group }}
         {{ form.last_name.as_field_group }}
         {{ form.bio.as_field_group }}
