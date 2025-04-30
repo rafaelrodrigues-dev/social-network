@@ -1,8 +1,8 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1&q={{query}}"><button>&laquo; first</button></a>
-            <a href="?page={{ page_obj.previous_page_number }}&q={{query}}"><button>previous</button></a>
+            <a href="?page=1{{additional_query}}"><button>&laquo; first</button></a>
+            <a href="?page={{ page_obj.previous_page_number }}{{additional_query}}"><button>previous</button></a>
         {% endif %}
 
         <span class="current">

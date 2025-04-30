@@ -158,6 +158,11 @@ main {
     max-width: 1200px;
 }
 
+.post img {
+    width: 90%;
+    max-width: 800px;
+}
+
 .post-header, .post-detail {
     display: flex;
     align-items: center;
@@ -213,7 +218,8 @@ main {
 }
 
 .comments {
-    margin-top: 20px;
+    margin: auto;
+    max-width: 1000px;
 }
 
 .comment {
@@ -226,7 +232,7 @@ main {
 }
 
 .comment-form {
-    margin-top: 100px;
+    margin:  50px auto;
     padding: 15px;
     background-color: #fff;
     border-radius: 5px;

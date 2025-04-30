@@ -9,13 +9,12 @@
             <button type="submit">Comment</button>
         </form>
     </div>
+    <section class="comments">
     {% if comments %}
         <h2>Comments</h2>
     {% else %}
         <h2>No comments yet</h2>
     {% endif %}
-    
-    <section class="comments">
         {% for comment in comments.all %}
             <div class="comment">
                 <div class="post-header">
