@@ -34,6 +34,11 @@
             <a href="{% url 'publications:publication-detail' publication.id %}">
             <button class="comment-button">Comment</button></a>
         {% endif %}
+        {% if publication in request.user.publications.all %}
+            <a href="{% url 'publications:delete-publication' publication.id %}">
+                <button class="delete-button">Delete</button>
+            </a>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}

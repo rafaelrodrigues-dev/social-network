@@ -2,7 +2,7 @@ import os
 from django.shortcuts import render, redirect
 from publications.models import Publication,Comment
 from django.shortcuts import get_object_or_404
-from django.http import JsonResponse,Http404
+from django.http import JsonResponse,Http404,HttpResponseForbidden
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -76,3 +76,11 @@ def comment(request,pk):
 
     return redirect(reverse('publications:publication-detail',kwargs={'pk':pk}))
     
+@login_required
+def delete_publication(request, pk):
+    publication = get_object_or_404(Publication, pk=pk)
+    if request.user == publication.author:
+        publication.delete()
+        return redirect('publications:home')
+    else:
+        return HttpResponseForbidden("You are not allowed to delete this publication.")
