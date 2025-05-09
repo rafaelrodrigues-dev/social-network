@@ -3,8 +3,6 @@ version: '3.9'
 services:
   db:
     image: postgres
-    ports:
-      - "5432:5432"
     volumes:
       - db_socialnet:/var/lib/postgresql/data
     env_file:
@@ -12,21 +10,22 @@ services:
     networks:
       - socialnet-network
 
-  app:
+  web:
     build:
       context: .
     ports:
       - "8000:8000"
     volumes:
       - ./app:/app
-      - ./data/web/media:/data/web/media
-      - ./data/web/static:/data/web/static
+      - .data/web/static:/data/web/static
+      - .data/web/media:/data/web/media
     env_file:
       - ./dotenv_files/.env
     networks:
     - socialnet-network
     depends_on:
       - db
+    command: python manage.py runserver 0.0.0.0:8000
 
 volumes:
   db_socialnet:

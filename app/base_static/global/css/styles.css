@@ -272,6 +272,20 @@ main {
 .comment-form button:hover {
     background-color: #0056b3;
 }
+.view-more {
+    text-align: center;
+}
+.view-more-comments {
+    color: #007BFF;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.view-more-comments:hover {
+    color: #0056b3;
+}
 
 .form-card {
     background: #fff;

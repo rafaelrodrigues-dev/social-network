@@ -31,3 +31,30 @@ document.querySelectorAll('.like-button').forEach(button =>{
         .catch(error => console.error('Error:', error))
     })
 })
+
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('view-more-comments');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            const nextPage = btn.getAttribute('data-next-page');
+            fetch(`?comments_page=${nextPage}`)
+                .then(response => response.text())
+                .then(html => {
+                    
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newComments = doc.querySelectorAll('#comments-list .comment');
+                    newComments.forEach(comment => {
+                        document.getElementById('comments-list').appendChild(comment);
+                    });
+
+                    const newBtn = doc.getElementById('view-more-comments');
+                    if (newBtn) {
+                        btn.setAttribute('data-next-page', newBtn.getAttribute('data-next-page'));
+                    } else {
+                        btn.parentElement.remove();
+                    }
+                });
+        });
+    }
+});

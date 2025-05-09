@@ -15,7 +15,8 @@
     {% else %}
         <h2>No comments yet</h2>
     {% endif %}
-        {% for comment in comments.all %}
+    <div id='comments-list'>
+        {% for comment in comments %}
             <div class="comment">
                 <div class="post-header">
                     <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
@@ -31,8 +32,12 @@
                     <small>{{ comment.created_at|timesince }} atrás</small>
                 </div>
                 <div><p>{{ comment.text }}</p></div>
-        </div>
-        {% endfor %}  
+            </div>
+        {% endfor %}
+    </div>
+    {% if comments.has_next %}
+        <div class="view-more"><button class="view-more-comments" id="view-more-comments" data-next-page="{{comments.next_page_number}}">View  more</button></div>
+    {% endif %}
     </section>
         
 </main>

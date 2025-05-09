@@ -21,7 +21,10 @@ def home(request):
 
 def publication_detail(request,pk):
     publication = get_object_or_404(Publication,pk=pk)
-    comments = Comment.objects.filter(publication=publication,).order_by('-id')
+    comments_list = Comment.objects.filter(publication=publication,).order_by('-id')
+    paginator = Paginator(comments_list,5)
+    page_number = request.GET.get('comments_page',1)
+    comments = paginator.get_page(page_number)
     return render(request,'publications/pages/publication-detail.html',{
         'publication':publication,
         'comments':comments,
