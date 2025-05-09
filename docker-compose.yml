@@ -17,8 +17,8 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-      - .data/web/static:/data/web/static
-      - .data/web/media:/data/web/media
+      - ./data/web/static:/data/web/static
+      - ./data/web/media:/data/web/media
     env_file:
       - ./dotenv_files/.env
     networks:
