@@ -62,16 +62,12 @@ class EditAuthorForm(forms.ModelForm):
         picture = self.cleaned_data.get('picture')
         bio = self.cleaned_data.get('bio')
 
-        if hasattr(user,'profile'):
-            profile = user.profile
-        else:
-            profile = Profile(user=user)
+        profile = user.profile
 
         profile.picture = picture
         profile.bio = bio
 
-        if commit:
-            profile.save()
+        profile.save()
         
         return user
 

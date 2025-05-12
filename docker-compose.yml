@@ -17,8 +17,8 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-      - ./data/web/static:/data/web/static
-      - ./data/web/media:/data/web/media
+      - media_volume:/data/web/media
+      - static_volume:/data/web/static
     env_file:
       - ./dotenv_files/.env
     networks:
@@ -29,6 +29,8 @@ services:
 
 volumes:
   db_socialnet:
+  media_volume:
+  static_volume:
 
 networks:
   socialnet-network:
