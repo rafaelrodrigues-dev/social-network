@@ -1,13 +1,14 @@
+{% load i18n %}
 <div class="navrail">
     <ul>
-        <li><a href="{% url 'publications:home' %}">Home</a></li>
+        <li><a href="{% url 'publications:home' %}">{% translate "Home" %}</a></li>
         {% if user.is_authenticated %}
-            <li><a href="{% url "profiles:profile" request.user.username %}">Profile</a></li>
-            <li><a href="{% url "authors:edit_author" %}">Edit Profile</a></li>
-            <li><a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">Logout</a></li>
+            <li><a href="{% url "profiles:profile" request.user.username %}">{% translate "Profile" %}</a></li>
+            <li><a href="{% url "authors:edit_author" %}">{% translate "Edit Profile" %} </a></li>
+            <li><a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">{% translate "Logout" %}</a></li>
         {% else %}
-        <li><a href="{% url "authors:login" %}">Login</a></li>
-        <li><a href=" {% url 'authors:register' %} ">Register</a></li>
+        <li><a href="{% url "authors:login" %}">{% translate "Login" %}</a></li>
+        <li><a href=" {% url 'authors:register' %} ">{% translate "Register" %}</a></li>
         {% endif %}
         </ul>
 </div>

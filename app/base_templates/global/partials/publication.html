@@ -1,3 +1,4 @@
+{% load i18n %}
 {% block content %}
 <div class="post">
     <div class="post-header">
@@ -11,7 +12,7 @@
         <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
             <span>@{{ publication.author.username }}</span>
         </a>
-        <small>{{ publication.created_at|timesince }} atrás</small>
+        <small>{{ publication.created_at|timesince }} {% translate "ago" %}</small>
     </div>
     <p>{{ publication.text }}</p>
     {% if publication.img %}
@@ -32,11 +33,11 @@
         </span>
         {% if is_detail is not True %}
             <a href="{% url 'publications:publication-detail' publication.id %}">
-            <button class="comment-button">Comment</button></a>
+            <button class="comment-button">{% translate "Comment" %}</button></a>
         {% endif %}
         {% if publication in request.user.publications.all %}
             <a href="{% url 'publications:delete-publication' publication.id %}">
-                <button class="delete-button">Delete</button>
+                <button class="delete-button">{% translate "Delete" %}</button>
             </a>
         {% endif %}
     </div>

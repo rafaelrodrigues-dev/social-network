@@ -1,9 +1,9 @@
 {% extends "global/base.html" %}
-
+{% load i18n %}
 {% block content %}
 {% include "global/partials/messages.html" %}
 <section class="form-card">
-    <h2>User edit</h2>
+    <h2>{% translate "Edit Profile" %}</h2>
     <form action="{% url 'authors:edit_author' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if request.user.profile.picture %}
@@ -15,7 +15,7 @@
         {{ form.bio.as_field_group }}
         {{ form.date_of_birth.as_field_group }}
         {{ form.gender.as_field_group }}
-        <button type="submit">Send</button>
+        <button type="submit">{% translate "Send" %}</button>
     </form>
 </section>
 {% endblock content %}

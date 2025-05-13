@@ -1,18 +1,25 @@
+{% load i18n %}
 {% if page_obj %}
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1{{additional_query}}"><button>&laquo; first</button></a>
-            <a href="?page={{ page_obj.previous_page_number }}{{additional_query}}"><button>previous</button></a>
+            <a href="?page=1{{additional_query}}">
+                <button>&laquo; {% translate "first" %} </button>
+            </a>
+            <a href="?page={{ page_obj.previous_page_number }}{{additional_query}}">
+                <button>{% translate "previous" %} </button>
+            </a>
         {% endif %}
 
         <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            {% translate "Page" %}  {{ page_obj.number }} {% translate "of" %} {{ page_obj.paginator.num_pages }}.
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{{additional_query}}"><button>next</button></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{{additional_query}}"><button>last &raquo;</button></a>
+            <a href="?page={{ page_obj.next_page_number }}{{additional_query}}"><button>{% translate "next" %} </button></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{{additional_query}}">
+                <button>{% translate "last" %}  &raquo;</button>
+            </a>
         {% endif %}
     </span>
 </div>

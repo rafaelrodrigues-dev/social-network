@@ -1,4 +1,5 @@
 {% extends "global/base.html" %}
+{% load i18n %}
 {% block content %}
     <main>
         <div class="profile-container">
@@ -18,9 +19,9 @@
                         <form action="{% url "profiles:follow" profile.user.username %}" method="post">
                             {% csrf_token %}
                             {% if not profile in request.user.profile.follow.all  %}
-                                <button class="btn follow-btn">Follow</button>
+                                <button class="btn follow-btn">{% translate "Follow" %}</button>
                             {% else %}
-                                <button class="btn unfollow-btn">Unfollow</button>  
+                                <button class="btn unfollow-btn">{% translate "Unfollow" %}</button>  
                             {% endif %}
                         </form>    
                     </div>
@@ -28,18 +29,18 @@
             </div>
             <div class="profile-stats">
                 <div class="stat">
-                    <h3>Following</h3>
+                    <h3>{% translate "Following" %}</h3>
                     <p>{{ profile.follow.count }}</p>
                 </div>
                 <div class="stat">
-                    <h3>Followers</h3>
+                    <h3>{% translate "Followers" %}</h3>
                     <p>{{ profile.followers.count }}</p>
                 </div>
             </div>
         </div>
         {% if request.user == profile.user %}
             <div class="create-publication">
-                <a href="{% url "profiles:new_publication" request.user.username %}" class="btn create-btn">Add publication</a>
+                <a href="{% url "profiles:new_publication" request.user.username %}" class="btn create-btn">{% translate "Add publication" %}</a>
             </div>
         {% endif %}
         <section class="posts">

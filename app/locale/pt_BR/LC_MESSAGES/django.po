@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-18 22:01-0300\n"
+"POT-Creation-Date: 2025-05-12 23:02-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,91 +18,184 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\authors\forms\edit_form.py:9 .\authors\forms\register_form.py:9
+#: .\authors\forms\edit_form.py:10 .\authors\forms\register_form.py:9
 msgid "Male"
 msgstr "Masculino"
 
-#: .\authors\forms\edit_form.py:10 .\authors\forms\register_form.py:10
+#: .\authors\forms\edit_form.py:11 .\authors\forms\register_form.py:10
 msgid "Female"
 msgstr "Feminino"
 
-#: .\authors\forms\edit_form.py:11 .\authors\forms\register_form.py:11
+#: .\authors\forms\edit_form.py:12 .\authors\forms\register_form.py:11
 msgid "Search me"
 msgstr "Sei lá"
 
-#: .\authors\forms\edit_form.py:12 .\authors\forms\register_form.py:12
+#: .\authors\forms\edit_form.py:13 .\authors\forms\register_form.py:12
 msgid "Other"
 msgstr "Outro"
 
-#: .\authors\forms\edit_form.py:28 .\authors\forms\login_form.py:6
-#: .\authors\forms\register_form.py:20 .\authors\tests\test_authors_login.py:11
-msgid "Username"
-msgstr "Nome de Usuário"
-
-#: .\authors\forms\edit_form.py:37 .\authors\forms\register_form.py:29
+#: .\authors\forms\edit_form.py:28 .\authors\forms\register_form.py:29
 msgid "First name"
 msgstr "Primeiro Nome"
 
-#: .\authors\forms\edit_form.py:43 .\authors\forms\register_form.py:35
+#: .\authors\forms\edit_form.py:34 .\authors\forms\register_form.py:35
 msgid "Last name"
 msgstr "Sobrenome"
 
-#: .\authors\forms\edit_form.py:48 .\authors\forms\register_form.py:42
-#: .\authors\models.py:6 .\authors\tests\test_authors_register.py:11
+#: .\authors\forms\edit_form.py:39 .\authors\forms\register_form.py:42
+#: .\authors\models.py:6 .\authors\tests\test_author_edit.py:16
+#: .\authors\tests\test_authors_register.py:11
 msgid "Date of birth"
 msgstr "Data de Nascimento"
 
-#: .\authors\forms\edit_form.py:53 .\authors\forms\register_form.py:47
-#: .\authors\models.py:7 .\authors\tests\test_authors_register.py:12
+#: .\authors\forms\edit_form.py:44 .\authors\forms\register_form.py:47
+#: .\authors\models.py:7 .\authors\tests\test_author_edit.py:17
+#: .\authors\tests\test_authors_register.py:12
 msgid "Gender"
 msgstr "Gênero"
 
-#: .\authors\forms\edit_form.py:56 .\profiles\models.py:11
+#: .\authors\forms\edit_form.py:49 .\profiles\models.py:11
 msgid "Picture"
 msgstr "Foto de perfil"
 
-#: .\authors\forms\edit_form.py:61 .\profiles\models.py:12
+#: .\authors\forms\edit_form.py:57 .\profiles\models.py:12
 msgid "Bio"
 msgstr "Biográfia"
 
-#: .\authors\forms\login_form.py:8 .\authors\tests\test_authors_login.py:12
+#: .\authors\forms\login_form.py:6 .\authors\forms\register_form.py:20
+#: .\authors\tests\test_authors_login.py:14
+msgid "Username"
+msgstr "Nome de Usuário"
+
+#: .\authors\forms\login_form.py:8 .\authors\tests\test_authors_login.py:15
 msgid "Password"
 msgstr "Senha"
 
-#: .\authors\forms\register_form.py:53
+#: .\authors\forms\register_form.py:54
 #: .\authors\tests\test_authors_register.py:33
 msgid "This username is already in use"
 msgstr "Este nome de usuário já está em uso."
 
-#: .\authors\forms\register_form.py:55
+#: .\authors\forms\register_form.py:56
 #: .\authors\tests\test_authors_register.py:41
 msgid "Username must be alphanumeric"
 msgstr "O nome de usuário precisa ser alfanúmerico."
 
-#: .\authors\forms\register_form.py:61
+#: .\authors\forms\register_form.py:62
 #: .\authors\tests\test_authors_register.py:50
 msgid "This email is already in use"
 msgstr "Este e-mail já está em uso."
 
-#: .\authors\tests\test_authors_login.py:23 .\authors\views.py:81
+#: .\authors\templates\authors\pages\edit.html:18
+#: .\authors\templates\authors\pages\login.html:16
+#: .\authors\templates\authors\pages\register.html:6
+#: .\authors\templates\authors\pages\register.html:19
+#: .\base_templates\global\partials\header.html:14
+#: .\base_templates\global\partials\navrail.html:11
+msgid "Register"
+msgstr "Registrar-se"
+
+#: .\authors\templates\authors\pages\login.html:6
+#: .\authors\templates\authors\pages\login.html:13
+#: .\authors\templates\authors\pages\register.html:21
+#: .\base_templates\global\partials\header.html:13
+#: .\base_templates\global\partials\navrail.html:10
+msgid "Login"
+msgstr "Entrar"
+
+#: .\authors\templates\authors\pages\login.html:16
+msgid "Don't have an account yet??"
+msgstr "Ainda não tem uma conta??"
+
+#: .\authors\templates\authors\pages\register.html:21
+msgid "Do you have an account?? "
+msgstr "Já tem uma conta??"
+
+#: .\authors\tests\test_authors_login.py:26 .\authors\views.py:95
 msgid "Invalid username or password"
 msgstr "Nome de Usuário ou senhas inválidos"
 
-#: .\authors\tests\test_authors_login.py:30 .\authors\views.py:78
+#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:92
 msgid "Invalid credentials"
 msgstr "Credencias inválidas"
 
-#: .\authors\views.py:46
+#: .\authors\views.py:30
+msgid "Profile updated successfuly"
+msgstr "Usuário atualizado com sucesso"
+
+#: .\authors\views.py:60
 msgid "User registered successfully"
 msgstr "Usuário registrado com sucesso"
 
-#: .\authors\views.py:73
+#: .\authors\views.py:87
 msgid "Login successful"
 msgstr "Usuário foi conectado com sucesso"
 
-#: .\authors\views.py:88
+#: .\authors\views.py:102
 msgid "User has been logged out"
 msgstr "O usário foi desconectado com sucesso"
+
+#: .\base_templates\global\partials\header.html:7
+#: .\base_templates\global\partials\navrail.html:4
+msgid "Home"
+msgstr "Início"
+
+#: .\base_templates\global\partials\header.html:9
+#: .\base_templates\global\partials\navrail.html:6 .\profiles\models.py:16
+msgid "Profile"
+msgstr "Perfil"
+
+#: .\base_templates\global\partials\header.html:10
+#: .\base_templates\global\partials\navrail.html:7
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: .\base_templates\global\partials\header.html:11
+#: .\base_templates\global\partials\navrail.html:8
+msgid "Logout"
+msgstr "Sair"
+
+#: .\base_templates\global\partials\pagination.html:7
+msgid "first"
+msgstr "primeiro"
+
+#: .\base_templates\global\partials\pagination.html:10
+msgid "previous"
+msgstr "anterior"
+
+#: .\base_templates\global\partials\pagination.html:15
+msgid "Page"
+msgstr "Página"
+
+#: .\base_templates\global\partials\pagination.html:15
+msgid "of"
+msgstr "de"
+
+#: .\base_templates\global\partials\pagination.html:19
+msgid "next"
+msgstr "próximo"
+
+#: .\base_templates\global\partials\pagination.html:21
+msgid "last"
+msgstr "último"
+
+#: .\base_templates\global\partials\publication.html:15
+#: .\publications\templates\publications\pages\publication-detail.html:33
+msgid "ago"
+msgstr "atrás"
+
+#: .\base_templates\global\partials\publication.html:36
+#: .\publications\templates\publications\pages\publication-detail.html:10
+msgid "Comment"
+msgstr "Comentar"
+
+#: .\base_templates\global\partials\publication.html:40
+msgid "Delete"
+msgstr "Apagar"
+
+#: .\base_templates\global\partials\search.html:4
+msgid "search something here... "
+msgstr "pesquise por algo aqui..."
 
 #: .\profiles\forms.py:7 .\profiles\tests\test_new_publication.py:16
 msgid "Text publication"
@@ -113,17 +206,75 @@ msgstr "Texto da publicação"
 msgid "Image"
 msgstr "Imagem"
 
-#: .\profiles\models.py:16
-msgid "Profile"
-msgstr "Perfil"
-
 #: .\profiles\models.py:17
 msgid "Profiles"
 msgstr "Perfis"
 
+#: .\profiles\templates\profiles\create_publication.html:7
+#, fuzzy
+#| msgid "Text publication"
+msgid "Create Publication"
+msgstr "Texto da publicação"
+
+#: .\profiles\templates\profiles\create_publication.html:12
+msgid "Send"
+msgstr "Enviar"
+
+#: .\profiles\templates\profiles\profile_detail.html:22
+msgid "Follow"
+msgstr "Seguir"
+
+#: .\profiles\templates\profiles\profile_detail.html:24
+msgid "Unfollow"
+msgstr "Deixar de seguir"
+
+#: .\profiles\templates\profiles\profile_detail.html:32
+msgid "Following"
+msgstr "Seguindo"
+
+#: .\profiles\templates\profiles\profile_detail.html:36
+msgid "Followers"
+msgstr "Seguidores"
+
+#: .\profiles\templates\profiles\profile_detail.html:43
+msgid "Add publication"
+msgstr "Adicionar publicação"
+
 #: .\publications\models.py:9 .\publications\models.py:21
 msgid "Text"
 msgstr "Texto"
+
+#: .\publications\templates\publications\pages\home.html:8
+msgid "Lastest posts"
+msgstr "Últimas postagens"
+
+#: .\publications\templates\publications\pages\home.html:15
+msgid "It looks like there's nothing around here..."
+msgstr "Parece que não há nada por aqui..."
+
+#: .\publications\templates\publications\pages\publication-detail.html:9
+msgid "Add a comment here..."
+msgstr "Adicione um comentário aqui..."
+
+#: .\publications\templates\publications\pages\publication-detail.html:15
+msgid "Comments"
+msgstr "Commentários"
+
+#: .\publications\templates\publications\pages\publication-detail.html:17
+msgid "No comments yet"
+msgstr "Sem comentários ainda"
+
+#: .\publications\templates\publications\pages\publication-detail.html:40
+msgid "View  more"
+msgstr "Ver mais"
+
+#: .\publications\templates\publications\pages\search_results.html:7
+msgid "Results"
+msgstr "Resultados"
+
+#: .\publications\templates\publications\pages\search_results.html:14
+msgid "No results found"
+msgstr "Nenhum resultado encontrado"
 
 #~ msgid "Unable to create publication"
 #~ msgstr "Não foi possivel criar a publicação"

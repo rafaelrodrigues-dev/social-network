@@ -1,9 +1,9 @@
 {% extends "global/base.html" %}
-
+{% load i18n %}
 {% block content %}
     <main>
         <section class="form-card">
-            <h2>Register</h2>
+            <h2>{% translate "Register" %}</h2>
             <form method="post" action="{% url "authors:register_create" %}">
                 {% csrf_token %}
                 <div>
@@ -16,9 +16,9 @@
                     {{ form.gender.as_field_group }}
                 </div>
                 
-                <button type="submit">Send</button>
+                <button type="submit">{% translate "Register" %}</button>
             </form>
-            <p>Do you have an account?? <a href="{% url 'authors:login'%}">Log in</a></p>
+            <p>{% translate "Do you have an account?? " %}<a href="{% url 'authors:login'%}">{% translate "Login" %}</a></p>
         </section>
     </main>
 {% endblock content %}

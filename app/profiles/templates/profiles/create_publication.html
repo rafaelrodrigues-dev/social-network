@@ -1,14 +1,15 @@
 {% extends "global/base.html" %}
+{% load i18n %}
 {% block content %}
 <main>
     {% include "global/partials/messages.html" %}
     <div class="form-card">
-        <h2>Create Publication</h2>
+        <h2>{% translate "Create Publication" %}</h2>
         <form action="{% url "profiles:new_publication_create" request.user.username %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{form.text.as_field_group}}
             {{form.img.as_field_group}}
-            <button type="submit">Post</button>
+            <button type="submit">{% translate "Send" %}</button>
         </form>
     </div>
 </main>

@@ -1,18 +1,19 @@
 {% extends "global/base.html" %}
+{% load i18n %}
 {% block content %}
 <main>
     <section class="form-card">
-        <h2>Login</h2>
+        <h2>{% translate "Login" %}</h2>
         <form method="post" action="{% url "authors:login_create" %}">
             {% csrf_token %}
             <div>
                 {{form.username.as_field_group}}
                 {{form.password.as_field_group}}
             </div>
-            <button type="submit">Send</button>
+            <button type="submit">{% translate "Login" %}</button>
         </form>
         {% include "global/partials/messages.html" %}
-        <p>Don't have an account yet?? <a href="{% url "authors:register" %}">Sign in</a></p>
+        <p>{% translate "Don't have an account yet??" %} <a href="{% url "authors:register" %}">{% translate "Register" %}</a></p>
     </section>
 </main>
 {% endblock content %}
