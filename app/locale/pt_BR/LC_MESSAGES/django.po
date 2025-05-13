@@ -211,10 +211,8 @@ msgid "Profiles"
 msgstr "Perfis"
 
 #: .\profiles\templates\profiles\create_publication.html:7
-#, fuzzy
-#| msgid "Text publication"
 msgid "Create Publication"
-msgstr "Texto da publicação"
+msgstr "Criar publicação"
 
 #: .\profiles\templates\profiles\create_publication.html:12
 msgid "Send"
