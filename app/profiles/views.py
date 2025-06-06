@@ -8,6 +8,7 @@ from .models import Profile
 from .forms import PublicationForm
 from publications.models import Publication
 from django.core.paginator import Paginator
+from notifications.utils import notify
 
 PER_PAGE = os.getenv('PER_PAGE',7)
 
@@ -25,10 +26,16 @@ def follow(request,username):
         profile.followers.remove(request.user.profile)
     else:
         profile.followers.add(request.user.profile)
-    
+        message = f'{request.user} '+ _('has started following you.')
+        notify(
+            sender=request.user,
+            recipient=profile.user,
+            title=_('New Follower'),
+            message=message,
+        )
+
     return redirect(reverse('profiles:profile',kwargs={'username':username}))
     
-
 @login_required(login_url='authors:login')
 def profile_detail(request,username):
     profile = get_object_or_404(Profile,user__username=username)
@@ -45,6 +52,7 @@ def profile_detail(request,username):
 @login_required()
 def new_publication(request,username):
     form = PublicationForm()
+
     return render(request,'profiles/create_publication.html',context={
         'form':form
     })

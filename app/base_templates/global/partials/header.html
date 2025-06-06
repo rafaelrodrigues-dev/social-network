@@ -4,15 +4,44 @@
     <div class="logo">Socialnet</div>
     <nav class="header-nav">
         <ul>
-        <li><a href="{% url 'publications:home' %}">{% translate "Home" %}</a></li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url "profiles:profile" request.user.username %}">{% translate "Profile" %}</a></li>
-            <li><a href="{% url "authors:edit_author" %}">{% translate "Edit Profile" %} </a></li>
-            <li><a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">{% translate "Logout" %}</a></li>
-        {% else %}
-        <li><a href="{% url "authors:login" %}">{% translate "Login" %}</a></li>
-        <li><a href=" {% url 'authors:register' %} ">{% translate "Register" %}</a></li>
-        {% endif %}
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'publications:home' %}">
+                        <i class="material-symbols-outlined">home</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'notifications' %}">
+                        <i class="material-symbols-outlined">notifications</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'profiles:profile' request.user.username %}">
+                        <i class="material-symbols-outlined">person</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'authors:edit_author' %}">
+                        <i class="material-symbols-outlined">manage_accounts</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'authors:logout' %}" onclick="return confirm('Are you sure?')">
+                        <i class="material-symbols-outlined">logout</i>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% url 'authors:login' %}">
+                        <i class="material-symbols-outlined">login</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'authors:register' %}">
+                        <i class="material-symbols-outlined">door_open</i>
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 </header>

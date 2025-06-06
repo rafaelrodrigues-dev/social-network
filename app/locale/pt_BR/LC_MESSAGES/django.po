@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-12 23:02-0300\n"
+"POT-Creation-Date: 2025-06-05 11:46-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,26 +86,33 @@ msgstr "O nome de usuário precisa ser alfanúmerico."
 msgid "This email is already in use"
 msgstr "Este e-mail já está em uso."
 
+#: .\authors\templates\authors\pages\edit.html:6
+#: .\base_templates\global\partials\navrail.html:8
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
 #: .\authors\templates\authors\pages\edit.html:18
-#: .\authors\templates\authors\pages\login.html:16
-#: .\authors\templates\authors\pages\register.html:6
-#: .\authors\templates\authors\pages\register.html:19
-#: .\base_templates\global\partials\header.html:14
-#: .\base_templates\global\partials\navrail.html:11
-msgid "Register"
-msgstr "Registrar-se"
+#: .\profiles\templates\profiles\create_publication.html:12
+msgid "Send"
+msgstr "Enviar"
 
 #: .\authors\templates\authors\pages\login.html:6
 #: .\authors\templates\authors\pages\login.html:13
 #: .\authors\templates\authors\pages\register.html:21
-#: .\base_templates\global\partials\header.html:13
-#: .\base_templates\global\partials\navrail.html:10
+#: .\base_templates\global\partials\navrail.html:11
 msgid "Login"
 msgstr "Entrar"
 
 #: .\authors\templates\authors\pages\login.html:16
 msgid "Don't have an account yet??"
 msgstr "Ainda não tem uma conta??"
+
+#: .\authors\templates\authors\pages\login.html:16
+#: .\authors\templates\authors\pages\register.html:6
+#: .\authors\templates\authors\pages\register.html:19
+#: .\base_templates\global\partials\navrail.html:12
+msgid "Register"
+msgstr "Registrar-se"
 
 #: .\authors\templates\authors\pages\register.html:21
 msgid "Do you have an account?? "
@@ -135,23 +142,20 @@ msgstr "Usuário foi conectado com sucesso"
 msgid "User has been logged out"
 msgstr "O usário foi desconectado com sucesso"
 
-#: .\base_templates\global\partials\header.html:7
-#: .\base_templates\global\partials\navrail.html:4
+#: .\base_templates\global\partials\navrail.html:5
 msgid "Home"
 msgstr "Início"
 
-#: .\base_templates\global\partials\header.html:9
-#: .\base_templates\global\partials\navrail.html:6 .\profiles\models.py:16
+#: .\base_templates\global\partials\navrail.html:6
+#: .\notifications\templates\notifications\pages\notifications.html:5
+msgid "Notifications"
+msgstr "Notificações"
+
+#: .\base_templates\global\partials\navrail.html:7 .\profiles\models.py:16
 msgid "Profile"
 msgstr "Perfil"
 
-#: .\base_templates\global\partials\header.html:10
-#: .\base_templates\global\partials\navrail.html:7
-msgid "Edit Profile"
-msgstr "Editar Perfil"
-
-#: .\base_templates\global\partials\header.html:11
-#: .\base_templates\global\partials\navrail.html:8
+#: .\base_templates\global\partials\navrail.html:9
 msgid "Logout"
 msgstr "Sair"
 
@@ -197,6 +201,10 @@ msgstr "Apagar"
 msgid "search something here... "
 msgstr "pesquise por algo aqui..."
 
+#: .\notifications\templates\notifications\pages\notifications.html:20
+msgid "No notification found."
+msgstr "Não há notificações"
+
 #: .\profiles\forms.py:7 .\profiles\tests\test_new_publication.py:16
 msgid "Text publication"
 msgstr "Texto da publicação"
@@ -213,10 +221,6 @@ msgstr "Perfis"
 #: .\profiles\templates\profiles\create_publication.html:7
 msgid "Create Publication"
 msgstr "Criar publicação"
-
-#: .\profiles\templates\profiles\create_publication.html:12
-msgid "Send"
-msgstr "Enviar"
 
 #: .\profiles\templates\profiles\profile_detail.html:22
 msgid "Follow"
@@ -237,6 +241,14 @@ msgstr "Seguidores"
 #: .\profiles\templates\profiles\profile_detail.html:43
 msgid "Add publication"
 msgstr "Adicionar publicação"
+
+#: .\profiles\views.py:29
+msgid "has started following you."
+msgstr "Começou a seguir você"
+
+#: .\profiles\views.py:33
+msgid "New Follower"
+msgstr "Novo Seguidor"
 
 #: .\publications\models.py:9 .\publications\models.py:21
 msgid "Text"

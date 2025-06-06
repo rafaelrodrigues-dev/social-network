@@ -1,0 +1,25 @@
+{% extends "global/base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="notifications-container">
+    <h2>{% trans "Notifications" %}</h2>
+    <ul class="notifications-list">
+        {% for notification in notifications %}
+        <li class="notification-item {% if not notification.is_read %}unread{% endif %}">
+            <div class="notification-content">
+                <p>
+                    <strong>{{ notification.sender.username }}</strong> 
+                    {{ notification.title }}
+                </p>
+                <p>{{ notification.message }}</p>
+                <small>{{ notification.created_at|date:"d/m/Y H:i" }}</small>
+            </div>
+        </li>
+        {% empty %}
+        <li class="notification-item">
+            <p>{% trans "No notification found." %}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
