@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 {% block content %}
 <div class="post">
@@ -6,7 +7,7 @@
             {% if publication.author.profile.picture %}
                 <img src="{{ publication.author.profile.picture.url }}" alt="Profile picture">
             {% else %}
-                <img src="https://placehold.co/40x40" alt="">
+                <img src="{% static "global/img/profile-without-picture.png" %}" alt="">
             {% endif %}
         </a>
         <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
