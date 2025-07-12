@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from notifications.utils import notify
 
 User = get_user_model()
 
@@ -57,8 +58,11 @@ def register_create(request):
 
         request.session.pop('register_form_data',None)
 
-        messages.success(request,_('User registered successfully'))
-
+        notify(
+            recipient=request.user,
+            title='System',
+            message=_('Welcome to this platform, there will be new additions soon.')
+        )
         return redirect(reverse('publications:home'))
     
     return redirect(reverse('authors:register'))

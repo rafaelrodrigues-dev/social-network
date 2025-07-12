@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-05 11:46-0300\n"
+"POT-Creation-Date: 2025-06-05 23:06-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,27 +118,27 @@ msgstr "Registrar-se"
 msgid "Do you have an account?? "
 msgstr "Já tem uma conta??"
 
-#: .\authors\tests\test_authors_login.py:26 .\authors\views.py:95
+#: .\authors\tests\test_authors_login.py:26 .\authors\views.py:99
 msgid "Invalid username or password"
 msgstr "Nome de Usuário ou senhas inválidos"
 
-#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:92
+#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:96
 msgid "Invalid credentials"
 msgstr "Credencias inválidas"
 
-#: .\authors\views.py:30
+#: .\authors\views.py:31
 msgid "Profile updated successfuly"
 msgstr "Usuário atualizado com sucesso"
 
-#: .\authors\views.py:60
-msgid "User registered successfully"
-msgstr "Usuário registrado com sucesso"
+#: .\authors\views.py:64
+msgid "Welcome to this platform, there will be new additions soon."
+msgstr "Bem-vindo a esta plataforma, em breve teremos novidades."
 
-#: .\authors\views.py:87
+#: .\authors\views.py:91
 msgid "Login successful"
 msgstr "Usuário foi conectado com sucesso"
 
-#: .\authors\views.py:102
+#: .\authors\views.py:106
 msgid "User has been logged out"
 msgstr "O usário foi desconectado com sucesso"
 
@@ -285,6 +285,9 @@ msgstr "Resultados"
 #: .\publications\templates\publications\pages\search_results.html:14
 msgid "No results found"
 msgstr "Nenhum resultado encontrado"
+
+#~ msgid "User registered successfully"
+#~ msgstr "Usuário registrado com sucesso"
 
 #~ msgid "Unable to create publication"
 #~ msgstr "Não foi possivel criar a publicação"
