@@ -4,7 +4,7 @@
 {% include "global/partials/messages.html" %}
 <section class="form-card">
     <h2>{% translate "Edit Profile" %}</h2>
-    <form action="{% url 'authors:edit_author' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'configs:edit_author' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if request.user.profile.picture %}
             <img src="{{ request.user.profile.picture.url}}" alt="">

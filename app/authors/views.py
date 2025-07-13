@@ -1,35 +1,15 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from authors.forms import RegisterForm, LoginForm, EditAuthorForm
+from authors.forms import RegisterForm, LoginForm
 from django.contrib.auth import get_user_model
-from django.views.generic import FormView
 from django.utils.translation import gettext_lazy as _
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from notifications.utils import notify
 
 User = get_user_model()
-
-
-class EditAuthorView(LoginRequiredMixin,FormView):
-    template_name = 'authors/pages/edit.html'
-    form_class = EditAuthorForm
-    success_url = reverse_lazy('publications:home')
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.request.user
-        kwargs['user'] = self.request.user
-        
-        return kwargs
-    
-    def form_valid(self, form):
-        form.save()
-        messages.success(self.request,_('Profile updated successfuly'))
-        return super().form_valid(form)
 
 
 def register_view(request):

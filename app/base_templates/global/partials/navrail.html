@@ -5,7 +5,7 @@
             <li><a href="{% url 'publications:home' %}">{% translate "Home" %}</a></li>
             <li><a href="{% url 'notifications' %}">{% translate "Notifications" %}</a></li>
             <li><a href="{% url "profiles:profile" request.user.username %}">{% translate "Profile" %}</a></li>
-            <li><a href="{% url "authors:edit_author" %}">{% translate "Edit Profile" %} </a></li>
+            <li><a href="{% url "configs:configs" %}">{% translate "Settings" %} </a></li>
             <li><a href="{% url "authors:logout" %}" onclick="return confirm('Are you sure?')">{% translate "Logout" %}</a></li>
         {% else %}
         <li><a href="{% url "authors:login" %}">{% translate "Login" %}</a></li>
