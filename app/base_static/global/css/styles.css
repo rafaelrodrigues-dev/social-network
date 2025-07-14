@@ -375,6 +375,17 @@ main {
     margin-bottom: 15px;
     border: 3px solid #007bff;
 }
+.errorlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.errorlist li{
+    color: #dc3545;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
 
 .conf-option {
     display: flex;
