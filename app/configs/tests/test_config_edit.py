@@ -2,7 +2,7 @@ import datetime
 from unittest import TestCase
 from django.test import TestCase as DjangoTestCase
 from django.urls import reverse
-from authors.forms import EditAuthorForm
+from configs.forms import EditAuthorForm
 from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model
 from profiles.models import Profile
@@ -10,14 +10,14 @@ from profiles.models import Profile
 User = get_user_model()
 
 
-class AuthorsEditUnitTest(TestCase):
+class ConfigEditUnitTest(TestCase):
     def test_edit_form_fields_labels(self):
         form = EditAuthorForm()
         self.assertEqual(form['date_of_birth'].field.label, _('Date of birth'))
         self.assertEqual(form['gender'].field.label, _('Gender'))
 
 
-class AuthorsEditIntegrationTest(DjangoTestCase):
+class ConfigEditIntegrationTest(DjangoTestCase):
     def setUp(self):
         self.data = {
             'username':'testuser',
@@ -31,13 +31,13 @@ class AuthorsEditIntegrationTest(DjangoTestCase):
         self.client.login(username='testuser',password='testpassword')
 
     def test_edit_author_page_loads_correct_data(self):
-        response = self.client.get(reverse('authors:edit_author'))
+        response = self.client.get(reverse('configs:edit_author'))
         self.assertIn('testuser',response.content.decode('utf-8'))
         self.assertIn('This is a bio',response.content.decode('utf-8'))
         self.assertIn('lastuser',response.content.decode('utf-8'))
 
     def test_edit_author_form_redirects_to_home(self):
-        response = self.client.post(reverse('authors:edit_author'), {
+        response = self.client.post(reverse('configs:edit_author'), {
             'username': self.user.username,
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
@@ -47,7 +47,7 @@ class AuthorsEditIntegrationTest(DjangoTestCase):
     def test_edit_author_first_name(self):
         needed = 'newfirstname'
 
-        self.client.post(reverse('authors:edit_author'), {
+        self.client.post(reverse('configs:edit_author'), {
             'first_name': needed,
             'date_of_birth': self.user.date_of_birth,
         })
@@ -56,7 +56,7 @@ class AuthorsEditIntegrationTest(DjangoTestCase):
         self.assertEqual(self.user.first_name, needed)
 
     def test_edit_author_date_of_birth(self):
-        self.client.post(reverse('authors:edit_author'), {
+        self.client.post(reverse('configs:edit_author'), {
             'first_name': self.user.first_name,
             'date_of_birth': '2000-01-01'
         })
@@ -67,7 +67,7 @@ class AuthorsEditIntegrationTest(DjangoTestCase):
     def test_edit_author_last_name(self):
         needed = 'newlastname'
 
-        self.client.post(reverse('authors:edit_author'), {
+        self.client.post(reverse('configs:edit_author'), {
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
             'last_name': needed
@@ -79,7 +79,7 @@ class AuthorsEditIntegrationTest(DjangoTestCase):
     def test_edit_author_bio(self):
         needed = 'newbio'
 
-        self.client.post(reverse('authors:edit_author'), {
+        self.client.post(reverse('configs:edit_author'), {
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
             'bio': needed
@@ -90,7 +90,7 @@ class AuthorsEditIntegrationTest(DjangoTestCase):
 
     def test_edit_author_gender(self):
         needed = 'M'
-        self.client.post(reverse('authors:edit_author'), {
+        self.client.post(reverse('configs:edit_author'), {
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
             'gender': needed
