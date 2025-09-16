@@ -58,3 +58,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+function checkNotifications() {
+    fetch("/notifications/status/")
+    .then(response => response.json())
+    .then(data => {
+        if (data.has_new_notifications) {
+            document.getElementById('notif-indicator').style.display = 'inline';
+        }else {
+            document.getElementById('notif-indicator').style.display = 'none';
+        }
+    })
+}
+
+checkNotifications();
+setInterval(checkNotifications, 60000)

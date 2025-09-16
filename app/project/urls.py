@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from notifications.views import notifications
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +26,7 @@ urlpatterns = [
     path('a/',include('authors.urls')),
     path('configs/',include('configs.urls')),
     path('profile/',include('profiles.urls')),
-    path('notifications/', notifications, name='notifications'),
+    path('notifications/',include('notifications.urls')),
 ]
 
 if settings.DEBUG:

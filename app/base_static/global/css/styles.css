@@ -608,6 +608,13 @@ main {
     font-size: 12px;
 }
 
+.notif-indicator{
+    display:none;
+    color: red;
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
 @media (max-width: 1660px) {
     .header-nav {
         display: flex;
