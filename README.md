@@ -4,4 +4,4 @@ A simple social network developed with Python (Django) and Postgres, where you c
 
 The website is available in English and Brazilian Portuguese.
 
-[Click here to access](http://52.15.161.224/).
+[Click here to access](https://socialnet.lat/).
