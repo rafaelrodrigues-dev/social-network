@@ -8,6 +8,9 @@
         <title>Socialnet</title>
         <link rel="stylesheet" href="{% static "global/css/styles.css" %}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5530029456930361"
+     crossorigin="anonymous"></script>
+        <link rel="manifest" href="/static/manifest.json">
     </head>
 <body>
     {% include "global/partials/header.html" %}
@@ -17,5 +20,10 @@
             {% block content %}{% endblock content %}
         </div>
     <script src="{% static "global/js/script.js" %}"></script>
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('{% static "global/js/sw.js" %}')
+        }
+    </script>
 </body>
 </html>
