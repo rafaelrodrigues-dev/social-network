@@ -1,0 +1,42 @@
+{% load i18n %}
+	<section id="menu">
+
+    <!-- Search -->
+        <section>
+            <form class="search" method="get" action="#">
+                <input type="text" name="query" placeholder="Search" />
+            </form>
+        </section>
+    {% if user.is_authenticated %}
+    <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <a href="{% url "publications:home" %}">
+                        <h3>{% translate "Home" %}</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "profiles:profile" request.user.username %}">
+                        <h3>{% translate "Profile" %}</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "configs:configs" %}">
+                        <h3>{% translate "Settings" %}</h3>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+    {% else %}
+    <!-- Actions -->
+        <section>
+            <ul class="actions stacked">
+                <li><a href="{% url "authors:login" %}" class="button large fit">{% translate "Login" %}</a></li>
+                <li><a href="{% url "authors:register" %}" class="button large fit">{% translate "Register" %}</a></li>
+            </ul>
+        </section>
+    {% endif %}
+
+</section>

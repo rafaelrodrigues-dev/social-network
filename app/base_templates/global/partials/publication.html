@@ -1,46 +1,40 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-<div class="post">
-    <div class="post-header">
-        <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
-            {% if publication.author.profile.picture %}
-                <img src="{{ publication.author.profile.picture.url }}" alt="Profile picture">
-            {% else %}
-                <img src="{% static "global/img/profile-without-picture.png" %}" alt="">
-            {% endif %}
-        </a>
-        <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
-            <span>@{{ publication.author.username }}</span>
-        </a>
-        <small>{{ publication.created_at|timesince }} {% translate "ago" %}</small>
-    </div>
-    <p>{{ publication.text }}</p>
-    {% if publication.img %}
-        <img src="{{ publication.img.url }}" alt="">
-    {% endif %}
-    <div class="post-actions">
-        {% if publication in request.user.likes.all %}
-            <button class="like-button liked" data-id="{{ publication.id }}">
-                Like
-            </button>
-        {% else %}
-            <button class="like-button" data-id="{{ publication.id }}">
-                Like
-            </button>
+    <!-- Post -->
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2><a href="{% url "publications:publication-detail" publication.id %}">Magna sed adipiscing</a></h2>
+                <p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
+            </div>
+            <div class="meta">
+                <time class="published" datetime="{{ publication.created_at|timesince }}"> {{ publication.created_at|timesince }} {% translate "ago" %}</time>
+                {% if publication.author.profile.picture %}
+                <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+                    <span class="name">{{ publication.author.get_full_name}}</span>
+                    <img src="{{ publication.author.profile.picture.url }}" alt="" />
+                </a>
+                {% else %}
+                    <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+                        <span class="name">{{ publication.author.get_full_name}}</span>
+                        <img src="{% static "global/img/profile-without-picture.png" %}" alt="" />
+                    </a>
+                {% endif %}
+            </div>
+        </header>
+        {% if publication.img %}
+            <a href="{% url "publications:publication-detail" publication.id %}" class="image featured"><img src="{{ publication.img.url }}" alt="" /></a>
         {% endif %}
-        <span class="like-count">
-            {{ publication.like.count }}
-        </span>
-        {% if is_detail is not True %}
-            <a href="{% url 'publications:publication-detail' publication.id %}">
-            <button class="comment-button">{% translate "Comment" %}</button></a>
-        {% endif %}
-        {% if publication in request.user.publications.all %}
-            <a href="{% url 'publications:delete-publication' publication.id %}">
-                <button class="delete-button">{% translate "Delete" %}</button>
-            </a>
-        {% endif %}
-    </div>
-</div>
+        <p>{{ publication.text }}</p>
+        <footer>
+            <ul class="actions">
+                <li><a href="{% url "publications:publication-detail" publication.id %}" class="button large">Continue Reading</a></li>
+            </ul>
+            <ul class="stats">
+                <li><a href="#" class="icon solid fa-heart">{{ publication.like.count }}</a></li>
+                <li><a href="#" class="icon solid fa-comment">{{ publication.like.count }}</a></li>
+            </ul>
+        </footer>
+    </article>
 {% endblock content %}

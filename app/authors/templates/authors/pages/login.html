@@ -1,7 +1,7 @@
 {% extends "global/base.html" %}
 {% load i18n %}
 {% block content %}
-<main>
+<div id="main">
     <section class="form-card">
         <h2>{% translate "Login" %}</h2>
         <form method="post" action="{% url "authors:login_create" %}">
@@ -15,5 +15,5 @@
         {% include "global/partials/messages.html" %}
         <p>{% translate "Don't have an account yet??" %} <a href="{% url "authors:register" %}">{% translate "Register" %}</a></p>
     </section>
-</main>
+</div>
 {% endblock content %}

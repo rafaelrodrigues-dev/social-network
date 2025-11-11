@@ -1,48 +1,29 @@
 {% load i18n %}
 <!-- Navbar -->
-<header>
-    <div class="logo">Socialnet</div>
-    <nav class="header-nav">
+<header id="header">
+    <h1><a href="{% url "publications:home" %}">Socialnet</a></h1>
+    <nav class="links">
         <ul>
             {% if user.is_authenticated %}
-                <li>
-                    <a href="{% url 'publications:home' %}">
-                        <i class="material-symbols-outlined">home</i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'notifications' %}">
-                        <i class="material-symbols-outlined">notifications</i>
-                        <span class="notif-indicator" id="notif-indicator">●</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'profiles:profile' request.user.username %}">
-                        <i class="material-symbols-outlined">person</i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'configs:configs' %}">
-                        <i class="material-symbols-outlined">settings</i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'authors:logout' %}" onclick="return confirm('Are you sure?')">
-                        <i class="material-symbols-outlined">logout</i>
-                    </a>
-                </li>
+                <li><a href="{% url 'notifications' %}">{% translate "Notifications" %}</a></li>
+                <li><a href="{% url 'profiles:profile' request.user.username %}">{% translate "Profile" %}</a></li>
             {% else %}
-                <li>
-                    <a href="{% url 'authors:login' %}">
-                        <i class="material-symbols-outlined">login</i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'authors:register' %}">
-                        <i class="material-symbols-outlined">door_open</i>
-                    </a>
-                </li>
+                <li><a href="{% url 'authors:login' %}">{% translate "Login" %}</a></li>
+                <li><a href="{% url 'authors:register' %}">{% translate "Register" %}</a></li>
             {% endif %}
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="#">
+                    <input type="text" name="query" placeholder="Search" />
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
         </ul>
     </nav>
 </header>

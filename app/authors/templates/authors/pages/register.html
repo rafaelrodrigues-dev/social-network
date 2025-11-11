@@ -1,7 +1,7 @@
 {% extends "global/base.html" %}
 {% load i18n %}
 {% block content %}
-    <main>
+    <div id="main">
         <section class="form-card">
             <h2>{% translate "Register" %}</h2>
             <form method="post" action="{% url "authors:register_create" %}">
@@ -20,6 +20,6 @@
             </form>
             <p>{% translate "Do you have an account?? " %}<a href="{% url 'authors:login'%}">{% translate "Login" %}</a></p>
         </section>
-    </main>
+    </div>
 {% endblock content %}
 

@@ -1,26 +1,5 @@
 {% load i18n %}
-{% if page_obj %}
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1{{additional_query}}">
-                <button>&laquo; {% translate "first" %} </button>
-            </a>
-            <a href="?page={{ page_obj.previous_page_number }}{{additional_query}}">
-                <button>{% translate "previous" %} </button>
-            </a>
-        {% endif %}
-
-        <span class="current">
-            {% translate "Page" %}  {{ page_obj.number }} {% translate "of" %} {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{{additional_query}}"><button>{% translate "next" %} </button></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{{additional_query}}">
-                <button>{% translate "last" %}  &raquo;</button>
-            </a>
-        {% endif %}
-    </span>
-</div>
-{% endif %}
+<ul class="actions pagination">
+    <li><a href="" class="disabled button large previous">Previous Page</a></li>
+    <li><a href="#" class="button large next">Next Page</a></li>
+</ul>

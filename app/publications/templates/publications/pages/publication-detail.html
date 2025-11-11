@@ -2,45 +2,41 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-<main>
-    {% include "global/partials/publication.html" %}
-    <div class="comment-form">
-        <form method="post" action="{% url "publications:comment" publication.id %}">
-            {% csrf_token %}
-            <textarea name="text" placeholder="{% translate "Add a comment here..." %}" required></textarea>
-            <button type="submit">{% translate "Comment" %}</button>
-        </form>
-    </div>
-    <section class="comments">
-    {% if comments %}
-        <h2>{% translate "Comments" %}</h2>
-    {% else %}
-        <h2>{% translate "No comments yet" %}</h2>
-    {% endif %}
-    <div id='comments-list'>
-        {% for comment in comments %}
-            <div class="comment">
-                <div class="post-header">
-                    <a href="{% url "profiles:profile" publication.author.username %}" class="post-profile-user-link">
-                        {% if comment.author.profile.picture %}
-                            <img src="{{ comment.author.profile.picture.url }}" alt="Profile picture">
+<!-- Main -->
+    <div id="main">
+        <!-- Post -->
+            <article class="post">
+                <header>
+                    <div class="title">
+                        <h2><a href="#">Magna sed adipiscing</a></h2>
+                        <p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
+                    </div>
+                    <div class="meta">
+                        <time class="published" datetime="{{ publication.created_at|timesince }}"> {{ publication.created_at|timesince }} {% translate "ago" %}</time>
+                        {% if publication.author.profile.picture %}
+                            <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+                            <span class="name">{{ publication.author.get_full_name}}</span>
+                            <img src="{{ publication.author.profile.picture.url }}" alt="" />
+                            </a>
                         {% else %}
-                            <img src="{% static "global/img/profile-without-picture.png" %}" alt="">
+                            <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+                                <span class="name">{{ publication.author.get_full_name}}</span>
+                                <img src="{% static "global/img/profile-without-picture.png" %}" alt="" />
+                            </a>
                         {% endif %}
-                    </a>
-                    <a href="{% url "profiles:profile" comment.author.username %}" class="post-profile-user-link">
-                        <span>@{{ comment.author.username }}</span>
-                    </a>
-                    <small>{{ comment.created_at|timesince }} {% translate "ago" %}</small>
-                </div>
-                <div><p>{{ comment.text }}</p></div>
-            </div>
-        {% endfor %}
+                    </div>
+                </header>
+                {% if publication.img %}
+                    <span class="image featured"><img src="{{ publication.img.url }}" alt="" /></span>
+                {% endif %}
+                <p>{{ publication.text }}</p>
+                <footer>
+                    <ul class="stats">
+                    <li><a href="#" class="icon solid fa-heart">{{ publication.like.count }}</a></li>
+                    <li><a href="#" class="icon solid fa-comment">{{ publication.like.count }}</a></li>
+                    </ul>
+                </footer>
+            </article>
+
     </div>
-    {% if comments.has_next %}
-        <div class="view-more"><button class="view-more-comments" id="view-more-comments" data-next-page="{{comments.next_page_number}}">{% translate "View  more" %}</button></div>
-    {% endif %}
-    </section>
-        
-</main>
 {% endblock content %}

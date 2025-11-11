@@ -1,18 +1,14 @@
 {% extends "global/base.html" %}
 {% load i18n %}
+{% load static %}
 {% block content %}
-<main>
-    {% include "global/partials/messages.html" %}
-    {% if page_obj %}
-    <section class="posts">
-        <h2>{% trans "Lastest posts" %}</h2>
-        {% for publication in page_obj %}
-            {% include "global/partials/publication.html" %}
-        {% endfor %}
-    </section>
+<div id="main">
+    {% for publication in page_obj  %}
+        {% include "global/partials/publication.html" %}
+    {% endfor %}
     {% include "global/partials/pagination.html" %}
-    {% else %}
-        <h2> {% translate "It looks like there's nothing around here..." %}</h2>
-    {% endif %}
-</main>
+    {% include "global/partials/sidebar.html" %}
+</div>
+<!-- Sidebar -->
+    {% include "global/partials/sidebar.html" %}
 {% endblock content %}
