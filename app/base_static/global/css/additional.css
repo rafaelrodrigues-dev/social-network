@@ -1,0 +1,51 @@
+ul.errorlist {
+    list-style-type:none;
+    padding: 3px;
+    margin: 10px 0;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    border-radius: 5px;
+}
+
+ul.errolist li:last-child{
+    margin-bottom: 0;
+}
+
+.profile-container {
+    max-width: 700px;
+    margin: 25px auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.profile-header {
+    margin-bottom: 24px;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #eaeaea;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.stats div {
+    text-align: center;
+}
+
+.number {
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: block;
+}

@@ -2,53 +2,37 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-    <main>
-        <div class="profile-container">
-            <div class="profile-card">
-                <div class="profile-header">
-                    {% if profile.picture %}
-                    <img src="{{ profile.picture.url }}" alt="Foto de {{ profile.user.username }}" class="profile-picture">
-                    {% else %}
-                        <img src="{% static "global/img/profile-without-picture.png" %}" alt="" class="profile-picture">
-                    {% endif %}
-                    <h1 class="profile-username">@{{ profile.user.username }}</h1>
-                    <h2 class="profile-fullname">{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
-                    <p class="profile-bio">{{ profile.bio }}</p>
-                </div>
-                {% if request.user != profile.user %}
-                    <div class="profile-actions">
-                        <form action="{% url "profiles:follow" profile.user.username %}" method="post">
-                            {% csrf_token %}
-                            {% if not profile in request.user.profile.follow.all  %}
-                                <button class="btn follow-btn">{% translate "Follow" %}</button>
-                            {% else %}
-                                <button class="btn unfollow-btn">{% translate "Unfollow" %}</button>  
-                            {% endif %}
-                        </form>    
-                    </div>
-                {% endif %}
+<div id="main">
+    <div class="profile-container">
+        <div class="profile-header">
+            {% if profile.picture %}
+                <img src="{{ profile.picture.url }}" alt="Avatar" class="avatar">
+            {% else %}
+            <img src="{% static "global/img/profile-without-picture" %}" alt="">
+            {% endif %}
+            
+            <p>@{{ profile.user.username }}</p>
+            <h1>{{ profile.user.get_full_name }}</h1>
+            <i>{{ profile.bio }}</i>
+        </div> 
+        <div class="stats">
+            <div>
+                <span class="number">{{ profile.followers.count }}</span>
+                <p>{% translate "Followers" %} </p>
             </div>
-            <div class="profile-stats">
-                <div class="stat">
-                    <h3>{% translate "Following" %}</h3>
-                    <p>{{ profile.follow.count }}</p>
-                </div>
-                <div class="stat">
-                    <h3>{% translate "Followers" %}</h3>
-                    <p>{{ profile.followers.count }}</p>
-                </div>
+            <div>
+                <span class="number">{{ profile.follow.count }}</span>
+                <p>{% translate "Following" %}</p>
             </div>
         </div>
-        {% if request.user == profile.user %}
-            <div class="create-publication">
-                <a href="{% url "profiles:new_publication" request.user.username %}" class="btn create-btn">{% translate "Add publication" %}</a>
-            </div>
+        {% if not request.user.profile == profile%}
+            <button>{% translate "follow" %}</button>
         {% endif %}
-        <section class="posts">
-            {% for publication in page_obj %}
-                {% include "global/partials/publication.html" %}
-            {% endfor %}
-        </section>
-        {% include "global/partials/pagination.html" %}
-    </main>
+    </div>
+    {% for publication in page_obj %}
+            {% include "global/partials/publication.html" %}
+        {% endfor %}
+    {% include "global/partials/pagination.html" %}
+</div>
+{% include "global/partials/sidebar.html" %}
 {% endblock content %}

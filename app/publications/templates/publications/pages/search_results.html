@@ -1,17 +1,18 @@
 {% extends "global/base.html" %}
 {% load i18n %}
 {% block content %}
-<main>
+<div id="main">
     {% if page_obj %}
-        <section class="posts">
-            <h2> {% translate "Results" %} </h2>
+        <section>
+            <p> {% translate "Results for" %} {{ query }}:</p>
             {% for publication in page_obj %}
                 {% include "global/partials/publication.html" %}
             {% endfor %}
         </section>
         {% include "global/partials/pagination.html" %}
     {% else %}
-        <h2>{% translate "No results found" %}</h2>
+        <p>{% translate "No results found" %}</p>
     {% endif %}
-</main>
-{% endblock content %}  
+</div>
+{% include "global/partials/sidebar.html" %}
+{% endblock content %} 

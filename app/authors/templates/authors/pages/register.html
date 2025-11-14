@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
     <div id="main">
-        <section class="form-card">
+        <section>
             <h2>{% translate "Register" %}</h2>
             <form method="post" action="{% url "authors:register_create" %}">
                 {% csrf_token %}

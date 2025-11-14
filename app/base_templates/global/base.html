@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
                 <meta name="csrf-token" content="{{ csrf_token }}">
 		<link rel="stylesheet" href="{% static "global/css/main.css" %}" />
+		<link rel="stylesheet" href="{% static "global/css/additional.css" %}">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5530029456930361"
         crossorigin="anonymous"></script>
         <link rel="manifest" href="/static/manifest.json">
@@ -17,13 +18,12 @@
 
 				<!-- Header -->
 					{% include "global/partials/header.html" %}
-
-				<!-- Menu -->
+					<!-- Menu -->
                     {% include "global/partials/menu.html" %}
-
-				<!-- Main -->
+					<!-- Main -->
                     {% block content %}{% endblock content %}
-			</div>
+				</div>
+				{% include "global/partials/messages.html" %}
 
 		<!-- Scripts -->
              <script src="{% static "global/js/script.js" %}"></script>

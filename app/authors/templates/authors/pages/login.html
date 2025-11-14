@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
 <div id="main">
-    <section class="form-card">
+    <section>
         <h2>{% translate "Login" %}</h2>
         <form method="post" action="{% url "authors:login_create" %}">
             {% csrf_token %}
@@ -12,7 +12,6 @@
             </div>
             <button type="submit">{% translate "Login" %}</button>
         </form>
-        {% include "global/partials/messages.html" %}
         <p>{% translate "Don't have an account yet??" %} <a href="{% url "authors:register" %}">{% translate "Register" %}</a></p>
     </section>
 </div>

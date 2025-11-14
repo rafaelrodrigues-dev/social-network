@@ -3,8 +3,8 @@
 
     <!-- Search -->
         <section>
-            <form class="search" method="get" action="#">
-                <input type="text" name="query" placeholder="Search" />
+            <form class="search" method="get" action="{% url "publications:search" %}">
+                <input type="text" name="q" placeholder="Search" required/>
             </form>
         </section>
     {% if user.is_authenticated %}
@@ -17,8 +17,18 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{% url "profiles:new_publication" request.user.username %}">
+                        <h3>{% translate "Add publication" %}</h3>
+                    </a>
+                </li>
+                <li>
                     <a href="{% url "profiles:profile" request.user.username %}">
                         <h3>{% translate "Profile" %}</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "notifications" %}">
+                        <h3>{% translate "Notifications" %}</h3>
                     </a>
                 </li>
                 <li>

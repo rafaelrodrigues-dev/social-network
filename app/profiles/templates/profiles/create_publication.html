@@ -1,7 +1,7 @@
 {% extends "global/base.html" %}
 {% load i18n %}
 {% block content %}
-<main>
+<div id="main">
     {% include "global/partials/messages.html" %}
     <div class="form-card">
         <h2>{% translate "Create Publication" %}</h2>
@@ -12,5 +12,5 @@
             <button type="submit">{% translate "Send" %}</button>
         </form>
     </div>
-</main>
+</div>
 {% endblock content %}

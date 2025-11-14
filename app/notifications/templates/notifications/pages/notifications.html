@@ -1,12 +1,12 @@
 {% extends "global/base.html" %}
 {% load i18n %}
 {% block content %}
-<div class="notifications-container">
+<div id="main">
     <h2>{% trans "Notifications" %}</h2>
-    <ul class="notifications-list">
+    <ul >
         {% for notification in notifications %}
-        <li class="notification-item {% if not notification.is_read %}unread{% endif %}">
-            <div class="notification-content">
+        <li>
+            <div>
                 <p>
                     <strong>{{ notification.sender.username }}</strong> 
                     {{ notification.title }}
@@ -16,7 +16,7 @@
             </div>
         </li>
         {% empty %}
-        <li class="notification-item">
+        <li>
             <p>{% trans "No notification found." %}</p>
         </li>
         {% endfor %}

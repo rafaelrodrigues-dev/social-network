@@ -1,13 +1,13 @@
 {% extends "global/base.html" %}
 {% load i18n %}
 {% block content %}
+<div id="main">
 {% include "global/partials/messages.html" %}
-<section class="form-card">
     <h2>{% translate "Edit Profile" %}</h2>
     <form action="{% url 'configs:edit_author' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if request.user.profile.picture %}
-            <img src="{{ request.user.profile.picture.url}}" alt="">
+            <img src="{{ request.user.profile.picture.url}}" alt="" class="avatar">
         {% endif %}
         {{ form.picture.as_field_group }}
         {{ form.first_name.as_field_group }}
@@ -17,5 +17,5 @@
         {{ form.gender.as_field_group }}
         <button type="submit">{% translate "Send" %}</button>
     </form>
-</section>
+</div>
 {% endblock content %}

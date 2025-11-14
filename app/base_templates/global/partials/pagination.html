@@ -1,5 +1,15 @@
 {% load i18n %}
+{% if page_obj %}
 <ul class="actions pagination">
-    <li><a href="" class="disabled button large previous">Previous Page</a></li>
-    <li><a href="#" class="button large next">Next Page</a></li>
+    {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}{{additional_query}}" class="button large previous">Previous Page</a></li>
+    {% else %}
+        <li><a href="" class="disabled button large previous">Previous Page</a></li>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}{{additional_query}}" class="button large next">Next Page</a></li>
+    {% else %}
+        <li><a href="" class="disabled button large next">Next Page</a></li>
+    {% endif %}
 </ul>
+{% endif %}
