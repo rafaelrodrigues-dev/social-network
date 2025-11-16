@@ -5,7 +5,6 @@
     <nav class="links">
         <ul>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'notifications' %}">{% translate "Notifications" %}</a></li>
                 <li><a href="{% url 'profiles:profile' request.user.username %}">{% translate "Profile" %}</a></li>
             {% else %}
                 <li><a href="{% url 'authors:login' %}">{% translate "Login" %}</a></li>
