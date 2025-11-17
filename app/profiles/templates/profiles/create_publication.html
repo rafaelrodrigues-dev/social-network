@@ -3,7 +3,7 @@
 {% block content %}
 <div id="main">
     {% include "global/partials/messages.html" %}
-    <div class="form-card">
+    <div>
         <h2>{% translate "Create Publication" %}</h2>
         <form action="{% url "profiles:new_publication_create" request.user.username %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}

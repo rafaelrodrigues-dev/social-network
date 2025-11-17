@@ -34,18 +34,12 @@ ul.errolist li:last-child{
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
+.comment {
+    background-color: #fff;
+    padding: 0.5rem;
+    margin: 1rem;
 }
 
-.stats div {
-    text-align: center;
-}
-
-.number {
-    font-weight: 700;
-    font-size: 1.2rem;
-    display: block;
+.comment header {
+    border-bottom: 5px black;
 }

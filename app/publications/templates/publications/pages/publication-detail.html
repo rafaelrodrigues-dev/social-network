@@ -21,7 +21,7 @@
                         {% endif %}
                     </div>
                     <div class="meta">
-                        <time class="published" datetime="{{ publication.created_at|timesince }}"> {{ publication.created_at|timesince }} {% translate "ago" %}</time>
+                        <time class="published" datetime="{{ publication.created_at|timesince }}"> {{ publication.created_at|timesince }} {% translate "ago" %} </time>
                     </div>
                 </header>
                 {% if publication.img %}
@@ -30,10 +30,37 @@
                 <p>{{ publication.text }}</p>
                 <footer>
                     <ul class="stats">
-                    <li><a href="#" class="icon solid fa-heart">{{ publication.like.count }}</a></li>
-                    <li><a href="#" class="icon solid fa-comment">{{ publication.like.count }}</a></li>
+                        <li><a href="#" class="icon solid fa-heart">{{ publication.like.count }}</a></li>
                     </ul>
                 </footer>
             </article>
+        <!-- Comments -->
+            <form action="{% url "publications:comment" publication.id %}" method="POST">
+                {% csrf_token %}
+                <textarea name="text" placeholder="{% translate "Comment something..." %}" id="id_text" required></textarea>
+                <button>{% translate "Send" %}</button>
+            </form>
+            <h2>{% translate "Comments" %} ({{ publication.comments.count }})</h2>
+            {% for comment in comments %}
+                <article class="post">
+                    <header>
+                        <div class="meta">
+                            {% if publication.author.profile.picture %}
+                                <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+                                <span class="name">{{ publication.author.get_full_name}}</span>
+                                <img src="{{ publication.author.profile.picture.url }}" alt="" />
+                                </a>
+                            {% else %}
+                                <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+                                    <span class="name">{{ publication.author.get_full_name}}</span>
+                                    <img src="{% static "global/img/profile-without-picture.png" %}" alt="" />
+                                </a>
+                            {% endif %}
+                            <i>{{ comment.created_at|timesince }} {% translate "ago" %}</i>
+                        </div>
+                    </header>
+                    <p>{{ comment.text }}</p>
+                </article>
+            {% endfor %}
     </div>
 {% endblock content %}
