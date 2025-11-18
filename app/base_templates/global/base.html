@@ -26,7 +26,6 @@
 				{% include "global/partials/messages.html" %}
 
 		<!-- Scripts -->
-             <script src="{% static "global/js/script.js" %}"></script>
              <script>
                 if (typeof navigator.serviceWorker !== 'undefined') {
                     navigator.serviceWorker.register('{% static "global/js/sw.js" %}')
@@ -37,6 +36,6 @@
             <script src="{% static "global/js/breakpoints.min.js" %}"></script>
             <script src="{% static "global/js/util.js" %}"></script>
             <script src="{% static "global/js/main.js" %}"></script>
-
+			<script src="{% static "global/js/additional.js" %}"></script>
 	</body>
 </html>

@@ -27,8 +27,8 @@
         {% endif %}
         <footer>
             <ul class="stats">
-                <li><a href="{% url "publications:like" publication.id %}" class="icon solid fa-heart">{{ publication.like.count }}</a></li>
-                <li><a href="{% url "publications:publication-detail" publication.id %}" class="icon solid fa-comment">{{ publication.comments.count }}</a></li>
+                <li><a href="#like" class="icon solid fa-heart" data-id="{{ publication.id }}"></a><span>{{ publication.like.count }}</span></li>
+                <li><a href="{% url "publications:publication-detail" publication.id %}" class="icon solid fa-comment"></a><span>{{ publication.comments.count }}</span></li>
             </ul>
         </footer>
     </article>

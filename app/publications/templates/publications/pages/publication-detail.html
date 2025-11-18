@@ -30,7 +30,7 @@
                 <p>{{ publication.text }}</p>
                 <footer>
                     <ul class="stats">
-                        <li><a href="#" class="icon solid fa-heart">{{ publication.like.count }}</a></li>
+                        <li><a href="#like" class="icon solid fa-heart" data-id="{{ publication.id }}"></a><span>{{ publication.like.count }}</span></li>
                     </ul>
                 </footer>
             </article>
