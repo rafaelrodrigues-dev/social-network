@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
-                    const newComments = doc.querySelectorAll('#comments-list .comment');
+                    const newComments = doc.querySelectorAll('#comments-list .post');
                     newComments.forEach(comment => {
                         document.getElementById('comments-list').appendChild(comment);
                     });

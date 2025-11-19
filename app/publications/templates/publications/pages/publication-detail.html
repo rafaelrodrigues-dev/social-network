@@ -41,26 +41,31 @@
                 <button>{% translate "Send" %}</button>
             </form>
             <h2>{% translate "Comments" %} ({{ publication.comments.count }})</h2>
-            {% for comment in comments %}
-                <article class="post">
-                    <header>
-                        <div class="meta">
-                            {% if publication.author.profile.picture %}
-                                <a href="{% url "profiles:profile" publication.author.username %}" class="author">
-                                <span class="name">{{ publication.author.get_full_name}}</span>
-                                <img src="{{ publication.author.profile.picture.url }}" alt="" />
-                                </a>
-                            {% else %}
-                                <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+            <div id="comments-list">
+                {% for comment in comments %}
+                    <article class="post">
+                        <header>
+                            <div class="meta">
+                                {% if publication.author.profile.picture %}
+                                    <a href="{% url "profiles:profile" publication.author.username %}" class="author">
                                     <span class="name">{{ publication.author.get_full_name}}</span>
-                                    <img src="{% static "global/img/profile-without-picture.png" %}" alt="" />
-                                </a>
-                            {% endif %}
-                            <i>{{ comment.created_at|timesince }} {% translate "ago" %}</i>
-                        </div>
-                    </header>
-                    <p>{{ comment.text }}</p>
-                </article>
-            {% endfor %}
+                                    <img src="{{ publication.author.profile.picture.url }}" alt="" />
+                                    </a>
+                                {% else %}
+                                    <a href="{% url "profiles:profile" publication.author.username %}" class="author">
+                                        <span class="name">{{ publication.author.get_full_name}}</span>
+                                        <img src="{% static "global/img/profile-without-picture.png" %}" alt="" />
+                                    </a>
+                                {% endif %}
+                                <i>{{ comment.created_at|timesince }} {% translate "ago" %}</i>
+                            </div>
+                        </header>
+                        <p>{{ comment.text }}</p>
+                    </article>
+                {% endfor %}
+                {% if comments.has_next %}
+                    <div class="view-more"><button id="view-more-comments" data-next-page="{{comments.next_page_number}}">{% translate "view more" %}</button></div>
+                {% endif %}
+                </div>
     </div>
 {% endblock content %}
