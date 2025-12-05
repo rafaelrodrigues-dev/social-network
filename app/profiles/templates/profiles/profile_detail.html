@@ -8,9 +8,9 @@
             {% if profile.picture %}
                 <img src="{{ profile.picture.url }}" alt="Avatar" class="avatar">
             {% else %}
-            <img src="{% static "global/img/profile-without-picture" %}" alt="">
+            <img src="{% static "global/img/profile-without-picture.png" %}" alt="Avater" class="avatar">
             {% endif %}
-            
+
             <p>@{{ profile.user.username }}</p>
             <h1>{{ profile.user.get_full_name }}</h1>
             <i>{{ profile.bio }}</i>
@@ -25,8 +25,15 @@
                 <p>{% translate "Following" %}</p>
             </div>
         </div>
-        {% if not request.user.profile == profile%}
-            <button>{% translate "follow" %}</button>
+        {% if not request.user.profile == profile %}
+        <form action="{% url "profiles:follow" profile.user.username %}" method="post">
+            {% csrf_token %}
+            {% if request.user.profile in profile.followers.all %}
+                <button >{% translate "unfollow" %}</button>
+            {% else %}
+                <button>{% translate "follow" %}</button>
+            {% endif %}
+        </form>
         {% endif %}
     </div>
     {% for publication in page_obj %}

@@ -3,7 +3,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
-from django.utils.translation import gettext_lazy as _ 
 from .models import Profile
 from .forms import PublicationForm
 from publications.models import Publication
