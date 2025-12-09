@@ -27,8 +27,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url "configs:configs" %}">
-                        <h3>{% translate "Settings" %}</h3>
+                    <a href="{% url "profiles:edit_profile" %}">
+                        <h3>{% translate "Edit Profile" %}</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "authors:logout" %}">
+                        <h3>{% translate "Logout" %}</h3>
                     </a>
                 </li>
             </ul>

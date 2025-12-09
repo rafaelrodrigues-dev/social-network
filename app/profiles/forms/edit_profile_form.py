@@ -12,7 +12,7 @@ CHOICES = [
 ]
 
 
-class EditAuthorForm(forms.ModelForm):
+class EditProfileForm(forms.ModelForm):
     def __init__(self,*args, **kwargs):
         user = kwargs.pop('user',None)
         super().__init__(*args, **kwargs)

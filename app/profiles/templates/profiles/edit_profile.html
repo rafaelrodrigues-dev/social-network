@@ -4,12 +4,13 @@
 <div id="main">
 {% include "global/partials/messages.html" %}
     <h2>{% translate "Edit Profile" %}</h2>
-    <form action="{% url 'configs:edit_author' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'profiles:edit_profile' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if request.user.profile.picture %}
             <img src="{{ request.user.profile.picture.url}}" alt="" class="avatar">
         {% endif %}
         {{ form.picture.as_field_group }}
+        <h2>{{ request.user.username }}</h2>
         {{ form.first_name.as_field_group }}
         {{ form.last_name.as_field_group }}
         {{ form.bio.as_field_group }}

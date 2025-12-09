@@ -2,7 +2,7 @@ import datetime
 from unittest import TestCase
 from django.test import TestCase as DjangoTestCase
 from django.urls import reverse
-from configs.forms import EditAuthorForm
+from profiles.forms import EditProfileForm
 from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model
 from profiles.models import Profile
@@ -10,14 +10,14 @@ from profiles.models import Profile
 User = get_user_model()
 
 
-class ConfigEditUnitTest(TestCase):
+class EditProfileUnitTest(TestCase):
     def test_edit_form_fields_labels(self):
-        form = EditAuthorForm()
+        form = EditProfileForm()
         self.assertEqual(form['date_of_birth'].field.label, _('Date of birth'))
         self.assertEqual(form['gender'].field.label, _('Gender'))
 
 
-class ConfigEditIntegrationTest(DjangoTestCase):
+class EditProfileIntegrationTest(DjangoTestCase):
     def setUp(self):
         self.data = {
             'username':'testuser',
@@ -30,24 +30,24 @@ class ConfigEditIntegrationTest(DjangoTestCase):
         Profile.objects.filter(user=self.user).update(bio='This is a bio')
         self.client.login(username='testuser',password='testpassword')
 
-    def test_edit_author_page_loads_correct_data(self):
-        response = self.client.get(reverse('configs:edit_author'))
+    def test_edit_profile_page_loads_correct_data(self):
+        response = self.client.get(reverse('profiles:edit_profile'))
         self.assertIn('testuser',response.content.decode('utf-8'))
         self.assertIn('This is a bio',response.content.decode('utf-8'))
         self.assertIn('lastuser',response.content.decode('utf-8'))
 
-    def test_edit_author_form_redirects_to_home(self):
-        response = self.client.post(reverse('configs:edit_author'), {
+    def test_edit_profile_form_redirects_to_home(self):
+        response = self.client.post(reverse('profiles:edit_profile'), {
             'username': self.user.username,
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
         })
         self.assertRedirects(response, reverse('publications:home'))
 
-    def test_edit_author_first_name(self):
+    def test_edit_profile_first_name(self):
         needed = 'newfirstname'
 
-        self.client.post(reverse('configs:edit_author'), {
+        self.client.post(reverse('profiles:edit_profile'), {
             'first_name': needed,
             'date_of_birth': self.user.date_of_birth,
         })
@@ -55,8 +55,8 @@ class ConfigEditIntegrationTest(DjangoTestCase):
 
         self.assertEqual(self.user.first_name, needed)
 
-    def test_edit_author_date_of_birth(self):
-        self.client.post(reverse('configs:edit_author'), {
+    def test_edit_profile_date_of_birth(self):
+        self.client.post(reverse('profiles:edit_profile'), {
             'first_name': self.user.first_name,
             'date_of_birth': '2000-01-01'
         })
@@ -64,10 +64,10 @@ class ConfigEditIntegrationTest(DjangoTestCase):
 
         self.assertEqual(self.user.date_of_birth, datetime.date(2000, 1, 1))
 
-    def test_edit_author_last_name(self):
+    def test_edit_profile_last_name(self):
         needed = 'newlastname'
 
-        self.client.post(reverse('configs:edit_author'), {
+        self.client.post(reverse('profiles:edit_profile'), {
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
             'last_name': needed
@@ -76,10 +76,10 @@ class ConfigEditIntegrationTest(DjangoTestCase):
 
         self.assertEqual(self.user.last_name, needed)
 
-    def test_edit_author_bio(self):
+    def test_edit_profile_bio(self):
         needed = 'newbio'
 
-        self.client.post(reverse('configs:edit_author'), {
+        self.client.post(reverse('profiles:edit_profile'), {
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
             'bio': needed
@@ -88,9 +88,9 @@ class ConfigEditIntegrationTest(DjangoTestCase):
 
         self.assertEqual(self.user.profile.bio, needed)
 
-    def test_edit_author_gender(self):
+    def test_edit_profile_gender(self):
         needed = 'M'
-        self.client.post(reverse('configs:edit_author'), {
+        self.client.post(reverse('profiles:edit_profile'), {
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
             'gender': needed
