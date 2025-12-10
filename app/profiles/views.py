@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseForbidden
 from .models import Profile
-from .forms import PublicationForm, EditProfileForm
+from .forms import EditProfileForm
 from publications.models import Publication
 from django.core.paginator import Paginator
 from django.views.generic.edit import FormView
@@ -60,24 +60,3 @@ def profile_detail(request,username):
         'profile':profile,
         'page_obj':page_obj
     })
-
-@login_required()
-def new_publication(request,username):
-    form = PublicationForm()
-
-    return render(request,'profiles/create_publication.html',context={
-        'form':form
-    })
-
-@login_required()
-def new_publication_create(request,username):
-    form = PublicationForm(data=request.POST,files=request.FILES)
-
-    if form.is_valid():
-        publication = form.save(commit=False)
-        publication.author = request.user
-        publication.save()
-
-        return redirect(reverse('profiles:profile',kwargs={'username':username}))
-    
-    return redirect(reverse('profiles:new_publication',kwargs={'username':username}))

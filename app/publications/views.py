@@ -4,12 +4,26 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchRank, SearchVector
 from django.core.paginator import Paginator
 from django.http import Http404, HttpResponseForbidden, JsonResponse
+from django.views.generic import FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from publications.models import Comment, Publication
+from publications.forms import PublicationForm
 
 PER_PAGE = os.getenv('PER_PAGE',7)
+
+class CreatePublicationView(LoginRequiredMixin, FormView):
+    template_name = 'publications/pages/create_publication.html'
+    form_class = PublicationForm
+    success_url = reverse_lazy('publications:home')
+
+    def form_valid(self, form):
+        publication = form.save(commit=False)
+        publication.author = self.request.user
+        publication.save()
+        return super().form_valid(form)
 
 def home(request):
     publications = Publication.objects.all().order_by('-id')

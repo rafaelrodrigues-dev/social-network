@@ -5,7 +5,7 @@
     {% include "global/partials/messages.html" %}
     <div>
         <h2>{% translate "Create Publication" %}</h2>
-        <form action="{% url "profiles:new_publication_create" request.user.username %}" method="POST" enctype="multipart/form-data">
+        <form action="{% url "publications:create-publication" %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{form.text.as_field_group}}
             {{form.img.as_field_group}}
