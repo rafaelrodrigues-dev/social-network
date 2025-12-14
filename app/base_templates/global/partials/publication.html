@@ -21,10 +21,12 @@
             <time class="published" datetime="{{ publication.created_at|timesince }}"> {{ publication.created_at|timesince }} {% translate "ago" %}</time>
             </div>
         </header>
-        <p>{{ publication.text }}</p>
-        {% if publication.img %}
-        <a href="{% url "publications:publication-detail" publication.id %}" class="image featured"><img src="{{ publication.img.url }}" alt="" /></a>
-        {% endif %}
+        <a href="{% url "publications:publication-detail" publication.id %}">
+            <p>{{ publication.text }}</p>
+            {% if publication.img %}
+            <a href="{% url "publications:publication-detail" publication.id %}" class="image featured"><img src="{{ publication.img.url }}" alt="" /></a>
+            {% endif %}
+        </a>
         <footer>
             <ul class="stats">
                 <li><a href="#like" class="icon solid fa-heart" data-id="{{ publication.id }}"></a><span>{{ publication.like.count }}</span></li>

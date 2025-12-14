@@ -46,6 +46,15 @@ def publication_detail(request,pk):
         'is_detail':True,
     })
 
+@login_required
+def delete_publication(request, pk):
+    publication = get_object_or_404(Publication, pk=pk)
+    if request.user == publication.author:
+        publication.delete()
+        return redirect('publications:home')
+    else:
+        return HttpResponseForbidden("You are not allowed to delete this publication.")
+
 def search(request):
     query = request.GET.get('q','')
     results = Publication.objects.annotate(
@@ -96,12 +105,15 @@ def comment(request,pk):
     )
 
     return redirect(reverse('publications:publication-detail',kwargs={'pk':pk}))
+
+def delete_comment(request,pk):
+    if request.method != 'POST':
+        raise Http404()
     
-@login_required
-def delete_publication(request, pk):
-    publication = get_object_or_404(Publication, pk=pk)
-    if request.user == publication.author:
-        publication.delete()
-        return redirect('publications:home')
+    comment = get_object_or_404(Comment,pk=pk)
+    publication_pk = comment.publication.pk
+    if request.user == comment.author or request.user == comment.publication.author:
+        comment.delete()
+        return redirect(reverse('publications:publication-detail',kwargs={'pk':publication_pk}))
     else:
-        return HttpResponseForbidden("You are not allowed to delete this publication.")
+        return HttpResponseForbidden("You are not allowed to delete this comment.")

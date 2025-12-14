@@ -46,14 +46,14 @@
                     <article class="post">
                         <header>
                             <div class="meta">
-                                {% if publication.author.profile.picture %}
-                                    <a href="{% url "profiles:profile" publication.author.username %}" class="author">
-                                    <span class="name">{{ publication.author.get_full_name}}</span>
-                                    <img src="{{ publication.author.profile.picture.url }}" alt="" />
+                                {% if comment.author.profile.picture %}
+                                    <a href="{% url "profiles:profile" comment.author.username %}" class="author">
+                                    <span class="name">{{ comment.author.get_full_name }}</span>
+                                    <img src="{{ comment.author.profile.picture.url }}" alt="" />
                                     </a>
                                 {% else %}
-                                    <a href="{% url "profiles:profile" publication.author.username %}" class="author">
-                                        <span class="name">{{ publication.author.get_full_name}}</span>
+                                    <a href="{% url "profiles:profile" comment.author.username %}" class="author">
+                                        <span class="name">{{ comment.author.get_full_name }}</span>
                                         <img src="{% static "global/img/profile-without-picture.png" %}" alt="" />
                                     </a>
                                 {% endif %}
@@ -61,6 +61,12 @@
                             </div>
                         </header>
                         <p>{{ comment.text }}</p>
+                        {% if request.user == comment.author  or request.user == publication.author%}
+                            <form action="{% url 'publications:delete-comment' comment.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit">{% translate "remove" %}</button>
+                            </form>
+                        {% endif %}
                     </article>
                 {% endfor %}
                 {% if comments.has_next %}
