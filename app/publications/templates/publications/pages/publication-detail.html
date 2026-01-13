@@ -64,7 +64,9 @@
                         {% if request.user == comment.author  or request.user == publication.author%}
                             <form action="{% url 'publications:delete-comment' comment.id %}" method="POST">
                                 {% csrf_token %}
-                                <button type="submit">{% translate "remove" %}</button>
+                                <button type="submit" >
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
                             </form>
                         {% endif %}
                     </article>
