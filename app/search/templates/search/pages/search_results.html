@@ -2,6 +2,8 @@
 {% load i18n %}
 {% block content %}
 <div id="main">
+    {% include "search/partials/search_nav.html" %}
+
     {% if page_obj %}
         <section>
             <p> {% translate "Results for" %} {{ query }}:</p>

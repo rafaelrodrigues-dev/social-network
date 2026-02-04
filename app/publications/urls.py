@@ -11,5 +11,4 @@ urlpatterns = [
     path('p/<int:pk>/like/',views.like,name='like'),
     path('p/<int:pk>/comment/',views.comment,name='comment'),
     path('p/delete-comment/<int:pk>/',views.delete_comment,name='delete-comment'),
-    path('search/',views.search,name='search')
 ]

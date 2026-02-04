@@ -55,24 +55,6 @@ def delete_publication(request, pk):
     else:
         return HttpResponseForbidden("You are not allowed to delete this publication.")
 
-def search(request):
-    query = request.GET.get('q','')
-    results = Publication.objects.annotate(
-        search=SearchVector('text','author__username'),
-        rank=SearchRank(SearchVector('text','author__username'),query)
-    ).filter(search=query).order_by('-rank')
-
-    paginator = Paginator(results,PER_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-    return render(request,'publications/pages/search_results.html',context={
-        'page_obj':page_obj,
-        'query': query,
-        'additional_query':'&q=' + query
-    })
-
-
 @login_required(login_url='authors:login')
 def like(request,pk):
     if request.method != 'POST':

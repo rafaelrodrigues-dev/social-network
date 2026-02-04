@@ -15,7 +15,7 @@ class TestSearch(TestCase):
     def test_search_by_text_publication(self):
         search_term = 'A publication'
         response = self.client.get(
-            reverse('publications:search') + f'?q={search_term}',
+            reverse('search:search') + f'?q={search_term}',
             data={'q':search_term}
         )
         self.assertIn(self.publication,response.context['page_obj'])
@@ -24,7 +24,7 @@ class TestSearch(TestCase):
     def test_search_by_author_publication(self):
         search_term = 'testuser'
         response = self.client.get(
-            reverse('publications:search') + f'?q={search_term}',
+            reverse('search:search') + f'?q={search_term}',
             data={'q':search_term}
         )
         self.assertIn(self.publication,response.context['page_obj'])
