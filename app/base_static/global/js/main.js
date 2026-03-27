@@ -1,95 +1,89 @@
-/*
-	Future Imperfect by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
+// static/js/main.js
 
-(function($) {
+/**
+ * Lógica principal da Interface da Rede Social
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // ==========================================
+    // 1. Inicialização do Dark Mode Adaptativo
+    // ==========================================
+    const applyTheme = () => {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    };
+    // Chama logo ao carregar
+    applyTheme();
 
-	var	$window = $(window),
-		$body = $('body'),
-		$menu = $('#menu'),
-		$sidebar = $('#sidebar'),
-		$main = $('#main');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    }
 
-	// Breakpoints.
-		breakpoints({
-			xlarge:   [ '1281px',  '1680px' ],
-			large:    [ '981px',   '1280px' ],
-			medium:   [ '737px',   '980px'  ],
-			small:    [ '481px',   '736px'  ],
-			xsmall:   [ null,      '480px'  ]
-		});
+    // ==========================================
+    // 2. Micro-interações: Botões de Curtir
+    // ==========================================
+    // Optamos por Event Delegation no body para lidar com novos posts dinâmicos sem reativar eventos
+    document.body.addEventListener('click', function(e) {
+        const btnLike = e.target.closest('.btn-like');
+        if (btnLike) {
+            e.preventDefault();
+            const icon = btnLike.querySelector('svg');
+            
+            const isLiked = btnLike.classList.contains('liked');
+            if (isLiked) {
+                // Remover o curtir
+                btnLike.classList.remove('liked');
+                btnLike.classList.remove('text-red-500');
+                btnLike.classList.add('text-gray-500', 'dark:text-gray-400');
+                if(icon) {
+                    icon.setAttribute('fill', 'none');
+                    icon.classList.remove('animate-like-pop');
+                }
+            } else {
+                // Adicionar o curtir
+                btnLike.classList.add('liked');
+                btnLike.classList.remove('text-gray-500', 'dark:text-gray-400');
+                btnLike.classList.add('text-red-500');
+                if(icon) {
+                    icon.setAttribute('fill', 'currentColor');
+                    // Recomeçar animação forçando reflow
+                    icon.classList.remove('animate-like-pop');
+                    void icon.offsetWidth;
+                    icon.classList.add('animate-like-pop');
+                }
+            }
+        }
 
-	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
-		});
-
-	// Menu.
-		$menu
-			.appendTo($body)
-			.panel({
-				delay: 500,
-				hideOnClick: true,
-				hideOnSwipe: true,
-				resetScroll: true,
-				resetForms: true,
-				side: 'right',
-				target: $body,
-				visibleClass: 'is-menu-visible'
-			});
-
-	// Search (header).
-		var $search = $('#search'),
-			$search_input = $search.find('input');
-
-		$body
-			.on('click', '[href="#search"]', function(event) {
-
-				event.preventDefault();
-
-				// Not visible?
-					if (!$search.hasClass('visible')) {
-
-						// Reset form.
-							$search[0].reset();
-
-						// Show.
-							$search.addClass('visible');
-
-						// Focus input.
-							$search_input.focus();
-
-					}
-
-			});
-
-		$search_input
-			.on('keydown', function(event) {
-
-				if (event.keyCode == 27)
-					$search_input.blur();
-
-			})
-			.on('blur', function() {
-				window.setTimeout(function() {
-					$search.removeClass('visible');
-				}, 100);
-			});
-
-	// Intro.
-		var $intro = $('#intro');
-
-		// Move to main on <=large, back to sidebar on >large.
-			breakpoints.on('<=large', function() {
-				$intro.prependTo($main);
-			});
-
-			breakpoints.on('>large', function() {
-				$intro.prependTo($sidebar);
-			});
-
-})(jQuery);
+    // ==========================================
+    // 3. Sistema de Seguir
+    // ==========================================
+        const btnFollow = e.target.closest('.btn-follow');
+        if (btnFollow) {
+            e.preventDefault();
+            const isFollowing = btnFollow.classList.contains('following');
+            const textSpan = btnFollow.querySelector('span') || btnFollow;
+            
+            if (isFollowing) {
+                // Deixar de seguir
+                btnFollow.classList.remove('following');
+                btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                btnFollow.classList.add('bg-primary', 'text-white');
+                textSpan.textContent = 'Seguir';
+            } else {
+                // Seguir
+                btnFollow.classList.add('following');
+                btnFollow.classList.remove('bg-primary', 'text-white');
+                btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                textSpan.textContent = 'Seguindo';
+            }
+        }
+    });
+});

@@ -1,13 +1,136 @@
-{% extends "global/base.html" %}
-{% load i18n %}
+{% extends 'global/base.html' %}
 {% load static %}
+{% load i18n %}
+
+{% block title %} {% translate 'Main feed' %} - Socialnet{% endblock %}
+
 {% block content %}
-<div id="main">
-    {% for publication in page_obj  %}
-        {% include "global/partials/publication.html" %}
-    {% endfor %}
-    {% include "global/partials/pagination.html" %}
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 w-full max-w-7xl mx-auto px-4 sm:px-0">
+    
+    <!-- Sidebar Esquerda (Navegação Desktop / Sticky) -->
+    <aside class="hidden lg:block lg:col-span-3 sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto hide-scrollbar">
+        <div class="bento-card p-4 bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 shadow-sm space-y-2">
+            
+            <!-- User Mini Profile -->
+            <div class="flex items-center space-x-3 mb-6 p-2 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer btn-micro">
+                <img class="h-12 w-12 rounded-full object-cover shadow-sm bg-gray-200 dark:bg-gray-800 border-2 border-transparent" src="https://ui-avatars.com/api/?name={{ request.user.username|default:'User' }}&background=3B82F6&color=fff" alt="Avatar">
+                <div class="truncate">
+                    <h3 class="font-bold text-[15px] text-gray-900 dark:text-gray-100 truncate">{{ request.user.get_full_name }}</h3>
+                    <p class="text-[13px] text-gray-500 truncate">@{{ request.user.username }}</p>
+                </div>
+            </div>
+
+            <!-- Navegação Secundária -->
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold rounded-xl bg-blue-50/80 dark:bg-blue-900/20 text-primary transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] btn-micro hover-glow">
+                    <svg class="mr-3 h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    Feed Inicial
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors btn-micro">
+                    <svg class="mr-3 h-6 w-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    Conexões
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors btn-micro">
+                    <svg class="mr-3 h-6 w-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                    Salvos
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Content Principal (Feed Focus) -->
+    <!-- Max-width ajustado para ocupar melhor o espaço no desktop. -->
+    <main class="col-span-1 lg:col-span-6 w-full max-w-[600px] xl:max-w-2xl mx-auto">
+        <!-- Input de Novo Post (Estilo Floating/Bento) -->
+        <div class="bento-card bg-white dark:bg-surface border border-gray-100 dark:border-white/5 p-4 mb-8 flex items-center space-x-3 shadow-sm hover-glow transition-shadow cursor-text group relative z-10">
+            <img class="h-10 w-10 flex-shrink-0 rounded-full object-cover shadow-sm bg-gray-200 dark:bg-gray-800" src="https://ui-avatars.com/api/?name={{ request.user.username|default:'U' }}&background=3B82F6&color=fff" alt="Avatar">
+            <input type="text" 
+                   class="flex-1 bg-gray-100/80 dark:bg-gray-800/80 rounded-full px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 transition-colors" 
+                   placeholder="Pensando em algo novo?">
+            <button class="p-2.5 text-white bg-primary hover:bg-blue-600 rounded-full transition-colors btn-micro shadow-md">
+                <svg class="w-5 h-5 translate-x-[-1px] translate-y-[1px]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            </button>
+        </div>
+
+        <!-- Loop de Posts do Django -->
+        <div class="space-y-6" id="feed-container">
+            {% for post in page_obj %}
+                <!-- Include do Post Card (A classe deve definir o post em si) -->
+                {% include 'global/components/post_card.html' %}
+                
+                <!-- Inserir Ad Slot do Google otimizado sem CLS a cada 2 posts falsos (simulação) -->
+                {% if forloop.counter|divisibleby:2 %}
+                    {% include 'global/components/ad_slot.html' %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        <!-- Carregamento Infinito Placeholder -->
+        <div class="flex justify-center py-6 mt-4">
+            <svg class="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </div>
+    </main>
+
+    <!-- Sidebar Direita (Recomendações e AdSense Sticky) -->
+    <aside class="hidden lg:block lg:col-span-3">
+        <div class="sticky top-24 space-y-6">
+            
+            <!-- Sugestões de Seguidores -->
+            <div class="bento-card p-5 bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 shadow-sm">
+                <h3 class="font-bold text-[15px] text-gray-900 dark:text-white mb-5">{% translate "Suggestions for you" %}</h3>
+                <div class="space-y-5">
+                    
+                    <!-- Simulação de View de Usuário Sugerido 1 -->
+                    <div class="flex items-center justify-between group">
+                        <div class="flex items-center space-x-3 cursor-pointer">
+                            <img class="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" src="https://ui-avatars.com/api/?name=Jane+Doe&background=random" alt="Avatar">
+                            <div class="truncate w-32">
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white leading-tight group-hover:underline truncate">Jane Doe</h4>
+                                <p class="text-[12px] text-gray-500 truncate">{% translate "Suggested for you" %}</p>
+                            </div>
+                        </div>
+                        <button class="btn-follow font-semibold text-white bg-primary hover:bg-blue-600 px-4 py-1.5 rounded-full text-xs transition-colors btn-micro shadow-sm">
+                            <span>{% translate "Follow" %}</span>
+                        </button>
+                    </div>
+
+                    <!-- Simulação de View de Usuário Sugerido 2 -->
+                    <div class="flex items-center justify-between group">
+                        <div class="flex items-center space-x-3 cursor-pointer">
+                            <img class="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" src="https://ui-avatars.com/api/?name=Bob+Smith&background=random" alt="Avatar">
+                            <div class="truncate w-32">
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white leading-tight group-hover:underline truncate">Bob Smith</h4>
+                                <p class="text-[12px] text-gray-500 truncate">{% translate "New to socialnet" %}</p>
+                            </div>
+                        </div>
+                        <button class="btn-follow font-semibold text-gray-900 bg-gray-100 hover:bg-gray-200 dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 px-4 py-1.5 rounded-full text-xs transition-colors btn-micro shadow-sm">
+                            <span>{% translate "Follow" %}</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- AdSense Area Fixa Lateral Otimizada p/ Viewability -->
+            <div class="bento-card border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-[#151515] p-4 text-center min-h-[400px] flex flex-col justify-center items-center relative overflow-hidden">
+                <span class="block text-[10px] uppercase text-gray-400 mb-2 font-bold tracking-widest absolute top-4">Patrocinado</span>
+                <span class="text-sm text-gray-500">AdSense Display<br><span class="text-xs">(Vertical Slot)</span></span>
+            </div>
+
+            <!-- Mini Footer (Links AdSense Requisitados) -->
+            <footer class="text-[13px] text-gray-500 flex flex-wrap justify-center gap-x-3 gap-y-1">
+                <a href="#" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'About' %}</a>
+                <a href="#" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Privacy' %}</a>
+                <a href="#" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Contact' %}</a>
+                <div class="w-full text-center mt-1">
+                    <span>© 2025 Socialnet.</span>
+                </div>
+            </footer>
+        </div>
+    </aside>
+
 </div>
-<!-- Sidebar -->
-    {% include "global/partials/sidebar.html" %}
-{% endblock content %}
+{% endblock %}

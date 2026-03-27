@@ -1,0 +1,79 @@
+/* static/css/styles.css */
+
+/* Liquid Glass (Efeito Profundidade e Camadas Translúcidas) */
+.liquid-glass {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dark .liquid-glass {
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-panel {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Micro-interações e Feedback Visual (Tendências 2025) */
+.btn-micro {
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms ease-in-out;
+}
+.btn-micro:active {
+    transform: scale(0.96);
+}
+
+.hover-glow {
+    transition: box-shadow 300ms ease;
+}
+.hover-glow:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+.dark .hover-glow:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+/* Esconder scrollbar mas permitir rolagem (útil para feeds horizontais de stories/perfis) */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none;    /* Firefox */
+}
+
+/* Componentes Genéricos de Bento Grid */
+.bento-card {
+    border-radius: 1.5rem; /* arredondamento mais intenso */
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Ad slots - Prevenção de CLS (Min-height rigoroso para In-feed) */
+.ad-slot-infeed {
+    min-height: 250px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6; /* cinza claro no tema flex */
+    border-radius: 1rem;
+    color: #9ca3af;
+    font-size: 0.875rem;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+.dark .ad-slot-infeed {
+    background-color: #1e1e1e; /* surface dark */
+}
