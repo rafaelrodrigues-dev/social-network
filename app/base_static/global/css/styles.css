@@ -77,3 +77,8 @@
 .dark .ad-slot-infeed {
     background-color: #1e1e1e; /* surface dark */
 }
+
+/* Utilitários Typography Modernos */
+.balance-text {
+    text-wrap: balance;
+}

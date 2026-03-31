@@ -41,7 +41,7 @@
                 <div class="relative ml-2">
                     <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition duration-150 ease-in-out">
                         <!-- Placeholder Dinâmico -->
-                        <img class="h-9 w-9 rounded-full object-cover" src="https://ui-avatars.com/api/?name={{ request.user.username|default:'U' }}&background=3B82F6&color=fff" alt="Perfil do Usuário">
+                        <img class="h-9 w-9 rounded-full object-cover" src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=3B82F6&color=fff" alt="User Avatar">
                     </button>
                 </div>
             </div>
@@ -76,9 +76,9 @@
         
         <!-- Botão central de Post (+) Em destaque -->
         <div class="relative -top-6">
-            <a href="#" class="flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-primary to-secondary rounded-full text-white shadow-lg btn-micro transform border-[5px] border-[#f8fafc] dark:border-[#121212] hover-glow">
+            <button id="mobile-create-post-btn" class="flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-primary to-secondary rounded-full text-white shadow-lg btn-micro transform border-[5px] border-[#f8fafc] dark:border-[#121212] hover-glow focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
-            </a>
+            </button>
         </div>
         
         <a href="#" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors relative">

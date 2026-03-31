@@ -1,0 +1,69 @@
+{% load i18n %}
+<!-- Componente Modal de Criação de Post (Bento & Liquid Glass) -->
+<!-- Deve ser incluído via Django template tags no base.html ou ativado via JS -->
+<div id="create-post-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <!-- Overlay Escuro / Blur -->
+    <div class="absolute inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm transition-opacity" id="modal-overlay"></div>
+    
+    <!-- Modal Container -->
+    <div class="glass-panel w-full max-w-lg mx-4 sm:mx-auto rounded-3xl overflow-hidden shadow-2xl relative z-10 transform scale-95 opacity-0 transition-all duration-300" id="modal-content">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10 bg-white/50 dark:bg-black/20">
+            <h2 class="text-lg font-bold text-gray-900 dark:text-white">{% translate "Create new publication" %}</h2>
+            <button id="close-modal-btn" class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-white focus:outline-none transition-colors rounded-full bg-gray-100 dark:bg-gray-800 btn-micro">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-4 sm:p-6 bg-white/80 dark:bg-surface/90">
+            <form id="create-post-form" class="flex flex-col space-y-4">
+                
+                <!-- Área de Upload 4:5 -->
+                <!-- Utilizando Bento styling para a dropzone -->
+                <div class="relative w-full aspect-[4/5] bg-gray-50 dark:bg-black/40 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center overflow-hidden transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 group cursor-pointer" id="upload-zone">
+                    
+                    <input type="file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-20" accept="image/jpeg,image/png,video/mp4" id="media-input">
+                    
+                    <div class="z-10 flex flex-col items-center text-center px-4" id="upload-placeholder">
+                        <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 text-primary rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"></path></svg>
+                        </div>
+                        <p class="font-semibold text-gray-900 dark:text-gray-100 text-sm">{% translate "Drag photos and videos here" %}</p>
+                        <p class="text-xs text-gray-500 mt-1">{% translate "Optimized for 4:5 vertical aspect ratio." %}</p>
+                    </div>
+
+                    <!-- Preview Imagem -->
+                    <img id="media-preview" class="absolute inset-0 w-full h-full object-cover hidden z-10" alt="Preview da Mídia">
+                </div>
+
+                <!-- Barra de Progresso (Micro-interação) -->
+                <div id="upload-progress" class="hidden w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-2">
+                    <div class="h-full bg-primary w-0 transition-all duration-300" id="progress-bar"></div>
+                </div>
+
+                <!-- Textarea (Legenda) -->
+                <div>
+                    <textarea maxlength="2200" rows="3" class="w-full bg-gray-50 dark:bg-black/40 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-[15px] text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none hide-scrollbar transition-all" placeholder="Type something..." id="caption-input"></textarea>
+                    
+                    <div class="flex justify-between items-center mt-2 px-1">
+                        <!-- Botões extras: Emoji, Tag -->
+                        <div class="flex space-x-2 text-gray-400">
+                            <button type="button" class="hover:text-primary transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></button>
+                            <button type="button" class="hover:text-primary transition-colors focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></button>
+                        </div>
+                        <span class="text-xs font-semibold text-gray-400" id="char-counter">0 / 2200</span>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="button" id="submit-post-btn" class="w-full mt-2 bg-gradient-to-r from-primary to-blue-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 transition-all btn-micro flex justify-center items-center">
+                    <span>{% translate "Share" %}</span>
+                    <!-- Ícone Sucesso (escondido inicialmente) -->
+                    <svg id="success-icon" class="w-5 h-5 ml-2 hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

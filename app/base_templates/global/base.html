@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Rede Social com Foco em Performance e AdSense em Django.">
+    <meta name="description" content="Socialnet is a platform for you to meet new people and interact with them through posts">
     <meta name="csrf-token" content="{{ csrf_token }}">
     <!-- Meta tags focado em Web Vitals e Performance -->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -77,12 +77,15 @@
 
     <!-- Bottom Navbar Dinâmica (Mobile) - Será Inclusa na mesma Navbar mas fica no DOM -->
 
+    <!-- Modal de Criação Global -->
+    {% include 'global/components/create_post_modal.html' %}
+
     <!-- Lógica de Frontend Principal (Atrasamos o máximo possível para priorizar o LCP/DCL) -->
+    <script src="{% static 'global/js/main.js' %}" defer></script>
 
     <!-- Blocos específicos de Scripts das páginas -->
     {% block javascript %}
     {% endblock %}
-    <script src="{% static 'global/js/main.js' %}" defer></script>
     <script>
         if (typeof navigator.serviceWorker !== 'undefined') {
             navigator.serviceWorker.register('{% static "global/js/sw.js" %}')
