@@ -28,9 +28,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. Micro-interações: Botões de Curtir
+    // 2. "Ler Mais / Ver Menos" – INP < 200ms
     // ==========================================
-    // Optamos por Event Delegation no body para lidar com novos posts dinâmicos sem reativar eventos
+    // Event delegation: um único listener gerencia todos os botões,
+    // inclusive os adicionados dinamicamente via infinite scroll.
+    document.body.addEventListener('click', function(e) {
+        const btnReadMore = e.target.closest('.btn-read-more');
+        if (btnReadMore) {
+            e.preventDefault();
+            const expandable = btnReadMore.closest('.post-text-expandable');
+            if (!expandable) return;
+
+            const preview  = expandable.querySelector('.post-text-preview');
+            const fullText = expandable.querySelector('.post-text-full');
+            const isExpanded = btnReadMore.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                // Recolher
+                preview.classList.remove('hidden');
+                preview.removeAttribute('aria-hidden');
+                fullText.classList.add('hidden');
+                fullText.setAttribute('aria-hidden', 'true');
+                btnReadMore.setAttribute('aria-expanded', 'false');
+                btnReadMore.querySelector('span') && (btnReadMore.querySelector('span').textContent = 'Ler mais');
+                // Fallback para quando o texto do botão é nó de texto direto
+                if (!btnReadMore.querySelector('span')) {
+                    btnReadMore.childNodes[0].textContent = 'View more';
+                }
+            } else {
+                // Expandir
+                preview.classList.add('hidden');
+                preview.setAttribute('aria-hidden', 'true');
+                fullText.classList.remove('hidden');
+                fullText.removeAttribute('aria-hidden');
+                btnReadMore.setAttribute('aria-expanded', 'true');
+                if (!btnReadMore.querySelector('span')) {
+                    btnReadMore.childNodes[0].textContent = 'View less';
+                }
+            }
+            return; // Encerra a propagação lógica (não o DOM event)
+        }
+    });
+
+    // ==========================================
+    // 3. Micro-interações: Botões de Curtir
+    // ==========================================
+    // Event delegation no body para lidar com novos posts dinâmicos sem reativar eventos
     document.body.addEventListener('click', function(e) {
         const btnLike = e.target.closest('.btn-like');
         if (btnLike) {
@@ -76,13 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnFollow.classList.remove('following');
                 btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
                 btnFollow.classList.add('bg-primary', 'text-white');
-                textSpan.textContent = 'Seguir';
+                textSpan.textContent = 'Follow';
             } else {
                 // Seguir
                 btnFollow.classList.add('following');
                 btnFollow.classList.remove('bg-primary', 'text-white');
                 btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
-                textSpan.textContent = 'Seguindo';
+                textSpan.textContent = 'Following';
             }
         }
     });

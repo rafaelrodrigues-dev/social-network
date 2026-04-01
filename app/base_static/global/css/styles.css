@@ -1,6 +1,8 @@
 /* static/css/styles.css */
 
-/* Liquid Glass (Efeito Profundidade e Camadas Translúcidas) */
+/* ================================================================
+   LIQUID GLASS — Efeito Profundidade e Camadas Translúcidas
+   ================================================================ */
 .liquid-glass {
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
@@ -26,10 +28,14 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
-/* Micro-interações e Feedback Visual (Tendências 2025) */
+/* ================================================================
+   MICRO-INTERAÇÕES E FEEDBACK VISUAL (Tendências 2025)
+   ================================================================ */
 .btn-micro {
-    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms ease-in-out;
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 150ms ease-in-out;
 }
+
 .btn-micro:active {
     transform: scale(0.96);
 }
@@ -37,48 +43,243 @@
 .hover-glow {
     transition: box-shadow 300ms ease;
 }
+
 .hover-glow:hover {
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
 }
+
 .dark .hover-glow:hover {
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
 }
 
-/* Esconder scrollbar mas permitir rolagem (útil para feeds horizontais de stories/perfis) */
+/* ================================================================
+   HIDE SCROLLBAR (feeds horizontais, listas de comentários)
+   ================================================================ */
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
 .hide-scrollbar {
-    -ms-overflow-style: none; /* IE e Edge */
-    scrollbar-width: none;    /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* Componentes Genéricos de Bento Grid */
+/* ================================================================
+   BENTO CARD — Base de todos os blocos do grid modular
+   ================================================================ */
 .bento-card {
-    border-radius: 1.5rem; /* arredondamento mais intenso */
+    border-radius: 1.5rem;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Ad slots - Prevenção de CLS (Min-height rigoroso para In-feed) */
+/* ================================================================
+   POST DE TEXTO PURO — height:auto, sem restrições fixas
+   Garante que cards de texto se expandam pelo conteúdo (Feed)
+   ================================================================ */
+.post-text-body {
+    /* height e min-height = auto: eliminam o "buraco preto" abaixo
+       do texto em posts somente-texto no feed */
+    height: auto;
+    min-height: unset;
+    position: relative;
+    /* Tipografia fluida para leitura de textos longos */
+    line-height: 1.75;
+}
+
+/* ================================================================
+   POST DETAIL — Bloco de texto somente (post_detail.html)
+   Contrai organicamente com o conteúdo, sem vácuo preto.
+   ================================================================ */
+.post-detail-text-body {
+    height: auto;
+    min-height: unset;
+    position: relative;
+    /* Padding mínimo para respiração visual */
+    padding-bottom: 0;
+}
+
+/* ================================================================
+   FUNCIONALIDADE "LER MAIS" / "VER MENOS"
+   Animação suave com max-height; INP < 200ms (sem reflow pesado)
+   ================================================================ */
+.post-text-full {
+    /* Transição suave ao expandir */
+    animation: textReveal 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes textReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Botão "Ler mais" / "Ver menos" */
+.btn-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(59, 130, 246, 0.85);
+    transition: color 150ms ease;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-read-more:hover {
+    color: rgb(59, 130, 246);
+}
+
+/* Ícone rotaciona quando expandido */
+.btn-read-more[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+}
+
+/* ================================================================
+   AD SLOTS — Prevenção de CLS e colapso elegante
+   ================================================================ */
+
+/* In-feed (Feed + Post Detail): sem anúncio real, colapsa para 0 */
 .ad-slot-infeed {
+    /* Reserva espaço APENAS quando o AdSense for injetado (.has-ad) */
+    min-height: 0;
+    width: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+    /* Placeholder visível em dev */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+    color: #9ca3af;
+    font-size: 0.875rem;
+    transition: min-height 0.3s ease;
+}
+
+/* Quando o AdSense real é injetado: adicione .has-ad ao elemento */
+.ad-slot-infeed.has-ad {
+    min-height: 250px;
+}
+
+/* Sem anúncio: placeholder ocupa espaço mínimo, sem "buraco" */
+.ad-slot-infeed:not(.has-ad) .ad-slot-placeholder {
+    padding: 1rem;
+}
+
+.dark .ad-slot-infeed {
+    background-color: #1e1e1e;
+}
+
+/* Ad Slot no Post Detail (sidebar) — min-height 250px como CLS guard */
+.ad-slot-detail {
     min-height: 250px;
     width: 100%;
+    border-radius: 1.5rem;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f3f4f6; /* cinza claro no tema flex */
-    border-radius: 1rem;
-    color: #9ca3af;
-    font-size: 0.875rem;
-    margin: 1rem 0;
-    overflow: hidden;
-}
-.dark .ad-slot-infeed {
-    background-color: #1e1e1e; /* surface dark */
+    transition: min-height 0.3s ease;
 }
 
-/* Utilitários Typography Modernos */
+/* Colapso elegante quando placeholder sem anúncio real */
+.ad-slot-detail:not(.has-ad) {
+    /* Mantém espaço mínimo para não criar "poço preto" na sidebar,
+       mas menor que o guard do CLS (usado apenas em dev/placeholder) */
+    min-height: 80px;
+}
+
+.ad-slot-detail.has-ad {
+    min-height: 250px;
+}
+
+/* ================================================================
+   UTILITÁRIOS TYPOGRÁFICOS
+   ================================================================ */
 .balance-text {
     text-wrap: balance;
+}
+
+/* Tipografia adaptativa para leitura de textos longos */
+.post-text-body p,
+.post-detail-text-body p {
+    line-height: 1.75;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* ================================================================
+   SKELETON SCREENS (INP / CLS Optimization)
+   ================================================================ */
+.skeleton {
+    background-color: #e2e8f0;
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.4) 20%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 0.5rem;
+}
+
+.dark .skeleton {
+    background-color: rgb(31, 41, 55);
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.05) 20%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+@keyframes shimmer {
+    0%   { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+.skeleton-text {
+    height: 14px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.skeleton-text:last-child {
+    width: 80%;
+}
+
+.skeleton-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+}
+
+.skeleton-wrapper {
+    display: none; /* Inativo por padrão; o JS controla a exibição */
+}
+
+/* ================================================================
+   ANIMAÇÕES AUXILIARES
+   ================================================================ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease both;
 }
