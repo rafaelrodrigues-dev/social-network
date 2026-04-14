@@ -264,4 +264,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ==========================================
+    // 5. Pinned Moments (Fixar Post)
+    // ==========================================
+    document.body.addEventListener('click', function(e) {
+        const btnPin = e.target.closest('.btn-pin');
+        if (btnPin) {
+            e.preventDefault();
+            btnPin.classList.toggle('text-primary');
+            btnPin.classList.toggle('bg-white/50');
+            // Background opcional se tiver hover customizado
+            btnPin.classList.toggle('bg-primary/20');
+            
+            // Micro-interação visual (Scale e CSS Animation)
+            btnPin.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                btnPin.style.transform = 'scale(1)';
+            }, 150);
+        }
+    });
+
 });

@@ -1,45 +1,225 @@
-{% extends "global/base.html" %}
+{% extends 'global/base.html' %}
 {% load static %}
 {% load i18n %}
-{% block content %}
-<div id="main">
-    <div class="profile-container">
-        <div class="profile-header">
-            {% if profile.picture %}
-                <img src="{{ profile.picture.url }}" alt="Avatar" class="avatar">
-            {% else %}
-            <img src="{% static "global/img/profile-without-picture.png" %}" alt="Avater" class="avatar">
-            {% endif %}
 
-            <p>@{{ profile.user.username }}</p>
-            <h1>{{ profile.user.get_full_name }}</h1>
-            <i>{{ profile.bio }}</i>
-        </div> 
-        <div class="stats">
-            <div>
-                <span>{{ profile.followers.count }}</span>
-                <p>{% translate "Followers" %} </p>
+{% block title %} {{ profile.user.username }}'s profile - Socialnet{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 lg:gap-8 px-2 sm:px-4 lg:px-0">
+    
+    <!-- MAIN CONTENT COLUMN -->
+    <div class="w-full flex flex-col min-w-0 pb-24 lg:pb-12">
+        <!-- Profile Header (Bento Style) -->
+        <div class="bento-card bg-white dark:bg-surface border border-gray-100 dark:border-white/5 overflow-hidden mb-8 relative shadow-md">
+            
+            <!-- Capa do Perfil -->
+            <div class="h-48 sm:h-64 w-full bg-gradient-to-tr from-primary via-blue-500 to-purple-600 relative overflow-hidden">
+                <div class="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
+                <!-- Remove loading lazy para o LCP se colocar img background -->
+                <button class="absolute top-4 right-4 liquid-glass p-2.5 rounded-full text-white hover:bg-white/30 transition-colors cursor-pointer btn-micro shadow-lg z-10 border border-white/20">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </button>
             </div>
-            <div>
-                <span>{{ profile.follow.count }}</span>
-                <p>{% translate "Following" %}</p>
+
+            <!-- Informações do Perfil (Com overlap na capa) -->
+            <div class="px-5 sm:px-10 pb-8 relative -top-16 z-20">
+                <div class="flex flex-col sm:flex-row items-center sm:items-end sm:justify-between mb-4">
+                    
+                    <!-- Avatar e Nomes -->
+                    <div class="flex flex-col items-center sm:items-start group relative">
+                        <div class="relative inline-block liquid-glass rounded-full p-1.5 focus-ring">
+                            {% if profile.picture %}
+                            <img class="h-32 w-32 sm:h-36 sm:w-36 rounded-full object-cover border-[4px] border-white dark:border-surface shadow-xl bg-gray-200 dark:bg-gray-800" 
+                                 src="{{ profile.picture.url }}"
+                                 alt="Avatar" width="144" height="144">
+                            {% else %}
+                            <img class="h-32 w-32 sm:h-36 sm:w-36 rounded-full object-cover border-[4px] border-white dark:border-surface shadow-xl bg-gray-200 dark:bg-gray-800" 
+                                 src="https://ui-avatars.com/api/?name={{ profile.user.username }}&background=0D8ABC&color=fff&size=256"
+                                 alt="Avatar" width="144" height="144">
+                            {% endif %}
+                            <!-- Círculo de status ativo -->
+                            <span class="absolute bottom-4 right-4 block h-5 w-5 rounded-full bg-green-500 ring-4 ring-white dark:ring-surface"></span>
+                        </div>
+                        
+                        <div class="mt-4 text-center sm:text-left flex flex-col items-center sm:items-start">
+                            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
+                                {{ profile.user.get_full_name }}
+                                <svg class="w-6 h-6 text-blue-500 drop-shadow-sm" fill="currentColor" viewBox="0 0 24 24" title="Verificado"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            </h1>
+                            <p class="text-[15px] font-medium text-gray-500 dark:text-gray-400">@{{ profile.user.username }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Botões de Ação Dinâmicos -->
+                    <div class="mt-6 sm:mt-0 flex space-x-3 w-full sm:w-auto px-4 sm:px-0">
+                        {% if request.user == profile.user %}
+                            <a href="{% url "profiles:edit_profile" %}" class="flex-1 sm:flex-none px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-semibold rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition btn-micro shadow-sm border border-gray-200 dark:border-white/10 text-sm">
+                                {% translate "Edit Profile" %}
+                            </a>
+                        {% else %}
+                            <button class="btn-follow flex-1 sm:flex-none px-8 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-blue-600 transition shadow-md hover:shadow-lg btn-micro text-sm focus-ring">
+                                <span>{% translate "Follow" %}</span>
+                            </button>
+                            <button class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition btn-micro shadow-sm border border-gray-200 dark:border-white/10 focus-ring">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Biografia e Informações Adicionais -->
+                <div class="max-w-2xl px-2 sm:px-0 text-center sm:text-left">
+                    <p class="text-[15px] text-gray-800 dark:text-gray-200 leading-relaxed font-normal">
+                        {{ profile.bio }}
+                    </p>
+                    
+                    <!-- Tags de Interesse (Nova Funcionalidade 2025) -->
+                    <div class="mt-4 flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                        <span class="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-semibold shadow-sm border border-blue-100 dark:border-blue-800">#Tech</span>
+                        <span class="px-3 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-xs font-semibold shadow-sm border border-purple-100 dark:border-purple-800">#Django</span>
+                        <span class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs font-semibold shadow-sm border border-green-100 dark:border-green-800">#Design</span>
+                    </div>
+
+                    <div class="mt-4 flex flex-wrap items-center justify-center sm:justify-start gap-4 text-[13px] font-medium text-gray-500 dark:text-gray-400">
+                        <span class="flex items-center">
+                            <svg class="mr-1.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            São Paulo, Brasil
+                        </span>
+                        <a href="#" class="flex items-center hover:text-primary transition-colors hover:underline">
+                            <svg class="mr-1.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                            meusite.com.br
+                        </a>
+                        <span class="flex items-center">
+                            <svg class="mr-1.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            {{ profile.user.date_joined|date:"F Y" }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Stats (Mantidos no perfil a pedido do usuário) -->
+                <div class="mt-8 flex justify-center sm:justify-start gap-8 sm:gap-12 border-t border-gray-100 dark:border-white/10 pt-6 px-2 sm:px-0">
+                    <div class="text-center sm:text-left cursor-pointer group">
+                        <span class="block font-extrabold text-xl text-gray-900 dark:text-white group-hover:text-primary transition-colors">{{ profile.user.publications.count }}</span>
+                        <span class="text-xs text-gray-500 font-medium">Posts</span>
+                    </div>
+                    <div class="text-center sm:text-left cursor-pointer group">
+                        <span class="block font-extrabold text-xl text-gray-900 dark:text-white group-hover:text-primary transition-colors">{{ profile.followers.count }}</span>
+                        <span class="text-xs text-gray-500 font-medium">{% translate "Followers" %}</span>
+                    </div>
+                    <div class="text-center sm:text-left cursor-pointer group">
+                        <span class="block font-extrabold text-xl text-gray-900 dark:text-white group-hover:text-primary transition-colors">{{ profile.follow.count }}</span>
+                        <span class="text-xs text-gray-500 font-medium">{% translate "Following" %}</span>
+                    </div>
+                </div>
             </div>
         </div>
-        {% if not request.user.profile == profile %}
-        <form action="{% url "profiles:follow" profile.user.username %}" method="post">
-            {% csrf_token %}
-            {% if request.user.profile in profile.followers.all %}
-                <button >{% translate "unfollow" %}</button>
-            {% else %}
-                <button>{% translate "follow" %}</button>
-            {% endif %}
-        </form>
-        {% endif %}
+
+        <!-- Navegação de Abas (Sticky) -->
+        <div class="flex justify-around sm:justify-center sm:gap-16 border-b border-gray-200 dark:border-white/10 mb-8 w-full sticky top-[60px] lg:top-[70px] bg-gray-50/95 dark:bg-[#121212]/95 backdrop-blur-md z-30 pt-2">
+            <button class="pb-4 px-2 text-sm font-semibold border-b-2 border-primary text-gray-900 dark:text-white focus:outline-none flex items-center transition-colors">
+                <svg class="w-5 h-5 sm:mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                <span class="hidden sm:inline">Posts</span>
+            </button>
+            <button class="pb-4 px-2 text-sm font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 focus:outline-none flex items-center transition-colors">
+                <svg class="w-5 h-5 sm:mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                <span class="hidden sm:inline">{% translate "Saved" %}</span>
+            </button>
+        </div>
+
+        <!-- BENTO GRID SYSTEM -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 lg:gap-6 w-full grid-flow-row-dense">
+            {% for publication in profile.user.publications.all %}
+                {% if forloop.counter == 1 %}
+                <!-- Pinned Moment / Highlight Post (Ocupa espaço duplo) -->
+                <div class="col-span-2 row-span-2 group relative bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg hover:-translate-y-1 bento-card aspect-auto h-full">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" 
+                         src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&h=800&fit=crop" 
+                         alt="Pined post" loading="lazy" width="800" height="800" decoding="async">
+
+                    <!-- Pinned Badge -->
+                    <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md rounded-full px-3 py-1 flex items-center text-xs text-white font-bold border border-white/20">
+                        <svg class="w-3.5 h-3.5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"/></svg>
+                        {% translate "Pined" %}
+                    </div>
+
+                    <!-- Pin Interaction Button -->
+                    <button class="btn-pin absolute top-3 right-3 text-white/80 hover:text-white p-2 rounded-full focus:outline-none transition-transform btn-micro hover:bg-black/30" aria-label="Unpin post" title="Unpin">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.888-1.682 1.146l.892 2.674a.5.5 0 0 1-.16.54c-1.336 1.054-2.22 1.41-3.132 1.41-.608 0-1.168-.146-1.636-.34L4.852 16.51a.5.5 0 0 1-.704 0l-3.39-3.39a.5.5 0 0 1 0-.704l4.558-4.558a5.525 5.525 0 0 1-.34-1.636c0-.911.357-1.795 1.41-3.131a.5.5 0 0 1 .54-.16l2.673.892c.258-.61.666-1.202 1.147-1.682a.5.5 0 0 1 .707 0Z"/></svg>
+                    </button>
+                </div>
+                {% elif forloop.counter == 6 %}
+                    <!-- AdSlot Fluid InFeed -->
+                    <!-- Densidade abaixo de 30% e com Fluid CSS setup (sem colapso abrupto se o ad atrasar) -->
+                    <div class="col-span-2 md:col-span-3 my-2">
+                        <div class="ad-slot-infeed rounded-2xl border border-gray-100 dark:border-white/5 flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-black/20">
+                            <!-- Label obrigatória de anúncio -->
+                            <span class="text-[10px] text-gray-400 uppercase tracking-widest font-semibold flex items-center gap-2 mb-2">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Promovido
+                            </span>
+                            <!-- Placeholder Adsense InFeed Fluid -->
+                            <div class="w-full text-center text-sm text-gray-400 h-24 lg:h-32 flex items-center justify-center dashed border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-100/50 dark:bg-gray-800/50">
+                                [AdSense In-Feed Ad Slot Fluid]
+                            </div>
+                        </div>
+                    </div>
+                {% elif publication.img %}
+                    <a href="{% url "publications:publication-detail" publication.id %}" class="group relative aspect-square bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md bento-card">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" 
+                             src="{{ publication.img.url }}" 
+                             alt="Post image" loading="lazy" width="400" height="400" decoding="async">
+
+                        <!-- Overlay via Liquid Glass -->
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-6 text-white text-sm font-bold backdrop-blur-[2px]">
+                            <span class="flex items-center drop-shadow-md">
+                                <svg class="w-6 h-6 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+                                {{ publication.like.count }}
+                            </span>
+                        </div>
+
+                        <!-- Pin Button Overlay (opcional para fixar novos) -->
+                        <button class="btn-pin absolute top-2 right-2 text-white/50 hover:text-white opacity-0 group-hover:opacity-100 p-2 rounded-full focus:outline-none transition-all btn-micro" title="Pin Post">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+                        </button>
+                    </a>
+                {% else %}
+                    <div class="col-span-2 md:col-span-1 group bg-[#f7f5f2] dark:bg-[#1f1e1c] rounded-2xl p-5 cursor-pointer shadow-sm hover:shadow-md transition-shadow bento-card bento-card-pure-text border border-gray-200 dark:border-white/5 flex flex-col justify-between aspect-square">
+                        <div class="post-text-body">
+                            <p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-relaxed line-clamp-5">
+                                {{ publication.text }} 
+                            </p>
+                        </div>
+                        <a href="{% url "publications:publication-detail" publication.id %}" class="flex items-center text-xs text-gray-500 font-semibold mt-4">
+                            {% translate "See more" %} <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+        </div>
     </div>
-    {% for publication in page_obj %}
-            {% include "global/partials/publication.html" %}
-        {% endfor %}
-    {% include "global/partials/pagination.html" %}
+    
+    <!-- SIDEBAR PUSHES TO SIDE (Desktop Only) -->
+    <div class="hidden lg:flex w-full sticky top-[95px] h-[calc(100vh-100px)] flex-col gap-6 hide-scrollbar overflow-y-auto pb-8">
+        <!-- Ad Slot Sidebar Rail (Sticky CLS guard) -->
+        <div class="ad-slot-detail border border-gray-100 dark:border-white/5 rounded-2xl overflow-hidden relative shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-surface">
+            <!-- Label Ad -->
+            <span class="absolute top-2 left-3 text-[10px] text-gray-400 uppercase font-semibold z-10 px-2 py-0.5 bg-white/80 dark:bg-black/50 rounded-full backdrop-blur-sm">
+                Ad
+            </span>
+            <!-- Dimensões 300x250 ou Vertical Mínima asseguradas pelo styles.css .ad-slot-detail -->
+            <div class="w-[300px] h-[250px] mx-auto bg-gray-50 dark:bg-gray-800/50 flex flex-col items-center justify-center text-gray-400 text-xs text-center border-2 border-dashed border-gray-200 dark:border-gray-700 m-2 rounded-xl">
+                <span>[300x250 Sidebar Rail Ad]</span>
+                <span class="text-[10px] mt-1 opacity-70">Dimensão Mínima Reservada</span>
+            </div>
+        </div>
+        
+    </div>
+
 </div>
-{% include "global/partials/sidebar.html" %}
-{% endblock content %}
+
+<!-- Injetar Scripts da Página -->
+{% block javascript %}
+{% endblock %}
+
+{% endblock %}

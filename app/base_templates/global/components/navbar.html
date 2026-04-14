@@ -39,10 +39,14 @@
                     <span class="absolute top-1.5 right-1.5 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-900"></span>
                 </a>
                 <div class="relative ml-2">
-                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition duration-150 ease-in-out">
+                    <a href="{% url "profiles:profile" request.user.username %}" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition duration-150 ease-in-out">
                         <!-- Placeholder Dinâmico -->
+                        {% if request.user.profile.picture %}
+                        <img class="h-9 w-9 rounded-full object-cover" src="{{ request.user.profile.picture.url }}" alt="User Avatar">
+                        {% else %}
                         <img class="h-9 w-9 rounded-full object-cover" src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=3B82F6&color=fff" alt="User Avatar">
-                    </button>
+                        {% endif %}
+                    </a>
                 </div>
             </div>
             
@@ -86,8 +90,12 @@
             <span class="absolute top-2 right-4 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#121212]"></span>
             <span class="text-[10px] font-medium">{% translate 'Alerts' %}</span>
         </a>
-        <a href="#" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors">
-            <img class="h-6 w-6 rounded-full object-cover mb-1 border border-transparent dark:border-gray-700" src="https://ui-avatars.com/api/?name={{ request.user.username|default:'U' }}&background=3B82F6&color=fff" alt="Perfil do Usuário">
+        <a href="{% url "profiles:profile" request.user.username %}" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors">
+            {% if request.user.profile.picture %}
+            <img class="h-6 w-6 rounded-full object-cover mb-1 border border-transparent dark:border-gray-700" src="{{ request.user.profile.picture.url }}" alt="User Profile Picture">
+            {% else %}
+            <img class="h-6 w-6 rounded-full object-cover mb-1 border border-transparent dark:border-gray-700" src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=3B82F6&color=fff" alt="User Profile Picture">
+            {% endif %}
             <span class="text-[10px] font-medium">{% translate 'Profile' %}</span>
         </a>
     </div>
