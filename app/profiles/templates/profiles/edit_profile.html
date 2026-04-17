@@ -1,22 +1,391 @@
-{% extends "global/base.html" %}
+{% extends 'global/base.html' %}
+{% load static %}
 {% load i18n %}
+
+{% block title %}{% translate "Edit Profile" %} - Socialnet{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* CSS Animations & Adaptive Theme Variables */
+    :root {
+        --glass-bg-light: rgba(255, 255, 255, 0.7);
+        --glass-bg-dark: rgba(18, 18, 18, 0.5);
+        --glass-border-light: rgba(255, 255, 255, 0.5);
+        --glass-border-dark: rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-card {
+        background: var(--glass-bg-light);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border-light);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    }
+    .dark .glass-card {
+        background: var(--glass-bg-dark);
+        border-color: var(--glass-border-dark);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Input Micro-interactions */
+    .input-micro {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .input-micro:focus {
+        transform: scale(1.01);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Button Loading state */
+    .btn-loading {
+        position: relative;
+        color: transparent !important;
+        pointer-events: none;
+    }
+    .btn-loading::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: calc(50% - 10px);
+        left: calc(50% - 10px);
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 0.8s ease-in-out infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Toggle Switch Custom */
+    .toggle-checkbox:checked {
+        right: 0;
+        border-color: #10B981;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+        background-color: #10B981;
+    }
+    .toggle-checkbox {
+        right: 0;
+        z-index: 1;
+        border-color: #e5e7eb;
+        transition: all 0.3s ease;
+    }
+    .dark .toggle-checkbox {
+        border-color: #4b5563;
+    }
+    .toggle-label {
+        width: 52px;
+        height: 28px;
+        background-color: #e5e7eb;
+        border-radius: 9999px;
+        transition: all 0.3s ease;
+    }
+    .dark .toggle-label {
+        background-color: #374151;
+    }
+
+    /* Tooltip */
+    .tooltip .tooltip-text {
+        visibility: hidden;
+        width: 260px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 8px;
+        padding: 8px 12px;
+        position: absolute;
+        z-index: 50;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -130px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 0.75rem;
+        font-weight: normal;
+        pointer-events: none;
+    }
+    .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div id="main">
-{% include "global/partials/messages.html" %}
-    <h2>{% translate "Edit Profile" %}</h2>
-    <form action="{% url 'profiles:edit_profile' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% if request.user.profile.picture %}
-            <img src="{{ request.user.profile.picture.url}}" alt="" class="avatar">
-        {% endif %}
-        {{ form.picture.as_field_group }}
-        <h2>{{ request.user.username }}</h2>
-        {{ form.first_name.as_field_group }}
-        {{ form.last_name.as_field_group }}
-        {{ form.bio.as_field_group }}
-        {{ form.date_of_birth.as_field_group }}
-        {{ form.gender.as_field_group }}
-        <button type="submit">{% translate "Send" %}</button>
-    </form>
+<div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Breadcrumb & Header LCP Optimizated -->
+    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <a href="javascript:history.back()" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-white transition-colors mb-2">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                {% translate "Back" %}
+            </a>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">{% translate "Edit Profile" %}</h1>
+        </div>
+        <div>
+            <button type="button" id="saveBtnTop" class="px-6 py-2.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-center">
+                {% translate "Save changes" %}
+            </button>
+        </div>
+    </div>
+
+    <!-- Layout Grid Modular: Form & Sidebar -->
+    <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- Main Form (Bento Grid) -->
+        <div class="flex-1">
+            <form id="profileForm" action="{% url "profiles:edit_profile" %}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% csrf_token %}
+                
+                <!-- Media Upload Bento Card (Cover & Avatar) -->
+                <div class="glass-card rounded-3xl p-1 md:col-span-2 overflow-hidden flex flex-col relative group">
+                    <!-- Cover Image Placeholder (Fixed Aspect Ratio for CLS) -->
+                    <div class="relative w-full aspect-[3/1] sm:aspect-[4/1] bg-gray-200 dark:bg-gray-800 rounded-t-2xl overflow-hidden cursor-pointer group/cover" onclick="document.getElementById('cover_image').click()">
+                        <img id="coverPreview" src="" alt="Thumb" class="w-full h-full object-cover hidden" loading="lazy" decoding="async">
+                        <div id="coverPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500 hover:bg-black/10 dark:hover:bg-black/30 transition-colors">
+                            <svg class="w-8 h-8 mb-2 group-hover/cover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span class="text-sm font-semibold">{% translate "Change thumb" %}</span>
+                        </div>
+                        <input type="file" id="cover_image" name="cover_image" class="hidden" accept="image/*">
+                    </div>
+
+                    <!-- Avatar Image Placeholder -->
+                    <div class="relative flex justify-center -mt-12 sm:-mt-16 mb-4 px-6 z-10">
+                        <div class="relative cursor-pointer group/avatar" onclick="document.getElementById('picture').click()">
+                            <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white dark:border-[#121212] bg-gray-100 dark:bg-gray-800 shadow-xl overflow-hidden relative">
+                                {% if request.user.profile.picture %}
+                                <img id="picturePreview" src="{{ request.user.profile.picture.url }}" alt="Avatar" class="w-full h-full object-cover" loading="lazy" decoding="async" width="128" height="128">
+                                {% else %}
+                                <img id="picturePreview" src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=3B82F6&color=fff&size=256" alt="Avatar" class="w-full h-full object-cover" loading="lazy" decoding="async" width="128" height="128">
+                                {% endif %}
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
+                                </div>
+                            </div>
+                            <!-- Badge de Câmera (Fixo) -->
+                            <div class="absolute bottom-0 right-0 p-1.5 sm:p-2 bg-blue-500 rounded-full border-2 border-white dark:border-[#121212] shadow-sm transform group-hover/avatar:scale-110 transition-transform">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                            </div>
+                            <input type="file" id="picture" name="picture" class="hidden" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Identity Group (Bento Card) -->
+                <div class="glass-card rounded-3xl p-6 md:col-span-1 border-t-4 border-t-blue-500 hover:-translate-y-1 transition-transform duration-300 group">
+                    <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 group-hover:text-blue-500 transition-colors">{% translate "ID" %}</h3>
+                    <div class="space-y-4 flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <label for="first_name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{{ form.first_name.label }}</label>
+                            <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value }}" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 placeholder-gray-400">
+                            
+                        </div>
+                        <div class="flex-1">
+                            <label for="last_name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{{ form.last_name.label }}</label>
+                            <input type="text" id="last_name" name="last_name" value="{{ form.last_name.value }}" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 placeholder-gray-400">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Group (Bento Card) -->
+                <div class="glass-card rounded-3xl p-6 md:col-span-1 border-t-4 border-t-purple-500 hover:-translate-y-1 transition-transform duration-300 group">
+                    <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 tooltip inline-flex items-center cursor-help group-hover:text-purple-500 transition-colors">
+                        {% translate "Personal Data" %}
+                        <svg class="w-4 h-4 ml-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="tooltip-text">{% translate "You must be at least 18 years old." %}</span>
+                    </h3>
+                    <div class="space-y-4 flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <label for="gender" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{{ form.gender.label }}</label>
+                            <select id="gender" name="gender" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 cursor-pointer appearance-none">
+                                <option value="" disabled selected>{% translate "Select" %}</option>
+                                <option value="M"{% if form.gender.value == 'M' %} selected{% endif %}>{% translate "Male" %}</option>
+                                <option value="F"{% if form.gender.value == 'F' %} selected{% endif %}>{% translate "Female" %}</option>
+                                <option value="S"{% if form.gender.value == 'S' %} selected{% endif %}>{% translate "Search me" %}</option>
+                                <option value="O"{% if form.gender.value == 'O' %} selected{% endif %}>{% translate "Other" %}</option>
+                            </select>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <label for="date_of_birth" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{{ form.date_of_birth.label }} (18+)</label>
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-purple-500" value="{{ form.date_of_birth.value|date:'Y-m-d' }}">
+                            <p id="ageError" class="text-xs text-red-500 mt-1 hidden">{% translate "You must be at least 18 years old." %}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio Group (Bento Card) -->
+                <div class="glass-card rounded-3xl p-6 md:col-span-2 border-l-4 border-l-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all duration-300">
+                    <div class="flex justify-between items-end mb-2">
+                        <label for="bio" class="block text-sm font-bold text-gray-700 dark:text-gray-300">{{ form.bio.label }}</label>
+                        <span id="bioCounter" class="text-xs font-semibold text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md transition-colors shadow-sm">0 / 300</span>
+                    </div>
+                    <textarea id="bio" name="bio" rows="3" maxlength="300" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 resize-none hide-scrollbar placeholder-gray-400" placeholder="Type something about yourself...">{{ form.bio.value }}</textarea>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Sidebar (AdSense & Settings) -->
+        <div class="w-full lg:w-[320px] flex-shrink-0 space-y-6">
+            <!-- AdSense Slot (Fixed CLS size) -->
+            <div class="sticky top-24">
+                <div class="w-full h-[600px] bg-white/70 dark:bg-black/50 backdrop-blur-md rounded-3xl border border-dashed border-gray-300 dark:border-white/10 flex flex-col items-center justify-center text-gray-400 relative overflow-hidden transition-colors hover:bg-white/90 dark:hover:bg-black/70 shadow-lg group">
+                    <div class="absolute top-3 left-4 bg-gray-200 dark:bg-gray-800 text-[10px] font-bold px-2 py-0.5 rounded text-gray-500 dark:text-gray-400 uppercase tracking-widest shadow-sm">Advertisement</div>
+                    <svg class="w-10 h-10 mb-3 opacity-40 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-sm font-semibold tracking-wide">AdSense Reserved</span>
+                    <span class="text-xs mt-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-500 px-2 py-0.5 rounded-full mt-2 font-medium">300 x 600</span>
+                    
+                    <!-- Simulação de Script AdSense - Substitua em produção -->
+                    <!-- 
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-XXXXXX"
+                         data-ad-slot="XXXXXX"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> 
+                    -->
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
-{% endblock content %}
+{% endblock %}
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. INP < 200ms: Bio Character Counter with rAF for performance
+    const bioText = document.getElementById('bio');
+    const bioCounter = document.getElementById('bioCounter');
+    
+    if (bioText && bioCounter) {
+        let isUpdating = false;
+
+        const updateCounter = () => {
+            const currentLength = bioText.value.length;
+            bioCounter.textContent = `${currentLength} / 300`;
+            
+            // Visual feedback on approaching limit
+            if (currentLength >= 280) {
+                bioCounter.classList.add('text-red-500', 'dark:text-red-400');
+                bioCounter.classList.remove('text-gray-400');
+            } else {
+                bioCounter.classList.remove('text-red-500', 'dark:text-red-400');
+                bioCounter.classList.add('text-gray-400');
+            }
+            isUpdating = false;
+        };
+
+        bioText.addEventListener('input', () => {
+            if (!isUpdating) {
+                isUpdating = true;
+                requestAnimationFrame(updateCounter);
+            }
+        });
+        // Initial set on page load
+        requestAnimationFrame(updateCounter);
+    }
+
+    // 2. Image Previews with non-blocking FileReader (Performance Opt)
+    const setupImagePreview = (inputId, previewId, placeholderId = null) => {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        const placeholder = placeholderId ? document.getElementById(placeholderId) : null;
+
+        if (input && preview) {
+            input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        requestAnimationFrame(() => {
+                            preview.src = e.target.result;
+                            preview.classList.remove('hidden');
+                            if(placeholder) placeholder.classList.add('hidden');
+                        });
+                    };
+                    // Use setTimeout to yield to main thread preventing INP block
+                    setTimeout(() => reader.readAsDataURL(file), 0);
+                }
+            });
+        }
+    };
+
+    setupImagePreview('picture', 'picturePreview');
+    setupImagePreview('cover_image', 'coverPreview', 'coverPlaceholder');
+
+    // 3. Date of Birth Validation (18+ for AdSense Compliance)
+    const dobInput = document.getElementById('date_of_birth');
+    const ageError = document.getElementById('ageError');
+    const saveBtnTop = document.getElementById('saveBtnTop');
+    
+    if (dobInput) {
+        // Set max date to exactly 18 years ago from today, restricting natively
+        const today = new Date();
+        const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        const maxDateString = maxDate.toISOString().split('T')[0];
+        
+        dobInput.max = maxDateString;
+
+        dobInput.addEventListener('change', () => {
+            const selectedDate = new Date(dobInput.value);
+            if (selectedDate > maxDate) {
+                ageError.classList.remove('hidden');
+                dobInput.classList.add('border-red-500', 'ring-red-500');
+                dobInput.classList.remove('border-gray-200', 'dark:border-white/10');
+                if(saveBtnTop) {
+                    saveBtnTop.disabled = true;
+                    saveBtnTop.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+                }
+            } else {
+                ageError.classList.add('hidden');
+                dobInput.classList.remove('border-red-500', 'ring-red-500');
+                dobInput.classList.add('border-gray-200', 'dark:border-white/10');
+                if(saveBtnTop) {
+                    saveBtnTop.disabled = false;
+                    saveBtnTop.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+                }
+            }
+        });
+    }
+
+    // 4. Submit Animation / Loading State
+    const profileForm = document.getElementById('profileForm');
+    
+    if (saveBtnTop && profileForm) {
+        saveBtnTop.addEventListener('click', (e) => {
+            // Se validação falhar nativamente, acione o submit para mostrar erros (ex: required)
+            if(!profileForm.checkValidity()) {
+                profileForm.reportValidity();
+                return;
+            }
+
+            // Animate button
+            e.preventDefault();
+            const originalWidth = saveBtnTop.offsetWidth;
+            saveBtnTop.style.width = `${originalWidth}px`; // Fix width to prevent jump
+            saveBtnTop.classList.add('btn-loading');
+            
+            // Simula envio assíncrono antes de dar submit real
+            setTimeout(() => {
+                profileForm.submit();
+            }, 800); // UI feedback timer
+        });
+    }
+
+    // Initialize Tooltips Mobile (Haptic feedback for iOS toggles context)
+    const checkboxes = document.querySelectorAll('.toggle-checkbox');
+    checkboxes.forEach(box => {
+        box.addEventListener('change', function() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
