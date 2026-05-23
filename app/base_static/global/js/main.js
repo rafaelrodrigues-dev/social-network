@@ -1,12 +1,12 @@
 // static/js/main.js
 
 /**
- * Lógica principal da Interface da Rede Social
+ * Main interface logic for the social network
  */
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 1. Inicialização do Dark Mode Adaptativo
+    // 1. Adaptive dark mode initialization
     // ==========================================
     const applyTheme = () => {
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.remove('dark');
         }
     };
-    // Chama logo ao carregar
+    // Apply immediately on load
     applyTheme();
 
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -28,10 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. "Ler Mais / Ver Menos" – INP < 200ms
+    // 2. Read more / show less – INP < 200ms
     // ==========================================
-    // Event delegation: um único listener gerencia todos os botões,
-    // inclusive os adicionados dinamicamente via infinite scroll.
+    // Event delegation: a single listener manages all buttons,
+    // including those added dynamically via infinite scroll.
     document.body.addEventListener('click', function(e) {
         const btnReadMore = e.target.closest('.btn-read-more');
         if (btnReadMore) {
@@ -44,19 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const isExpanded = btnReadMore.getAttribute('aria-expanded') === 'true';
 
             if (isExpanded) {
-                // Recolher
+                // Collapse
                 preview.classList.remove('hidden');
                 preview.removeAttribute('aria-hidden');
                 fullText.classList.add('hidden');
                 fullText.setAttribute('aria-hidden', 'true');
                 btnReadMore.setAttribute('aria-expanded', 'false');
                 btnReadMore.querySelector('span') && (btnReadMore.querySelector('span').textContent = 'Ler mais');
-                // Fallback para quando o texto do botão é nó de texto direto
+                // Fallback when the button text is a direct text node
                 if (!btnReadMore.querySelector('span')) {
                     btnReadMore.childNodes[0].textContent = 'View more';
                 }
             } else {
-                // Expandir
+                // Expand
                 preview.classList.add('hidden');
                 preview.setAttribute('aria-hidden', 'true');
                 fullText.classList.remove('hidden');
@@ -66,14 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     btnReadMore.childNodes[0].textContent = 'View less';
                 }
             }
-            return; // Encerra a propagação lógica (não o DOM event)
+            return; // Stop the logical propagation (not the DOM event)
         }
     });
 
     // ==========================================
-    // 3. Micro-interações: Botões de Curtir
+    // 3. Micro-interactions: Like buttons
     // ==========================================
-    // Event delegation no body para lidar com novos posts dinâmicos sem reativar eventos
+    // Event delegation on the body handles new dynamic posts without reattaching events
     document.body.addEventListener('click', function(e) {
         const btnLike = e.target.closest('.btn-like');
         if (btnLike) {
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const isLiked = btnLike.classList.contains('liked');
             if (isLiked) {
-                // Remover o curtir
+                // Unlike
                 btnLike.classList.remove('liked');
                 btnLike.classList.remove('text-red-500');
                 btnLike.classList.add('text-gray-500', 'dark:text-gray-400');
@@ -91,13 +91,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     icon.classList.remove('animate-like-pop');
                 }
             } else {
-                // Adicionar o curtir
+                // Like
                 btnLike.classList.add('liked');
                 btnLike.classList.remove('text-gray-500', 'dark:text-gray-400');
                 btnLike.classList.add('text-red-500');
                 if(icon) {
                     icon.setAttribute('fill', 'currentColor');
-                    // Recomeçar animação forçando reflow
+                    // Restart animation by forcing reflow
                     icon.classList.remove('animate-like-pop');
                     void icon.offsetWidth;
                     icon.classList.add('animate-like-pop');
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     // ==========================================
-    // 3. Sistema de Seguir
+    // 3. Follow system
     // ==========================================
         const btnFollow = e.target.closest('.btn-follow');
         if (btnFollow) {
@@ -115,13 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const textSpan = btnFollow.querySelector('span') || btnFollow;
             
             if (isFollowing) {
-                // Deixar de seguir
+                // Unfollow
                 btnFollow.classList.remove('following');
                 btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
                 btnFollow.classList.add('bg-primary', 'text-white');
                 textSpan.textContent = 'Follow';
             } else {
-                // Seguir
+                // Follow
                 btnFollow.classList.add('following');
                 btnFollow.classList.remove('bg-primary', 'text-white');
                 btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 4. Lógica do Modal de Criação de Post
+    // 4. Create post modal logic
     // ==========================================
     const modal = document.getElementById('create-post-modal');
     const btnOpenModalMobile = document.getElementById('mobile-create-post-btn');
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalOverlay = document.getElementById('modal-overlay');
     const modalContent = document.getElementById('modal-content');
     
-    // Elementos Internos
+    // Internal elements
     const mediaInput = document.getElementById('media-input');
     const mediaPreview = document.getElementById('media-preview');
     const uploadPlaceholder = document.getElementById('upload-placeholder');
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const openModal = () => {
         if (!modal) return;
         modal.classList.remove('hidden');
-        // Pequeno delay para a transição CSS funcionar
+        // Small delay so the CSS transition can run
         setTimeout(() => {
             modalContent.classList.remove('scale-95', 'opacity-0');
             modalContent.classList.add('scale-100', 'opacity-100');
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalOverlay.classList.add('opacity-0');
         setTimeout(() => {
             modal.classList.add('hidden');
-            // Reset do form
+            // Reset the form
             mediaInput.value = '';
             mediaPreview.src = '';
             mediaPreview.classList.add('hidden');
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
-    // Contagem de Caracteres
+    // Character count
     if (captionInput) {
         captionInput.addEventListener('input', () => {
             const currentLen = captionInput.value.length;
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Preview de Imagem (Upload 4:5 otimizado)
+    // Image preview (optimized 4:5 upload)
     if (mediaInput) {
         mediaInput.addEventListener('change', function() {
             const file = this.files[0];
@@ -218,20 +218,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Micro-interação de Upload
+    // Upload micro-interaction
     if (btnSubmitPost) {
         btnSubmitPost.addEventListener('click', () => {
             const btnSpan = btnSubmitPost.querySelector('span');
-            // Desabilita botão
+            // Disable button
             btnSubmitPost.disabled = true;
             btnSpan.textContent = 'Sending...';
             btnSubmitPost.classList.add('opacity-80');
             
-            // Exibe barra
+            // Show progress bar
             uploadProgress.classList.remove('hidden');
             progressBar.style.width = '10%';
             
-            // Simula loading 2.0 (Fake promise delay para micro-interação)
+            // Simulate loading 2.0 (fake promise delay for micro-interaction)
             let progress = 10;
             const interval = setInterval(() => {
                 progress += Math.random() * 30;
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
                 
-                // Sucesso
+                // Success
                 setTimeout(() => {
                     btnSpan.textContent = 'Published!';
                     successIcon.classList.remove('hidden');
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     setTimeout(() => {
                         closeModal();
-                        // Restaura botão para próxima vez no closeModal
+                        // Restore button for the next time in closeModal
                         setTimeout(() => {
                             btnSubmitPost.disabled = false;
                             btnSubmitPost.classList.remove('opacity-80', 'from-secondary', 'to-green-500');
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 5. Pinned Moments (Fixar Post)
+    // 5. Pinned moments (pin post)
     // ==========================================
     document.body.addEventListener('click', function(e) {
         const btnPin = e.target.closest('.btn-pin');
@@ -273,15 +273,53 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             btnPin.classList.toggle('text-primary');
             btnPin.classList.toggle('bg-white/50');
-            // Background opcional se tiver hover customizado
+            // Optional background if custom hover styles are present
             btnPin.classList.toggle('bg-primary/20');
             
-            // Micro-interação visual (Scale e CSS Animation)
+            // Visual micro-interaction (scale and CSS animation)
             btnPin.style.transform = 'scale(0.8)';
             setTimeout(() => {
                 btnPin.style.transform = 'scale(1)';
             }, 150);
         }
     });
+
+    // ==========================================
+    // 6. Proactive validation - AGE 18+ (Register Form)
+    // ==========================================
+    const dobInput = document.querySelector('.date-dob-input');
+    if (dobInput) {
+        dobInput.addEventListener('change', function() {
+            const errorContainer = document.getElementById('dob-error-container');
+            if(!this.value) return;
+
+            const selectedDate = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - selectedDate.getFullYear();
+            const m = today.getMonth() - selectedDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < selectedDate.getDate())) {
+                age--;
+            }
+
+            if (age < 18) {
+                this.classList.add('border-red-500', 'dark:border-red-500', 'animate-shake');
+                this.classList.remove('valid-input');
+                // Force shake restart
+                this.classList.remove('animate-shake');
+                void this.offsetWidth;
+                this.classList.add('animate-shake');
+
+                if (errorContainer) {
+                    errorContainer.innerHTML = '<p class="text-xs text-red-500" aria-live="polite">You must be at least 18 years old.</p>';
+                }
+            } else {
+                this.classList.remove('border-red-500', 'dark:border-red-500', 'animate-shake');
+                this.classList.add('valid-input');
+                if (errorContainer) {
+                    errorContainer.innerHTML = '<p class="text-xs text-green-500" aria-live="polite">Age verified.</p>';
+                }
+            }
+        });
+    }
 
 });

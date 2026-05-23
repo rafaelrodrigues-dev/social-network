@@ -10,8 +10,9 @@ from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
-
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('publications:home'))
     form_data = request.session.get('register_form_data',None)
     form = RegisterForm(form_data)
     return render(request,'authors/pages/register.html',context={
@@ -42,6 +43,8 @@ def register_create(request):
     return redirect(reverse('authors:register'))
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('publications:home'))
     form = LoginForm()
     return render(request,'authors/pages/login.html',context={
         'form':form,
@@ -79,3 +82,9 @@ def logout_view(request):
     logout(request)
     messages.success(request,_('User has been logged out'))
     return redirect('/')
+
+def privacy_policy(request):
+    return render(request, 'authors/pages/privacy.html')
+
+def contact(request):
+    return render(request, 'authors/pages/contact.html')

@@ -303,3 +303,24 @@
 .animate-fade-in {
     animation: fadeIn 0.3s ease both;
 }
+
+/* Animação de Erro: Shake */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Micro-interação: Input Válido */
+.valid-input {
+    border-color: #10b981 !important; /* Tailwind green-500 */
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+.dark .valid-input {
+    border-color: #059669 !important; /* Tailwind green-600 */
+    box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
+}

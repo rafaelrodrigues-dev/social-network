@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="{{ html_lang }}" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Socialnet is a platform for you to meet new people and interact with them through posts">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <!-- Meta tags focado em Web Vitals e Performance -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <!-- Preconnect e DNS-Prefetch para carregamento mais rápido do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    
+    <!-- Title Padrão/Customizável -->
+    <title>{% block title %}Socialnet{% endblock %}</title>
+
+    <!-- Tailwind CSS (via CDN p/ Desenvolvimento Rápido e Bento Grids) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6', // Azul Tailwind clássico
+                        secondary: '#10B981', // Verde Esmeralda (Sucesso/Follow)
+                        dark: '#0f0f11', // Fundo OLED extra escuro para baixo consumo
+                        surface: '#18181b', // Superfície do dark mode (Zinco)
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Roboto Flex', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'like-pop': 'like-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        'like-pop': {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.3)' },
+                            '100%': { transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5530029456930361"
+    crossorigin="anonymous"></script>
+    
+    <!-- Carregamento Assíncrono da Fonte Variável (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos Customizados (Liquid Glass, Micro-interactions) -->
+    <link rel="stylesheet" href="{% static 'global/css/styles.css' %}">
+    
+    <!-- Espaço reservado para estilos específicos das páginas filhas -->
+    {% block extra_css %}{% endblock %}
+    <link rel="manifest" href="/static/manifest.json">
+</head>
+
+<body class="bg-gray-50 dark:bg-dark text-gray-900 dark:text-gray-100 antialiased font-sans transition-colors duration-300">
+
+    <!-- Container Principal usando Bento Grid Strategy -->
+    <!-- pt-20 para não sobrepor a Navbar Fixa e pb-20 para Bottom Navbar no Mobile -->
+    <main class="container mx-auto px-0 sm:px-6 lg:px-8 pt-20 pb-20 md:pb-8 lg:max-w-7xl min-h-screen">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Bottom Navbar Dinâmica (Mobile) - Será Inclusa na mesma Navbar mas fica no DOM -->
+
+
+    <!-- Lógica de Frontend Principal (Atrasamos o máximo possível para priorizar o LCP/DCL) -->
+    <script src="{% static 'global/js/main.js' %}" defer></script>
+
+    <!-- Blocos específicos de Scripts das páginas -->
+    {% block javascript %}
+    {% endblock %}
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('{% static "global/js/sw.js" %}')
+        }
+    </script>
+</body>
+</html>

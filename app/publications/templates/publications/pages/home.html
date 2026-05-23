@@ -10,20 +10,6 @@
     <!-- Sidebar Esquerda (Navegação Desktop / Sticky) -->
     <aside class="hidden lg:block lg:col-span-3 sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto hide-scrollbar">
         <div class="bento-card p-4 bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 shadow-sm space-y-2">
-            
-            <!-- User Mini Profile -->
-            <div class="flex items-center space-x-3 mb-6 p-2 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer btn-micro">
-                {% if request.user.profile.picture %}
-                    <img class="h-12 w-12 rounded-full object-cover shadow-sm bg-gray-200 dark:bg-gray-800 border-2 border-transparent" src="{{ request.user.profile.picture.url }}" alt="Avatar">
-                {% else %}
-                    <img class="h-12 w-12 rounded-full object-cover shadow-sm bg-gray-200 dark:bg-gray-800 border-2 border-transparent" src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=3B82F6&color=fff" alt="Avatar">
-                {% endif %}
-                <div class="truncate">
-                    <h3 class="font-bold text-[15px] text-gray-900 dark:text-gray-100 truncate">{{ request.user.get_full_name }}</h3>
-                    <p class="text-[13px] text-gray-500 truncate">@{{ request.user.username }}</p>
-                </div>
-            </div>
-
             <!-- Navegação Secundária -->
             <nav class="space-y-1">
                 <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold rounded-xl bg-blue-50/80 dark:bg-blue-900/20 text-primary transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] btn-micro hover-glow">
