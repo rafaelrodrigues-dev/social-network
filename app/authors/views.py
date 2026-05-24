@@ -83,6 +83,9 @@ def logout_view(request):
     messages.success(request,_('User has been logged out'))
     return redirect('/')
 
+def about(request):
+    return render(request, 'authors/pages/about.html')
+
 def privacy_policy(request):
     return render(request, 'authors/pages/privacy.html')
 

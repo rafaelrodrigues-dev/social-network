@@ -12,7 +12,7 @@
         <div class="bento-card p-4 bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 shadow-sm space-y-2">
             <!-- Navegação Secundária -->
             <nav class="space-y-1">
-                <a href="#" class="flex items-center px-4 py-3 text-sm font-semibold rounded-xl bg-blue-50/80 dark:bg-blue-900/20 text-primary transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] btn-micro hover-glow">
+                <a href="{% url "publications:home" %}" class="flex items-center px-4 py-3 text-sm font-semibold rounded-xl bg-blue-50/80 dark:bg-blue-900/20 text-primary transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] btn-micro hover-glow">
                     <svg class="mr-3 h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
                     Feed
                 </a>
@@ -58,43 +58,6 @@
     <!-- Sidebar Direita (Recomendações e AdSense Sticky) -->
     <aside class="hidden lg:block lg:col-span-3">
         <div class="sticky top-24 space-y-6">
-            
-            <!-- Sugestões de Seguidores -->
-            <div class="bento-card p-5 bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 shadow-sm">
-                <h3 class="font-bold text-[15px] text-gray-900 dark:text-white mb-5">{% translate "Suggestions for you" %}</h3>
-                <div class="space-y-5">
-                    
-                    <!-- Simulação de View de Usuário Sugerido 1 -->
-                    <div class="flex items-center justify-between group">
-                        <div class="flex items-center space-x-3 cursor-pointer">
-                            <img class="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" src="https://ui-avatars.com/api/?name=Jane+Doe&background=random" alt="Avatar">
-                            <div class="truncate w-32">
-                                <h4 class="text-sm font-bold text-gray-900 dark:text-white leading-tight group-hover:underline truncate">Jane Doe</h4>
-                                <p class="text-[12px] text-gray-500 truncate">{% translate "Suggested for you" %}</p>
-                            </div>
-                        </div>
-                        <button class="btn-follow font-semibold text-white bg-primary hover:bg-blue-600 px-4 py-1.5 rounded-full text-xs transition-colors btn-micro shadow-sm">
-                            <span>{% translate "Follow" %}</span>
-                        </button>
-                    </div>
-
-                    <!-- Simulação de View de Usuário Sugerido 2 -->
-                    <div class="flex items-center justify-between group">
-                        <div class="flex items-center space-x-3 cursor-pointer">
-                            <img class="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" src="https://ui-avatars.com/api/?name=Bob+Smith&background=random" alt="Avatar">
-                            <div class="truncate w-32">
-                                <h4 class="text-sm font-bold text-gray-900 dark:text-white leading-tight group-hover:underline truncate">Bob Smith</h4>
-                                <p class="text-[12px] text-gray-500 truncate">{% translate "New to socialnet" %}</p>
-                            </div>
-                        </div>
-                        <button class="btn-follow font-semibold text-gray-900 bg-gray-100 hover:bg-gray-200 dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 px-4 py-1.5 rounded-full text-xs transition-colors btn-micro shadow-sm">
-                            <span>{% translate "Follow" %}</span>
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-
             <!-- AdSense Area Fixa Lateral Otimizada p/ Viewability -->
             <div class="bento-card border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-[#151515] p-4 text-center min-h-[400px] flex flex-col justify-center items-center relative overflow-hidden">
                 <span class="block text-[10px] uppercase text-gray-400 mb-2 font-bold tracking-widest absolute top-4">Patrocinado</span>
@@ -103,9 +66,9 @@
 
             <!-- Mini Footer (Links AdSense Requisitados) -->
             <footer class="text-[13px] text-gray-500 flex flex-wrap justify-center gap-x-3 gap-y-1">
-                <a href="#" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'About' %}</a>
-                <a href="#" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Privacy' %}</a>
-                <a href="#" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Contact' %}</a>
+                <a href="{% url "authors:about" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'About' %}</a>
+                <a href="{% url "authors:about" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Privacy' %}</a>
+                <a href="{% url "authors:contact" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Contact' %}</a>
                 <div class="w-full text-center mt-1">
                     <span>© 2025 Socialnet.</span>
                 </div>

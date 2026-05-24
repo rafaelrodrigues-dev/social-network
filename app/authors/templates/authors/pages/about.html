@@ -1,0 +1,49 @@
+{% extends 'global/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "About us" %} - Socialnet{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto w-full px-4 pt-10 pb-20">
+    <div class="bento-card bg-white dark:bg-surface border border-gray-100 dark:border-white/5 p-8 sm:p-12 shadow-sm">
+        
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6">
+            About Socialnet
+        </h1>
+        
+        <div class="prose prose-blue dark:prose-invert max-w-none prose-lg">
+            <p class="lead text-xl text-gray-600 dark:text-gray-300 font-medium mb-8 leading-relaxed">
+                Welcome to Socialnet, the next-generation social network built with Django and styled with TailwindCSS. Designed with pure performance and <em>User Experience</em> in mind for 2026.
+            </p>
+
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">Our Mission</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                Our mission is to connect people quickly, efficiently, and with a visually delightful experience. We break away from heavy and slow interfaces by embracing a clean architecture based on the <strong>Bento Grid</strong> concept and <strong>Liquid Glass</strong> aesthetics for a pleasant, organized, and relaxing browsing experience.
+            </p>
+
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">Our Technical Pillars</h2>
+            <ul class="space-y-4 mb-8 text-gray-700 dark:text-gray-300">
+                <li class="flex items-start">
+                    <svg class="h-6 w-6 text-primary mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span><strong>Superior Performance:</strong> Mandatory Core Web Vitals compliance with LCP &lt; 2.0s and zero interaction delay (INP).</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="h-6 w-6 text-primary mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    <span><strong>Native OLED Dark Mode:</strong> Factory-level light reduction and energy savings through adaptive dark mode focused on the #121212 color.</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="h-6 w-6 text-primary mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span><strong>Organic Google Monetization:</strong> Ad blocks with strictly reserved sizes (`min-height`) to deliver zero layout shifts (CLS) in a natural and legitimate way.</span>
+                </li>
+            </ul>
+
+            <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-100 dark:border-white/5 mt-10 shadow-inner">
+                <p class="text-sm text-gray-500 dark:text-gray-400 italic text-center font-medium">
+                    Socialnet’s infrastructure values Silo Structure and semantic HTML in Django templates to achieve top search engine rankings (SEO).
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

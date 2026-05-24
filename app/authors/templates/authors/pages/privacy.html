@@ -1,0 +1,61 @@
+{% extends 'global/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Privacy Policy" %} - Socialnet{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto w-full px-4 pt-10 pb-20">
+    <div class="bento-card bg-white dark:bg-surface border border-gray-100 dark:border-white/5 p-8 sm:p-12 shadow-sm">
+        
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
+            Privacy Policy
+        </h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-8 border-b border-gray-200 dark:border-white/10 pb-4">Last updated: May 23, 2026</p>
+        
+        <div class="prose prose-blue dark:prose-invert max-w-none prose-lg text-gray-700 dark:text-gray-300">
+            
+            <p class="mb-6 leading-relaxed text-lg">
+                Your privacy is critically important to us at <strong>Socialnet</strong>. This policy was written with transparency in mind and is designed to comply with advertising partners and agencies, including Google AdSense.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">1. Information We Collect</h3>
+            <p class="mb-4">
+                We collect information to provide better services to all of our users. This includes:
+            </p>
+            <ul class="list-disc pl-6 mb-6 space-y-2">
+                <li>Information you provide directly (e.g., your name and email for account registration).</li>
+                <li>Information collected from your use of our services (e.g., log data, device location, and interaction history with visual content/posts).</li>
+                <li>Cookies and anonymous primary identifiers for analytics and navigation tracking.</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">2. Use of Personal Data</h3>
+            <p class="mb-4">
+                We use modern Django infrastructure combined with secure relational databases to store essential information, focusing on:
+            </p>
+            <ul class="list-disc pl-6 mb-6 space-y-2">
+                <li>Maintaining your access through persistent web sessions or Single Sign-On (SSO).</li>
+                <li>Preventing fraud and maintaining the integrity of the social platform.</li>
+                <li>Delivering organic and optimized Native Ads through the AdSense ecosystem without penalizing your Core Web Vitals.</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">3. Your Rights</h3>
+            <p class="mb-6 leading-relaxed">
+                You have full control over your information. Any logged-in user can download, process, modify, or complete a full deletion (`Hard Delete`) of their account and all hosted media with the click of a button in the Settings panel.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">4. Third Parties and Advertising</h3>
+            <p class="mb-6 leading-relaxed">
+                To keep our servers running fast and reliably in a complex Bento Grid and optimized Liquid Glass environment, we display ads in partnership with Google. Third-party providers use cookies to serve ads based on your previous visits. You have the right to opt out of these personalized advertising settings in your browser’s global advertising preferences.
+            </p>
+
+            <div class="mt-10 p-4 sm:p-6 bg-blue-50 dark:bg-blue-900/10 border-l-4 border-primary rounded-r-2xl">
+                <p class="text-sm text-gray-700 dark:text-gray-300 m-0">
+                    If you have any questions or do not agree with these terms, please contact us <a href="{% url "authors:contact" %}" class="text-primary font-semibold hover:underline">here</a>.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
