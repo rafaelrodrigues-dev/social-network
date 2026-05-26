@@ -17,7 +17,7 @@ def search(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request,'search/pages/search_results.html',context={
+    return render(request,'search/pages/search_posts_results.html',context={
         'page_obj':page_obj,
         'query': query,
         'additional_query':'&q=' + query,
@@ -33,7 +33,7 @@ def search_user(request):
     paginator = Paginator(results, 7)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'search/pages/search_user_results.html',context={
+    return render(request,'search/pages/search_users_results.html',context={
         'page_obj':page_obj,
         'query': query,
         'additional_query':'&q=' + query,

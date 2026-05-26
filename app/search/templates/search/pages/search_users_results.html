@@ -1,0 +1,29 @@
+{% extends "search/base.html" %}
+{% load i18n %}
+{% block results %}
+    <!-- Discovery UX: results -> people -->
+    <section class="mb-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 auto-rows-max">
+            {% for user in page_obj %}
+            <!-- Person Card -->
+            <div class="bento-card bento-grid-item liquid-glass p-5 flex items-center justify-between cursor-pointer group">
+                <a href="{% url "profiles:profile" user.username %}" class="flex items-center space-x-4">
+                    {% if user.profile.picture %}
+                        <img class="h-14 w-14 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform" src="{{ user.profile.picture.url }}" alt="Avatar">
+                    {% else %}
+                        <img class="h-14 w-14 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform" src="https://ui-avatars.com/api/?name={{user.username}}&background=random&color=fff" alt="Avatar">
+                    {% endif %}
+                    <div>
+                        <h3 class="text-[15px] font-bold text-gray-900 dark:text-white leading-tight">{{ user.get_full_name }}</h3>
+                        <p class="text-xs text-gray-500 font-medium">@{{ user.username }}</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 max-w-[180px] truncate">{{ user.profile.bio }}</p>
+                    </div>
+                </a>
+                <button class="btn-follow min-h-[44px] px-5 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-blue-600 transition-colors btn-micro shadow-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark">
+                    <span>{% translate "Follow" %}</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock results %}

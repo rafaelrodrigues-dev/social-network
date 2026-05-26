@@ -1,7 +1,0 @@
-{% load i18n %}
-<nav class="search-nav">
-    <ul>
-        <li class="{% if search_type == 'posts' %}active{% endif %}"><a href="{% url 'search:search' %}?q={{ query }}">{% translate "Publications" %}</a></li>
-        <li class="{% if search_type == 'users' %}active{% endif %}"><a href="{% url 'search:search_user' %}?q={{ query }}">{% translate "Users" %}</a></li>
-    </ul>
-</nav>

@@ -1,0 +1,122 @@
+{% extends 'global/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+<style>
+    /* Additional depth and blur styles (Liquid Glass) */
+    .bento-grid-item {
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    }
+    .bento-grid-item:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -5px rgba(0, 0, 0, 0.04);
+        z-index: 10;
+    }
+    .dark .bento-grid-item:hover {
+        box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    }
+    .filter-pill {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    .filter-pill::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%) scale(0);
+        border-radius: 50%;
+        transition: transform 0.4s ease-out;
+    }
+    .filter-pill:active::after {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+        transition: 0s;
+    }
+    .page-transition-enter {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: smoothEnter 0.5s ease forwards;
+    }
+    @keyframes smoothEnter {
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block title %}{% translate "Search results for" %} "{{ query }}" - Socialnet{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto w-full px-4 sm:px-0 page-transition-enter">
+    
+    <!-- Search header (internal SEO: semantic tags, h1 for query) -->
+    <div class="mb-8 p-6 bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 shadow-sm rounded-3xl bento-card flex flex-col md:flex-row items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                {% translate "Results for" %} <span class="text-primary">"{{ query }}"</span>
+            </h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{% translate "Showing the best results" %}</p>
+        </div>
+    </div>
+
+    <!-- Advanced filters (tabs / pills) - optimized touch area 44px -->
+    <div class="flex space-x-2 overflow-x-auto hide-scrollbar mb-8 pb-2 filter-container">
+        <a href="{% url "search:search" %}?q={{ query|urlencode }}" class="filter-pill flex items-center min-h-[44px] px-6 py-2 rounded-full text-sm font-semibold whitespace-nowrap shadow-md transition-colors btn-micro {% if search_type != 'users' %}bg-primary text-white hover:bg-blue-600{% else %}bg-white/60 dark:bg-surface/60 backdrop-blur-md text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 hover:bg-white dark:hover:bg-gray-800{% endif %}">
+            {% translate "Posts" %}
+        </a>
+        <a href="{% url 'search:search_user' %}?q={{ query|urlencode }}" class="filter-pill flex items-center min-h-[44px] px-6 py-2 rounded-full text-sm font-semibold whitespace-nowrap shadow-md transition-colors btn-micro {% if search_type == 'users' %}bg-primary text-white hover:bg-blue-600{% else %}bg-white/60 dark:bg-surface/60 backdrop-blur-md text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 hover:bg-white dark:hover:bg-gray-800{% endif %}">
+            {% translate "Users" %}
+        </a>
+    </div>
+    {% block results %}{% endblock results %}
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Micro-interaction: visual feedback on filter buttons
+        const filterPills = document.querySelectorAll('.filter-pill');
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', function(e) {
+                // Ripple effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Motion design: scroll reveal (posts)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const feedItems = document.querySelectorAll('.post-result-wrapper, .ad-wrapper');
+        feedItems.forEach((item, index) => {
+            // Initial styles for animation
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transitionDelay = `${(index % 5) * 50}ms`; // staggered animation bounded
+            observer.observe(item);
+        });
+    });
+</script>
+{% endblock %}
