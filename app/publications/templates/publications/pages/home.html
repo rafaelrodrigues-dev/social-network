@@ -6,11 +6,10 @@
 
 {% block content %}
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 w-full max-w-7xl mx-auto px-4 sm:px-0">
-    
-    <!-- Sidebar Esquerda (Navegação Desktop / Sticky) -->
+    <!-- Left Sidebar (Desktop Navigation / Sticky) -->
     <aside class="hidden lg:block lg:col-span-3 sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto hide-scrollbar">
         <div class="bento-card p-4 bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 shadow-sm space-y-2">
-            <!-- Navegação Secundária -->
+            <!-- Secondary Navigation -->
             <nav class="space-y-1">
                 <a href="{% url "publications:home" %}" class="flex items-center px-4 py-3 text-sm font-semibold rounded-xl bg-blue-50/80 dark:bg-blue-900/20 text-primary transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] btn-micro hover-glow">
                     <svg class="mr-3 h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -28,26 +27,24 @@
         </div>
     </aside>
 
-    <!-- Content Principal (Feed Focus) -->
-    <!-- Max-width ajustado para ocupar melhor o espaço no desktop. -->
+    <!-- Main Content (Feed Focus) -->
+    <!-- Max-width adjusted to better occupy desktop space. -->
     <main class="col-span-1 lg:col-span-6 w-full max-w-[600px] xl:max-w-2xl mx-auto">
 
 
-        <!-- Loop de Posts do Django -->
+        <!-- Django Posts Loop -->
         <div class="space-y-6" id="feed-container">
             {% for post in page_obj %}
-                <!-- Include do Post Card (A classe deve definir o post em si) -->
+            <!-- Include Post Card -->
                 {% include 'global/components/post_card.html' %}
-                
-                <!-- Inserir Ad Slot do Google otimizado sem CLS a cada 2 posts falsos (simulação) -->
+                <!-- Insert Google Ad Slot optimized without CLS every 2 fake posts (simulation) -->
                 {% if forloop.counter|divisibleby:2 %}
                     {% include 'global/components/ad_slot.html' %}
                 {% endif %}
             {% endfor %}
         </div>
-        
-        <!-- Carregamento Infinito Placeholder -->
-        <div class="flex justify-center py-6 mt-4">
+        <!-- Infinite Scroll Placeholder -->
+        <div class="flex justify-center py-6 mt-4" style="display:none" id="loading-indicator">
             <svg class="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -55,19 +52,19 @@
         </div>
     </main>
 
-    <!-- Sidebar Direita (Recomendações e AdSense Sticky) -->
+    <!-- Right Sidebar (Recommendations and Sticky AdSense) -->
     <aside class="hidden lg:block lg:col-span-3">
         <div class="sticky top-24 space-y-6">
-            <!-- AdSense Area Fixa Lateral Otimizada p/ Viewability -->
+            <!-- Sticky Sidebar AdSense Area Optimized for Viewability -->
             <div class="bento-card border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-[#151515] p-4 text-center min-h-[400px] flex flex-col justify-center items-center relative overflow-hidden">
                 <span class="block text-[10px] uppercase text-gray-400 mb-2 font-bold tracking-widest absolute top-4">Patrocinado</span>
                 <span class="text-sm text-gray-500">AdSense Display<br><span class="text-xs">(Vertical Slot)</span></span>
             </div>
 
-            <!-- Mini Footer (Links AdSense Requisitados) -->
+            <!-- Mini Footer (Requested AdSense Links) -->
             <footer class="text-[13px] text-gray-500 flex flex-wrap justify-center gap-x-3 gap-y-1">
                 <a href="{% url "authors:about" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'About' %}</a>
-                <a href="{% url "authors:about" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Privacy' %}</a>
+                <a href="{% url "authors:privacy" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Privacy' %}</a>
                 <a href="{% url "authors:contact" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'Contact' %}</a>
                 <div class="w-full text-center mt-1">
                     <span>© 2025 Socialnet.</span>
@@ -75,6 +72,57 @@
             </footer>
         </div>
     </aside>
-
 </div>
 {% endblock %}
+{% block javascript %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let currentPage = 1;
+        const totalPages = {{ page_obj.paginator.num_pages|default:1 }};
+        let isFetching = false;
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const feedContainer = document.getElementById('feed-container');
+        // Configures the IntersectionObserver to trigger loading when the indicator is visible
+        if (currentPage < totalPages) {
+            loadingIndicator.style.display = 'flex';
+            
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !isFetching && currentPage < totalPages) {
+                    loadMorePosts();
+                }
+            }, { rootMargin: "200px" }); // Pre-load before reaching the very end
+            observer.observe(loadingIndicator);
+        }
+        async function loadMorePosts() {
+            isFetching = true;
+            currentPage++;
+            try {
+                // Request the next page
+                const response = await fetch(`?page=${currentPage}`);
+                const htmlText = await response.text();
+                
+                // Convert the response to HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+                
+                // Extract new posts from the returned feed
+                const newPostsContainer = doc.getElementById('feed-container');
+                if (newPostsContainer) {
+                    Array.from(newPostsContainer.children).forEach(child => {
+                        feedContainer.appendChild(child);
+                    });
+                }
+                
+                // Hide the indicator if reaching the last page
+                if (currentPage >= totalPages) {
+                    loadingIndicator.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading more posts:', error);
+            } finally {
+                isFetching = false;
+            }
+        }
+    });
+</script>
+{% endblock javascript %}

@@ -4,7 +4,7 @@
  * Main interface logic for the social network
  */
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // ==========================================
     // 1. Adaptive dark mode initialization
     // ==========================================
@@ -32,14 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // Event delegation: a single listener manages all buttons,
     // including those added dynamically via infinite scroll.
-    document.body.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function (e) {
         const btnReadMore = e.target.closest('.btn-read-more');
         if (btnReadMore) {
             e.preventDefault();
             const expandable = btnReadMore.closest('.post-text-expandable');
             if (!expandable) return;
 
-            const preview  = expandable.querySelector('.post-text-preview');
+            const preview = expandable.querySelector('.post-text-preview');
             const fullText = expandable.querySelector('.post-text-full');
             const isExpanded = btnReadMore.getAttribute('aria-expanded') === 'true';
 
@@ -74,28 +74,51 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Micro-interactions: Like buttons
     // ==========================================
     // Event delegation on the body handles new dynamic posts without reattaching events
-    document.body.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function (e) {
         const btnLike = e.target.closest('.btn-like');
         if (btnLike) {
             e.preventDefault();
+            const publicationId = btnLike.dataset.id
+            const likeCountSpan = document.getElementById(`like-count-${publicationId}`)
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            fetch(`/p/${publicationId}/like/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.status === 403) {
+                        window.location.href = '/a/login/'
+                        return
+                    }
+                    return response.json()
+                })
+                .then(data => {
+                    if (data) {
+                        likeCountSpan.textContent = `${data.likes_count}`
+                    }
+                })
+                .catch(error => console.error('Error:', error))
+
             const icon = btnLike.querySelector('svg');
-            
             const isLiked = btnLike.classList.contains('liked');
             if (isLiked) {
                 // Unlike
                 btnLike.classList.remove('liked');
                 btnLike.classList.remove('text-red-500');
-                btnLike.classList.add('text-gray-500', 'dark:text-gray-400');
-                if(icon) {
+                btnLike.classList.add('text-gray-800', 'dark:text-gray-200');
+                if (icon) {
                     icon.setAttribute('fill', 'none');
                     icon.classList.remove('animate-like-pop');
                 }
             } else {
                 // Like
                 btnLike.classList.add('liked');
-                btnLike.classList.remove('text-gray-500', 'dark:text-gray-400');
+                btnLike.classList.remove('text-gray-800', 'dark:text-gray-200');
                 btnLike.classList.add('text-red-500');
-                if(icon) {
+                if (icon) {
                     icon.setAttribute('fill', 'currentColor');
                     // Restart animation by forcing reflow
                     icon.classList.remove('animate-like-pop');
@@ -105,15 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-    // ==========================================
-    // 3. Follow system
-    // ==========================================
+        // ==========================================
+        // 3. Follow system
+        // ==========================================
         const btnFollow = e.target.closest('.btn-follow');
         if (btnFollow) {
             e.preventDefault();
             const isFollowing = btnFollow.classList.contains('following');
             const textSpan = btnFollow.querySelector('span') || btnFollow;
-            
+
             if (isFollowing) {
                 // Unfollow
                 btnFollow.classList.remove('following');
@@ -138,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseModal = document.getElementById('close-modal-btn');
     const modalOverlay = document.getElementById('modal-overlay');
     const modalContent = document.getElementById('modal-content');
-    
+
     // Internal elements
     const mediaInput = document.getElementById('media-input');
     const mediaPreview = document.getElementById('media-preview');
@@ -146,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const captionInput = document.getElementById('caption-input');
     const charCounter = document.getElementById('char-counter');
     const btnSubmitPost = document.getElementById('submit-post-btn');
-    
+
     const uploadProgress = document.getElementById('upload-progress');
     const progressBar = document.getElementById('progress-bar');
     const successIcon = document.getElementById('success-icon');
@@ -199,16 +222,20 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 charCounter.classList.remove('text-red-500');
             }
+            // Clear validation error when user starts typing
+            if (captionInput.value.trim() !== '') {
+                captionInput.classList.remove('border-red-500', 'dark:border-red-500');
+            }
         });
     }
 
     // Image preview (optimized 4:5 upload)
     if (mediaInput) {
-        mediaInput.addEventListener('change', function() {
+        mediaInput.addEventListener('change', function () {
             const file = this.files[0];
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     mediaPreview.src = e.target.result;
                     mediaPreview.classList.remove('hidden');
                     uploadPlaceholder.classList.add('hidden');
@@ -221,16 +248,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Upload micro-interaction
     if (btnSubmitPost) {
         btnSubmitPost.addEventListener('click', () => {
+            // Validate caption input (must not be empty since model text is required)
+            if (captionInput && captionInput.value.trim() === '') {
+                captionInput.classList.add('border-red-500', 'dark:border-red-500');
+                captionInput.focus();
+                return;
+            }
+
             const btnSpan = btnSubmitPost.querySelector('span');
             // Disable button
             btnSubmitPost.disabled = true;
             btnSpan.textContent = 'Sending...';
             btnSubmitPost.classList.add('opacity-80');
-            
+
             // Show progress bar
             uploadProgress.classList.remove('hidden');
             progressBar.style.width = '10%';
-            
+
             // Simulate loading 2.0 (fake promise delay for micro-interaction)
             let progress = 10;
             const interval = setInterval(() => {
@@ -242,22 +276,28 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
-                
+
                 // Success
                 setTimeout(() => {
                     btnSpan.textContent = 'Published!';
                     successIcon.classList.remove('hidden');
                     btnSubmitPost.classList.remove('from-primary', 'to-blue-600');
                     btnSubmitPost.classList.add('from-secondary', 'to-green-500');
-                    
+
                     setTimeout(() => {
-                        closeModal();
-                        // Restore button for the next time in closeModal
-                        setTimeout(() => {
-                            btnSubmitPost.disabled = false;
-                            btnSubmitPost.classList.remove('opacity-80', 'from-secondary', 'to-green-500');
-                            btnSubmitPost.classList.add('from-primary', 'to-blue-600');
-                        }, 300);
+                        // Submit the form to the server!
+                        const form = document.getElementById('create-post-form');
+                        if (form) {
+                            form.submit();
+                        } else {
+                            closeModal();
+                            // Restore button for the next time in closeModal
+                            setTimeout(() => {
+                                btnSubmitPost.disabled = false;
+                                btnSubmitPost.classList.remove('opacity-80', 'from-secondary', 'to-green-500');
+                                btnSubmitPost.classList.add('from-primary', 'to-blue-600');
+                            }, 300);
+                        }
                     }, 1200);
                 }, 300);
             }, 1500);
@@ -267,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 5. Pinned moments (pin post)
     // ==========================================
-    document.body.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function (e) {
         const btnPin = e.target.closest('.btn-pin');
         if (btnPin) {
             e.preventDefault();
@@ -275,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPin.classList.toggle('bg-white/50');
             // Optional background if custom hover styles are present
             btnPin.classList.toggle('bg-primary/20');
-            
+
             // Visual micro-interaction (scale and CSS animation)
             btnPin.style.transform = 'scale(0.8)';
             setTimeout(() => {
@@ -289,9 +329,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const dobInput = document.querySelector('.date-dob-input');
     if (dobInput) {
-        dobInput.addEventListener('change', function() {
+        dobInput.addEventListener('change', function () {
             const errorContainer = document.getElementById('dob-error-container');
-            if(!this.value) return;
+            if (!this.value) return;
 
             const selectedDate = new Date(this.value);
             const today = new Date();

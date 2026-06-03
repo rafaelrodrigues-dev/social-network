@@ -5,7 +5,7 @@ app_name = 'publications'
 
 urlpatterns = [
     path('',views.home,name='home'),
-    path('create-publication/', views.CreatePublicationView.as_view(), name='create-publication'),
+    path('create-publication/',views.create_publication,name='create-publication'),
     path('p/<int:pk>/',views.publication_detail,name='publication-detail'),
     path('p/<int:pk>/delete/',views.delete_publication,name='delete-publication'),
     path('p/<int:pk>/like/',views.like,name='like'),

@@ -1,77 +1,110 @@
 {% load static %}
 {% load i18n %}
-<!-- Card de Postagem no formato Bento Liquid Glass -->
-<!-- Redesign para 2025: Fundo translúcido, interatividade em floating bar, estética única -->
-<article class="bento-card group relative bg-white/60 dark:bg-[#121212]/60 backdrop-blur-2xl border border-white/40 dark:border-white/10 flex flex-col mb-8 overflow-hidden hover-glow transition-all duration-300">
-    
+<!-- Post Card in Bento Liquid Glass format -->
+<!-- 2025 Redesign: Translucent background, floating bar interactivity, unique aesthetic -->
+<article
+    class="bento-card group relative bg-white/60 dark:bg-[#121212]/60 backdrop-blur-2xl border border-white/40 dark:border-white/10 flex flex-col mb-8 overflow-hidden hover-glow transition-all duration-300">
+
     <!-- Post Header -->
     <div class="flex items-center justify-between p-4 z-20 relative">
         <div class="flex items-center space-x-3">
             <a href="{% url 'profiles:profile' post.author.username %}" class="block focus:outline-none btn-micro">
-            {% if post.author.profile.picture %}
-            <img class="h-11 w-11 rounded-xl object-cover shadow-sm bg-gray-200 dark:bg-gray-800 ring-2 ring-white/60 dark:ring-white/10" src="{{ post.author.profile.picture.url }}" alt="{{ post.author }} Avatar">
-            {% else %}
-            <img class="h-11 w-11 rounded-xl object-cover shadow-sm bg-gray-200 dark:bg-gray-800 ring-2 ring-white/60 dark:ring-white/10" src="https://ui-avatars.com/api/?name={{ post.author.username }}&background=random" alt="{{ post.author }} Avatar">
+                {% if post.author.profile.picture %}
+                <img class="h-11 w-11 rounded-xl object-cover shadow-sm bg-gray-200 dark:bg-gray-800 ring-2 ring-white/60 dark:ring-white/10"
+                    src="{{ post.author.profile.picture.url }}" alt="{{ post.author }} Avatar">
+                {% else %}
+                <img class="h-11 w-11 rounded-xl object-cover shadow-sm bg-gray-200 dark:bg-gray-800 ring-2 ring-white/60 dark:ring-white/10"
+                    src="https://ui-avatars.com/api/?name={{ post.author.username }}&background=random"
+                    alt="{{ post.author }} Avatar">
             </a>
             {% endif %}
             <div>
-                <a href="{% url 'profiles:profile' post.author.username %}" class="text-[15px] font-bold text-gray-900 dark:text-gray-50 hover:underline leading-tight block">
+                <a href="{% url 'profiles:profile' post.author.username %}"
+                    class="text-[15px] font-bold text-gray-900 dark:text-gray-50 hover:underline leading-tight block">
                     {{ post.author.username }}
                 </a>
                 <p class="text-xs text-gray-500 dark:text-gray-400 block mt-0.5">{{ post.created_at|timesince }} {% translate "ago" %}</p>
             </div>
         </div>
-        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-xl focus:outline-none focus:bg-white/50 dark:focus:bg-white/10 transition-colors btn-micro">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
+        <button
+            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-xl focus:outline-none focus:bg-white/50 dark:focus:bg-white/10 transition-colors btn-micro">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
+                </path>
+            </svg>
         </button>
     </div>
 
-    <!-- Mídia ou Texto Principal -->
+    <!-- Media or Main Text -->
     {% if post.img %}
-    <!-- Post com Imagem: aspect-ratio reservado para evitar CLS -->
-    <div class="relative w-full aspect-[4/5] sm:max-h-[600px] bg-black/5 dark:bg-black/20 flex items-start justify-center overflow-hidden border-y border-white/20 dark:border-white/5 group-hover:border-white/40 transition-colors">
-        <img class="w-full h-full object-cover" 
-             loading="lazy" 
-             decoding="async" 
-             src="{{ post.img.url }}" 
-             alt="Post image "
-             width="1080" height="1350">
+    <!-- Post with Image: aspect-ratio reserved to avoid CLS -->
+    <div
+        class="relative w-full aspect-[4/5] sm:max-h-[600px] bg-black/5 dark:bg-black/20 flex items-start justify-center overflow-hidden border-y border-white/20 dark:border-white/5 group-hover:border-white/40 transition-colors">
+        <img class="w-full h-full object-cover" loading="lazy" decoding="async" src="{{ post.img.url }}"
+            alt="Post image " width="1080" height="1350">
 
-        <!-- Barra Exclusiva de Interações (Floating Action Overlay) -->
-        <div class="absolute right-4 bottom-4 flex flex-col gap-3 opacity-100 lg:opacity-0 lg:translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out z-30">
-            <button class="btn-like btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-red-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-red-500 focus:outline-none transition-all" aria-label="Like">
-                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+        <!-- Exclusive Interaction Bar (Floating Action Overlay) -->
+        <div
+            class="absolute right-4 bottom-4 flex flex-col gap-3 opacity-100 lg:opacity-0 lg:translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out z-30">
+            <button
+                class="btn-like btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 {% if request.user in post.like.all %}liked text-red-500{% else %} text-gray-800 dark:text-gray-200{% endif %} hover:text-red-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-red-500 focus:outline-none transition-all"
+                aria-label="Like" data-id="{{ post.id }}">
+                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="{% if request.user in post.like.all %}currentColor{% else %}none{% endif %}" stroke="currentColor"
+                    stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
             </button>
-            <a href="{% url "publications:publication-detail" post.id %}" class="btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-blue-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-blue-400 focus:outline-none transition-all" aria-label="Comment">
-                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" /></svg>
+            <a href="{% url "publications:publication-detail" post.id %}"
+                class="btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-blue-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-blue-400 focus:outline-none transition-all"
+                aria-label="Comment">
+                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+                    stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+                </svg>
             </a>
-            <button class="btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-gray-900 hover:bg-white dark:hover:bg-black/80 dark:hover:text-white focus:outline-none transition-all" aria-label="Save">
-                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" /></svg>
+            <button
+                class="btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-gray-900 hover:bg-white dark:hover:bg-black/80 dark:hover:text-white focus:outline-none transition-all"
+                aria-label="Save">
+                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+                    stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                </svg>
             </button>
         </div>
     </div>
 
     {% else %}
-    <!-- Post somente texto: height: auto, sem min-height fixo para evitar "espaço preto" -->
-    <div class="relative w-full post-text-body bg-gradient-to-br from-blue-50/60 via-white/20 to-purple-50/60 dark:from-blue-900/10 dark:via-transparent dark:to-purple-900/10 border-y border-white/20 dark:border-white/5 group-hover:border-white/40 transition-colors">
-        <!-- Liquid Glass overlay sutil -->
+    <!-- Text-only post: height: auto, no fixed min-height to avoid "black bars" -->
+    <div
+        class="relative w-full post-text-body bg-gradient-to-br from-blue-50/60 via-white/20 to-purple-50/60 dark:from-blue-900/10 dark:via-transparent dark:to-purple-900/10 border-y border-white/20 dark:border-white/5 group-hover:border-white/40 transition-colors">
+        <!-- Subtle Liquid Glass overlay -->
         <div class="absolute inset-0 pointer-events-none" aria-hidden="true"
-             style="background: radial-gradient(ellipse at 60% 40%, rgba(99,102,241,0.07) 0%, transparent 70%);"></div>
+            style="background: radial-gradient(ellipse at 60% 40%, rgba(99,102,241,0.07) 0%, transparent 70%);"></div>
 
         <div class="px-7 py-8 w-full z-10 relative">
-            <!-- Texto com lógica de truncagem / "Ler mais" -->
+            <!-- Text with truncation / "Read more" logic -->
             {% with text_content=post.text %}
             {% if text_content|length > 300 %}
             <div class="post-text-expandable" data-full-text="{{ text_content|escapejs }}">
-                <p class="text-[1.15rem] font-medium text-gray-800 dark:text-gray-100 leading-[1.75] balance-text post-text-preview">
+                <p
+                    class="text-[1.15rem] font-medium text-gray-800 dark:text-gray-100 leading-[1.75] balance-text post-text-preview">
                     {{ text_content|truncatechars:300 }}
                 </p>
-                <p class="text-[1.15rem] font-medium text-gray-800 dark:text-gray-100 leading-[1.75] post-text-full hidden" aria-hidden="true">
+                <p class="text-[1.15rem] font-medium text-gray-800 dark:text-gray-100 leading-[1.75] post-text-full hidden"
+                    aria-hidden="true">
                     {{ text_content }}
                 </p>
-                <button class="btn-read-more mt-3 text-sm font-semibold text-primary/80 hover:text-primary transition-colors focus:outline-none flex items-center gap-1.5" aria-expanded="false">
-                    Ler mais
-                    <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <button
+                    class="btn-read-more mt-3 text-sm font-semibold text-primary/80 hover:text-primary transition-colors focus:outline-none flex items-center gap-1.5"
+                    aria-expanded="false">
+                    {% translate "Read more" %}
+                    <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
                 </button>
 
             </div>
@@ -83,41 +116,49 @@
             {% endwith %}
         </div>
 
-        <!-- Ações flutuantes (texto): coluna horizontal no canto inferior-direito -->
-        <div class="absolute right-4 bottom-4 flex flex-col gap-2.5 opacity-100 lg:opacity-0 lg:translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out z-30">
-            <button class="btn-like btn-micro flex items-center justify-center w-10 h-10 rounded-xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-md border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-red-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-red-500 focus:outline-none transition-all" aria-label="Like">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+        <!-- Floating actions (text): horizontal column in the bottom-right corner -->
+        <div
+            class="absolute right-4 bottom-4 flex flex-col gap-2.5 opacity-100 lg:opacity-0 lg:translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out z-30">
+            <button
+                class="btn-like btn-micro flex items-center justify-center w-10 h-10 rounded-xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-md border border-white/40 dark:border-white/10 {% if request.user in post.like.all %}liked text-red-500{% else %}text-gray-800 dark:text-gray-200{% endif %} hover:text-red-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-red-500 focus:outline-none transition-all"
+                aria-label="Like" data-id="{{ post.id }}">
+                <svg class="w-5 h-5" fill="{% if request.user in post.like.all %}currentColor{% else %}none{% endif %}"
+                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
             </button>
-            <a href="{% url "publications:publication-detail" post.id %}" class="btn-micro flex items-center justify-center w-10 h-10 rounded-xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-md border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-blue-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-blue-400 focus:outline-none transition-all" aria-label="Comment">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" /></svg>
+            <a href="{% url "publications:publication-detail" post.id %}"
+                class="btn-micro flex items-center justify-center w-10 h-10 rounded-xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-md border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-blue-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-blue-400 focus:outline-none transition-all"
+                aria-label="Comment">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+                </svg>
             </a>
         </div>
     </div>
     {% endif %}
 
-    <!-- Container de Informações Secundárias e Curtidas -->
+    <!-- Secondary Information and Likes Container -->
     <div class="px-5 py-4 z-20 relative bg-white/30 dark:bg-black/10">
         <div class="text-[14px]">
             <p class="font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight flex items-center gap-2">
-                {{ post.like.count }} {% translate 'like(s)' %}
+                <span id="like-count-{{ post.id }}">{{ post.like.count }}</span>
             </p>
-            
             {% if post.img %}
-            <!-- Exibimos a legenda apenas se houve uma imagem acima -->
+            <!-- Display caption only if there was an image above -->
             <div class="text-gray-800 dark:text-gray-200 font-normal leading-relaxed">
                 {{ post.text }}
             </div>
             {% endif %}
-            
-            <!-- Ações Rápidas Footer Interno -->
+
+            <!-- Inner Footer Quick Actions -->
             <div class="mt-3 flex items-center justify-between text-[13px]">
-                <a href="{% url "publications:publication-detail" post.id %}" class="text-gray-500 dark:text-gray-400 font-medium hover:text-primary transition-colors focus:outline-none">
-                    View all {{ post.comments.count }} comments
+                <a href="{% url "publications:publication-detail" post.id %}"
+                    class="text-gray-500 dark:text-gray-400 font-medium hover:text-primary transition-colors focus:outline-none">
+                    {% translate "View all" %} {{ post.comments.count }} {% translate "comments" %}
                 </a>
-                <button class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors focus:outline-none flex items-center gap-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
-                    {% translate "Share" %}
-                </button>
             </div>
         </div>
     </div>
