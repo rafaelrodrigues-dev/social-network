@@ -2,12 +2,12 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}Post by {{ publication.author }} - Socialnet{% endblock %}
+{% block title %}{% translate "Post by" %} {{ publication.author }} - Socialnet{% endblock %}
 
 {% block content %}
 <div class="max-w-7xl mx-auto w-full px-2 sm:px-4 lg:px-8 mb-12">
     
-    <!-- Botão Voltar -->
+    <!-- Back Button -->
     <a href="javascript:history.back()" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white mb-6 transition-colors">
         <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -16,16 +16,16 @@
     </a>
 
     <!-- Bento Grid Layout: Post Detail (Modular) -->
-    <!-- items-start: previne que os blocos estiquem para preencher alturas fantasmas -->
+    <!-- items-start: prevents blocks from stretching to fill ghost heights -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- Bento Block 1: Mídia Dominante (4:5) ou Texto Balanceado -->
-        <!-- SEM min-height fixo: o article se expande apenas pelo seu conteúdo real -->
+        <!-- Bento Block 1: Dominant Media (4:5) or Balanced Text -->
+        <!-- NO fixed min-height: the article expands only based on its actual content -->
         <article class="bento-card liquid-glass lg:col-span-7 xl:col-span-8 group relative flex flex-col shadow-2xl overflow-hidden hover-glow transition-all duration-300" style="align-self: start;">
             {% if publication.img %}
-            <!-- Imagem: aspect-ratio 4:5 para reservar espaço e evitar CLS -->
+            <!-- Image: 4:5 aspect ratio to reserve space and avoid CLS -->
             <div class="w-full aspect-[4/5] lg:aspect-[4/5] relative overflow-hidden bg-black/5 dark:bg-[#0a0a0a]">
-                <!-- Fundo ambiente (blur) para eliminar o 'espaço preto' lateral -->
+                <!-- Ambient background (blur) to eliminate the side 'black bars' -->
                 <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none" aria-hidden="true">
                     <img class="w-full h-full object-cover blur-[60px] opacity-60 dark:opacity-40 scale-125 saturate-150" 
                          src="{{ publication.img.url }}" 
@@ -38,15 +38,15 @@
                      fetchpriority="high" decoding="sync">
             </div>
             {% else %}
-            <!-- Texto puro: height:auto, sem restrição de altura — elimina 'espaço preto' -->
+            <!-- Pure text: height:auto, no height restriction — eliminates 'black bars' -->
             <div class="relative w-full post-detail-text-body">
-                <!-- Liquid Glass gradient de profundidade -->
+                <!-- Liquid Glass depth gradient -->
                 <div class="absolute inset-0 pointer-events-none" aria-hidden="true"
                      style="background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, transparent 50%, rgba(168,85,247,0.06) 100%);"></div>
                 <div class="relative z-10 px-8 py-10 md:px-14 md:py-14 w-full">
                     {% with text_content=publication.text %}
                     {% if text_content|length > 300 %}
-                    <!-- Texto longo: mostra prévia + "Ler mais" -->
+                    <!-- Long text: shows preview + "Read more" -->
                     <div class="post-text-expandable">
                         <p class="text-[1.4rem] md:text-[1.75rem] font-medium text-gray-800 dark:text-gray-100 leading-[1.7] balance-text drop-shadow-sm post-text-preview">
                             {{ text_content|truncatechars:300 }}
@@ -55,12 +55,12 @@
                             {{ text_content }}
                         </p>
                         <button class="btn-read-more mt-4 text-sm font-semibold text-primary/80 hover:text-primary transition-colors focus:outline-none flex items-center gap-1.5" aria-expanded="false">
-                            Ler mais
+                            {% translate "Read more" %}
                             <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                     </div>
                     {% else %}
-                    <!-- Texto curto: exibe integralmente sem espaço extra -->
+                    <!-- Short text: displayed in full without extra space -->
                     <p class="text-[1.4rem] md:text-[1.75rem] font-medium text-gray-800 dark:text-gray-100 leading-[1.7] balance-text drop-shadow-sm">
                         {{ text_content }}
                     </p>
@@ -91,16 +91,16 @@
                             <a href="{% url "profiles:profile" publication.author.username %}" class="text-[16px] font-bold text-gray-900 dark:text-gray-50 hover:underline leading-tight block">
                                 {{ publication.author.username }}
                             </a>
-                            <p class="text-[13px] text-gray-500 dark:text-gray-400 block mt-0.5">{{ publication.created_at|timesince }} {% translate "ago" %}</p> <!-- Horário apenas aqui -->
+                            <p class="text-[13px] text-gray-500 dark:text-gray-400 block mt-0.5">{{ publication.created_at|timesince }} {% translate "ago" %}</p> <!-- Time is only here -->
                         </div>
                     </div>
-                    <!-- Dropdown de Opções -->
+                    <!-- Options Dropdown -->
                     <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-xl focus:outline-none focus:bg-white/50 dark:focus:bg-white/10 transition-colors btn-micro">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
                     </button>
                 </div>
 
-                <!-- Legenda do Post (Se houver texto além da imagem, evitamos duplicar nome/foto) -->
+                <!-- Post Caption (If there is text in addition to the image, we avoid duplicating name/photo) -->
                 {% if publication.text and publication.img %}
                 <div class="p-5 text-[15px] pt-4 pb-2">
                     <span class="text-gray-800 dark:text-gray-200 font-normal leading-relaxed">
@@ -109,41 +109,35 @@
                 </div>
                 {% endif %}
 
-                <!-- Micro-interações e Ações com Glassmorphism -->
+                <!-- Micro-interactions and Actions with Glassmorphism -->
                 <div class="p-5 pt-3 flex flex-col border-white/30 dark:border-white/10 bg-white/60 dark:bg-black/40 backdrop-blur-xl">
                     <div class="flex items-center justify-between mb-3">
                         <div class="flex items-center space-x-3">
-                            <button class="btn-micro flex items-center justify-center w-12 h-12 rounded-[18px] bg-white/70 dark:bg-black/50 shadow-sm border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-red-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-red-500 transition-all focus:outline-none group active:scale-95">
-                                <svg class="w-6 h-6 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
-                            </button>
-                            <button class="btn-micro flex items-center justify-center w-12 h-12 rounded-[18px] bg-white/70 dark:bg-black/50 shadow-sm border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-blue-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-blue-400 transition-all focus:outline-none group active:scale-95">
-                                <svg class="w-6 h-6 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" /></svg>
-                            </button>
-                            <button class="btn-micro flex items-center justify-center w-12 h-12 rounded-[18px] bg-white/70 dark:bg-black/50 shadow-sm border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-green-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-green-500 transition-all focus:outline-none group active:scale-95">
-                                <svg class="w-6 h-6 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+                            <button class="btn-like btn-micro flex items-center justify-center w-12 h-12 rounded-[18px] bg-white/70 dark:bg-black/50 shadow-sm border border-white/40 dark:border-white/10 {% if request.user in publication.like.all %}liked text-red-500{% else %} text-gray-800 dark:text-gray-200{% endif %} hover:text-red-500 hover:bg-white dark:hover:bg-black/80 dark:hover:text-red-500 transition-all focus:outline-none group active:scale-95" data-id="{{ publication.id }}">
+                                <svg class="w-6 h-6 transition-transform" fill="{% if request.user in publication.like.all %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
                             </button>
                         </div>
                         <button class="btn-micro flex items-center justify-center w-12 h-12 rounded-[18px] bg-white/70 dark:bg-black/50 shadow-sm border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-gray-900 hover:bg-white dark:hover:bg-black/80 dark:hover:text-white transition-all focus:outline-none group active:scale-95">
                             <svg class="w-6 h-6 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" /></svg>
                         </button>
                     </div>
-                    <p class="font-bold text-gray-900 dark:text-gray-100 mb-0 tracking-tight text-[15px]">{{ publication.like.count }} likes</p>
+                    <p class="font-bold text-gray-900 dark:text-gray-100 mb-0 tracking-tight text-[15px]">{{ publication.like.count }}</p>
                 </div>
             </div>
 
-            <!-- Bento Block 3: AdSense (Monetização Sem CLS) -->
-            <!-- ad-slot-detail: colapsa elegantemente se não houver anúncio real -->
+            <!-- Bento Block 3: AdSense (Monetization Without CLS) -->
+            <!-- ad-slot-detail: elegantly collapses if there is no real ad -->
             <div class="bento-card liquid-glass ad-slot-detail w-full flex items-center justify-center p-0 m-0 shadow-lg">
-                <!-- Substituir pelo código real do AdSense. O placeholder colapsa se vazio. -->
-                <!-- Placeholder Visual (dev only) -->
+                <!-- Replace with actual AdSense code. The placeholder collapses if empty. -->
+                <!-- Visual Placeholder (dev only) -->
                 <div class="ad-slot-placeholder p-6 text-center w-full">
                     <span class="block text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Patrocinado</span>
                     <span class="text-xs text-gray-400">AdSense Slot</span>
                 </div>
             </div>
 
-            <!-- Bento Block 4: Seção de Comentários (Dinâmicos e Focados no Post Principal) -->
-            <!-- max-h dinâmico: sobe junto com o conteúdo do post, sem fixar uma altura que crie vazio -->
+            <!-- Bento Block 4: Comment Section (Dynamic and Focused on the Main Post) -->
+            <!-- Dynamic max-h: rises with post content, without fixing a height that creates empty space -->
             <div class="bento-card liquid-glass flex flex-col bg-white/40 dark:bg-black/20 shadow-xl overflow-hidden mb-8 lg:mb-0">
                 
                 <div class="p-5 border-b border-white/30 dark:border-white/5 bg-white/50 dark:bg-black/30 backdrop-blur-md sticky top-0 z-30">
@@ -153,11 +147,11 @@
                     </h3>
                 </div>
 
-                <!-- Lista Rolável de Comentários -->
-                <!-- Limita a app com apenas uma tier de comments e sem curtidas per-user comment request -->
+                <!-- Scrollable Comments List -->
+                <!-- Limits the app to only one tier of comments and no per-user likes for comment requests -->
                 <div class="flex-1 overflow-y-auto p-5 hide-scrollbar space-y-6 relative z-10" id="comments-container">
                     {% for comment in comments %}
-                    <!-- Comentário Nível Único (Sem Responder / Curtir Comentário) -->
+                    <!-- Single Level Comment (No Reply / Like Comment) -->
                     <div class="flex space-x-3 group animate-fade-in">
                         <a href="{% url "profiles:profile" comment.author.username %}" class="flex-shrink-0 mt-1">
                             {% if comment.author.profile.picture %}
@@ -176,15 +170,14 @@
                                 <span>{{ comment.created_at|timesince }} {% translate "ago" %}</span>
                             </div>
                         </div>
-                        <!-- Moderação UGC AdSense: Menu contextual estilo Flag/Report oculta no glassmorfismo -->
-                        <button class="text-red-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity focus:outline-none flex-shrink-0" title="Denunciar/Moderar">
+                        <!-- UGC AdSense Moderation: Context menu in Flag/Report style hidden in glassmorphism -->
+                        <button class="text-red-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity focus:outline-none flex-shrink-0" title="Report/Moderate">
                             <svg class="w-5 h-5 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         </button>
                     </div>
                     {% endfor %}
 
-                    <!-- Skeleton Loaders (Estrutura HTML/CSS Oclusa Pronta para o JS Assíncrono) -->
-                    <!-- Adicionei para demonstrar visualmente uma vez clicado no botão (veja onClick) -->
+                    <!-- Skeleton Loaders (Hidden HTML/CSS Structure Ready for Async JS) -->
                     <div id="comments-skeleton" class="skeleton-wrapper space-y-6">
                         <div class="flex space-x-3">
                             <div class="skeleton skeleton-avatar mt-1"></div>
@@ -195,19 +188,19 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Paginação Dinâmica (INP < 200ms) - Botão Simula Injeção dos Skeletons -->
-                    <div class="mt-6 border-t border-white/20 dark:border-white/5 pt-4 text-center">
-                        <button id="load-more-comments" class="text-sm font-semibold text-primary/80 hover:text-primary transition-colors focus:outline-none flex flex-col items-center justify-center w-full group py-2" onclick="document.getElementById('comments-skeleton').style.display='block'; this.style.display='none';">
-                            <span class="mb-1">{% translate "View more" %}</span>
-                            <svg class="w-4 h-4 text-gray-400 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                    </div>
-
+                    {% if comments.has_next %}
+                        <!-- Dynamic Pagination (INP < 200ms) - Button Simulates Skeleton Injection -->
+                        <div class="mt-6 border-t border-white/20 dark:border-white/5 pt-4 text-center">
+                            <button id="load-more-comments" class="text-sm font-semibold text-primary/80 hover:text-primary transition-colors focus:outline-none flex flex-col items-center justify-center w-full group py-2" data-next-page="{{ comments.next_page_number }}">
+                                <span class="mb-1">{% translate "View more" %}</span>
+                                <svg class="w-4 h-4 text-gray-400 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                        </div>
+                    {% endif %}
                 </div>
 
-                <!-- Input de Comentário Fixo na Base do Card de Comentários -->
-                <!-- AdSense Compliance: Deixamos claro que existe um input de usuário seguro e monitorado -->
+                <!-- Fixed Comment Input at the Base of the Comments Card -->
+                <!-- AdSense Compliance: We make it clear that there is a secure and monitored user input -->
                 <div class="p-4 border-t border-white/30 dark:border-white/10 bg-white/60 dark:bg-black/40 backdrop-blur-xl z-20 sticky bottom-0">
                     <form method="POST" action="{% url "publications:comment" publication.id %}" class="flex items-center relative gap-3">
                         {% csrf_token %}
@@ -223,3 +216,48 @@
     </div>
 </div>
 {% endblock %}
+{% block javascript %}
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const loadMoreCommentsBtn = document.getElementById('load-more-comments');
+        const commentsSkeleton = document.getElementById('comments-skeleton');
+        
+        if (loadMoreCommentsBtn) {
+            loadMoreCommentsBtn.addEventListener('click', function(){
+                commentsSkeleton.style.display = 'block';
+                loadMoreCommentsBtn.style.display = 'none';
+                const nextPage = loadMoreCommentsBtn.dataset.nextPage;
+                
+                fetch(`?comments_page=${nextPage}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        
+                        const newComments = doc.querySelectorAll('#comments-container > .animate-fade-in');
+                        const commentsContainer = document.getElementById('comments-container');
+                        
+                        newComments.forEach(comment => {
+                            commentsContainer.insertBefore(comment, commentsSkeleton);
+                        });
+
+                        const newBtn = doc.getElementById('load-more-comments');
+                        if (newBtn) {
+                            loadMoreCommentsBtn.dataset.nextPage = newBtn.dataset.nextPage;
+                            loadMoreCommentsBtn.style.display = 'block';
+                        } else {
+                            loadMoreCommentsBtn.parentElement.remove();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error loading comments:', err);
+                        loadMoreCommentsBtn.style.display = 'block';
+                    })
+                    .finally(() => {
+                        commentsSkeleton.style.display = 'none';
+                    });
+            });
+        }
+    });
+</script>
+{% endblock javascript %}
