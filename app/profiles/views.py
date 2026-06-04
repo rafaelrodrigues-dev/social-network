@@ -12,7 +12,6 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
-PER_PAGE = os.getenv('PER_PAGE',7)
 
 class EditProfileView(LoginRequiredMixin,FormView):
     template_name = 'profiles/edit_profile.html'
@@ -52,7 +51,7 @@ def follow(request,username):
 def profile_detail(request,username):
     profile = get_object_or_404(Profile,user__username=username)
     publications = Publication.objects.filter(author__profile=profile).order_by('-id')
-    paginator = Paginator(publications,PER_PAGE)
+    paginator = Paginator(publications,6)
     page_num = request.GET.get('page')
     page_obj = paginator.get_page(page_num)
 

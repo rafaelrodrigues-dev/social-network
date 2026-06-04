@@ -305,27 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 5. Pinned moments (pin post)
-    // ==========================================
-    document.body.addEventListener('click', function (e) {
-        const btnPin = e.target.closest('.btn-pin');
-        if (btnPin) {
-            e.preventDefault();
-            btnPin.classList.toggle('text-primary');
-            btnPin.classList.toggle('bg-white/50');
-            // Optional background if custom hover styles are present
-            btnPin.classList.toggle('bg-primary/20');
-
-            // Visual micro-interaction (scale and CSS animation)
-            btnPin.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                btnPin.style.transform = 'scale(1)';
-            }, 150);
-        }
-    });
-
-    // ==========================================
-    // 6. Proactive validation - AGE 18+ (Register Form)
+    // 5. Proactive validation - AGE 18+ (Register Form)
     // ==========================================
     const dobInput = document.querySelector('.date-dob-input');
     if (dobInput) {
