@@ -9,6 +9,7 @@ urlpatterns = [
     path('p/<int:pk>/',views.publication_detail,name='publication-detail'),
     path('p/<int:pk>/delete/',views.delete_publication,name='delete-publication'),
     path('p/<int:pk>/like/',views.like,name='like'),
+    path('p/<int:pk>/save/',views.save_publication,name='save'),
     path('p/<int:pk>/comment/',views.comment,name='comment'),
     path('p/delete-comment/<int:pk>/',views.delete_comment,name='delete-comment'),
 ]

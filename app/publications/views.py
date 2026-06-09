@@ -20,15 +20,24 @@ def create_publication(request):
     return redirect('publications:home')
 
 def home(request):
-    publications = Publication.objects.all().order_by('-id')
+    filter_publications = request.GET.get('f', '')
+    if filter_publications == 'saved':
+        publications = Publication.objects.filter(saved=request.user).order_by('-id')
+    elif filter_publications == 'following':
+        publications = Publication.objects.filter(author__profile__in=request.user.profile.follow.all()).order_by('-id')
+    else:
+        publications = Publication.objects.all().order_by('-id')
+        filter_publications = 'feed'
+
     paginator = Paginator(publications,PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request,'publications/pages/home.html',{
         'page_obj':page_obj,
+        'filter_publications': filter_publications
         })
 
-def publication_detail(request,pk):
+def publication_detail(request, pk):
     publication = get_object_or_404(Publication,pk=pk)
     comments_list = Comment.objects.filter(publication=publication,).order_by('-id')
     paginator = Paginator(comments_list,5)
@@ -52,7 +61,7 @@ def delete_publication(request, pk):
         return HttpResponseForbidden("You are not allowed to delete this publication.")
 
 @login_required(login_url='authors:login')
-def like(request,pk):
+def like(request, pk):
     if request.method != 'POST':
         return JsonResponse({'error':'Invalid request'},status=400)
 
@@ -70,11 +79,28 @@ def like(request,pk):
     })
 
 @login_required
-def comment(request,pk):
+def save_publication(request, pk):
     if request.method != 'POST':
         raise Http404()
     
-    publication = get_object_or_404(Publication,pk=pk)
+    publication = get_object_or_404(Publication, pk=pk)
+    if publication in request.user.saved.all():
+        publication.saved.remove(request.user)
+        saved = False
+    else:
+        publication.saved.add(request.user)
+        saved = True
+
+    return JsonResponse({
+        'saved':saved,
+    })
+
+@login_required
+def comment(request, pk):
+    if request.method != 'POST':
+        raise Http404()
+    
+    publication = get_object_or_404(Publication, pk=pk)
     text = request.POST.get('text')
     author = request.user
     Comment.objects.create(
@@ -83,17 +109,17 @@ def comment(request,pk):
         author=author
     )
 
-    return redirect(reverse('publications:publication-detail',kwargs={'pk':pk}))
+    return redirect(reverse('publications:publication-detail',kwargs={'pk': pk}))
 
 @login_required
-def delete_comment(request,pk):
+def delete_comment(request, pk):
     if request.method != 'POST':
         raise Http404()
     
-    comment = get_object_or_404(Comment,pk=pk)
+    comment = get_object_or_404(Comment, pk=pk)
     publication_pk = comment.publication.pk
     if request.user == comment.author or request.user == comment.publication.author:
         comment.delete()
-        return redirect(reverse('publications:publication-detail',kwargs={'pk':publication_pk}))
+        return redirect(reverse('publications:publication-detail',kwargs={'pk': publication_pk}))
     else:
         return HttpResponseForbidden("You are not allowed to delete this comment.")

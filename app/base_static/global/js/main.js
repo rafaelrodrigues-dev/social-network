@@ -89,9 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
                 .then(response => {
-                    if (response.status === 403) {
-                        window.location.href = '/a/login/'
+                    if (response.redirected) {
+                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`
                         return
+                    }
+                    if (response.status === 403) {
+                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`
+                        return
+                    }
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json()
                 })
@@ -127,9 +134,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+        // ==========================================
+        //  Save buttons
+        // ==========================================
+
+        const btnSave = e.target.closest('.btn-save');
+        if (btnSave) {
+            e.preventDefault();
+            const publicationId = btnSave.dataset.id
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            fetch(`/p/${publicationId}/save/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`
+                        return
+                    }
+                    if (response.status === 403) {
+                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`
+                        return
+                    }
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json()
+                })
+                .catch(error => console.error('Error:', error))
+
+            const icon = btnSave.querySelector('svg');
+            const isSaved = btnSave.classList.contains('saved');
+            if (isSaved) {
+                // Unsaved
+                btnSave.classList.remove('saved');
+                btnSave.classList.remove('bg-white');
+                btnSave.classList.add('text-gray-800', 'dark:text-gray-200');
+                if (icon) {
+                    icon.setAttribute('fill', 'none');
+                    icon.classList.remove('animate-like-pop');
+                }
+            } else {
+                // Saved
+                btnSave.classList.add('saved');
+                btnSave.classList.remove('text-gray-800', 'dark:text-gray-200');
+                btnSave.classList.add('bg-white');
+                if (icon) {
+                    icon.setAttribute('fill', 'currentColor');
+                    // Restart animation by forcing reflow
+                    icon.classList.remove('animate-like-pop');
+                    void icon.offsetWidth;
+                    icon.classList.add('animate-like-pop');
+                }
+            }
+        }
 
         // ==========================================
-        // 3. Follow system
+        //  Follow system
         // ==========================================
         const btnFollow = e.target.closest('.btn-follow');
         if (btnFollow) {

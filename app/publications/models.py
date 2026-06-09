@@ -11,6 +11,7 @@ class Publication(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User,related_name='publications',on_delete=models.CASCADE)
     like = models.ManyToManyField(User,related_name='likes',blank=True)
+    saved = models.ManyToManyField(User,related_name='saved',blank=True)
 
     def __str__(self):
         return f'{self.author.username} publication id:{self.id}'

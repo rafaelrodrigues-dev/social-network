@@ -47,7 +47,6 @@ def follow(request,username):
 
     return redirect(reverse('profiles:profile',kwargs={'username':username}))
 
-@login_required()
 def profile_detail(request,username):
     profile = get_object_or_404(Profile,user__username=username)
     publications = Publication.objects.filter(author__profile=profile).order_by('-id')

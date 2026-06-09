@@ -65,9 +65,9 @@
                 </svg>
             </a>
             <button
-                class="btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 text-gray-800 dark:text-gray-200 hover:text-gray-900 hover:bg-white dark:hover:bg-black/80 dark:hover:text-white focus:outline-none transition-all"
-                aria-label="Save">
-                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+                class="btn-save btn-micro flex items-center justify-center w-11 h-11 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-md shadow-lg border border-white/40 dark:border-white/10 {% if request.user in post.saved.all %}saved bg-white{% else %} text-gray-800 dark:text-gray-200 {% endif %}hover:text-gray-900 hover:bg-white dark:hover:bg-black/80 dark:hover:text-white focus:outline-none transition-all"
+                aria-label="Save" data-id="{{ post.id }}">
+                <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="{% if request.user in post.saved.all %}currentColor{% else %}none{% endif %}" stroke="currentColor"
                     stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
