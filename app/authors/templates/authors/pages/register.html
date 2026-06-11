@@ -217,3 +217,39 @@
     </div>
 </div>
 {% endblock %}
+{% block javascript %}
+<script>
+const dobInput = document.querySelector('.date-dob-input');
+dobInput.addEventListener('change', function () {
+    const errorContainer = document.getElementById('dob-error-container');
+    if (!this.value) return;
+
+    const selectedDate = new Date(this.value);
+    const today = new Date();
+    let age = today.getFullYear() - selectedDate.getFullYear();
+    const m = today.getMonth() - selectedDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < selectedDate.getDate())) {
+        age--;
+    }
+
+    if (age < 18) {
+        this.classList.add('border-red-500', 'dark:border-red-500', 'animate-shake');
+        this.classList.remove('valid-input');
+        // Force shake restart
+        this.classList.remove('animate-shake');
+        void this.offsetWidth;
+        this.classList.add('animate-shake');
+
+        if (errorContainer) {
+            errorContainer.innerHTML = '<p class="text-xs text-red-500" aria-live="polite">{% translate "You must be at least 18 years old." %}</p>';
+        }
+    } else {
+        this.classList.remove('border-red-500', 'dark:border-red-500', 'animate-shake');
+        this.classList.add('valid-input');
+        if (errorContainer) {
+            errorContainer.innerHTML = '<p class="text-xs text-green-500" aria-live="polite">{% translate "Age verified." %}</p>';
+        }
+    }
+});
+</script>
+{% endblock %}

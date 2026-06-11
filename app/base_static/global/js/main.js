@@ -171,17 +171,33 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isSaved) {
                 // Unsaved
                 btnSave.classList.remove('saved');
-                btnSave.classList.remove('bg-white');
-                btnSave.classList.add('text-gray-800', 'dark:text-gray-200');
+
+                if (btnSave.closest('.dropdown-menu')) {
+                    btnSave.classList.remove('text-blue-600', 'dark:text-blue-400', 'font-medium');
+                    btnSave.classList.add('text-gray-700', 'dark:text-gray-200');
+                } else {
+                    btnSave.classList.remove('bg-white');
+                    btnSave.classList.add('text-gray-800', 'dark:text-gray-200');
+                }
+
                 if (icon) {
                     icon.setAttribute('fill', 'none');
                     icon.classList.remove('animate-like-pop');
                 }
+                const saveText = btnSave.querySelector('.save-text');
+                if (saveText) saveText.textContent = 'Save';
             } else {
                 // Saved
                 btnSave.classList.add('saved');
-                btnSave.classList.remove('text-gray-800', 'dark:text-gray-200');
-                btnSave.classList.add('bg-white');
+
+                if (btnSave.closest('.dropdown-menu')) {
+                    btnSave.classList.remove('text-gray-700', 'dark:text-gray-200');
+                    btnSave.classList.add('text-blue-600', 'dark:text-blue-400', 'font-medium');
+                } else {
+                    btnSave.classList.remove('text-gray-800', 'dark:text-gray-200');
+                    btnSave.classList.add('bg-white');
+                }
+
                 if (icon) {
                     icon.setAttribute('fill', 'currentColor');
                     // Restart animation by forcing reflow
@@ -189,6 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     void icon.offsetWidth;
                     icon.classList.add('animate-like-pop');
                 }
+                const saveText = btnSave.querySelector('.save-text');
+                if (saveText) saveText.textContent = 'Saved';
             }
         }
 
@@ -369,41 +387,110 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 5. Proactive validation - AGE 18+ (Register Form)
+    // 5. Dropdown Mais Opções (Toggle e Click-away)
     // ==========================================
-    const dobInput = document.querySelector('.date-dob-input');
-    if (dobInput) {
-        dobInput.addEventListener('change', function () {
-            const errorContainer = document.getElementById('dob-error-container');
-            if (!this.value) return;
+    document.body.addEventListener('click', function (e) {
+        // Handle dropdown toggle
+        const btnOptions = e.target.closest('.btn-options');
+        if (btnOptions) {
+            e.preventDefault();
+            const container = btnOptions.closest('.dropdown-container');
+            const menu = container.querySelector('.dropdown-menu');
+            const isExpanded = btnOptions.getAttribute('aria-expanded') === 'true';
 
-            const selectedDate = new Date(this.value);
-            const today = new Date();
-            let age = today.getFullYear() - selectedDate.getFullYear();
-            const m = today.getMonth() - selectedDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < selectedDate.getDate())) {
-                age--;
-            }
-
-            if (age < 18) {
-                this.classList.add('border-red-500', 'dark:border-red-500', 'animate-shake');
-                this.classList.remove('valid-input');
-                // Force shake restart
-                this.classList.remove('animate-shake');
-                void this.offsetWidth;
-                this.classList.add('animate-shake');
-
-                if (errorContainer) {
-                    errorContainer.innerHTML = '<p class="text-xs text-red-500" aria-live="polite">You must be at least 18 years old.</p>';
+            // Close all other dropdowns first
+            document.querySelectorAll('.dropdown-menu:not(.hidden)').forEach(openMenu => {
+                if (openMenu !== menu) {
+                    closeDropdown(openMenu);
                 }
+            });
+
+            if (!isExpanded) {
+                // Open
+                menu.classList.remove('hidden');
+                menu.classList.remove('dropdown-animate-out');
+                menu.classList.add('dropdown-animate-in');
+                btnOptions.setAttribute('aria-expanded', 'true');
             } else {
-                this.classList.remove('border-red-500', 'dark:border-red-500', 'animate-shake');
-                this.classList.add('valid-input');
-                if (errorContainer) {
-                    errorContainer.innerHTML = '<p class="text-xs text-green-500" aria-live="polite">Age verified.</p>';
-                }
+                // Close
+                closeDropdown(menu);
             }
-        });
+            return;
+        }
+
+        // Click-away listener
+        if (!e.target.closest('.dropdown-container')) {
+            document.querySelectorAll('.dropdown-menu:not(.hidden)').forEach(menu => {
+                closeDropdown(menu);
+            });
+        }
+    });
+
+    function closeDropdown(menu) {
+        const container = menu.closest('.dropdown-container');
+        if (!container) return;
+        const btn = container.querySelector('.btn-options');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+
+        menu.classList.remove('dropdown-animate-in');
+        menu.classList.add('dropdown-animate-out');
+
+        // Wait for animation to finish before hiding
+        setTimeout(() => {
+            if (menu.classList.contains('dropdown-animate-out')) {
+                menu.classList.add('hidden');
+            }
+        }, 150);
     }
 
+    // ==========================================
+    // 6. Delete Confirmation Modal
+    // ==========================================
+    const confirmModal = document.getElementById('confirm-modal');
+    const confirmOverlay = document.getElementById('confirm-overlay');
+    const confirmContent = document.getElementById('confirm-content');
+    const btnCancelConfirm = document.getElementById('confirm-cancel-btn');
+    const confirmForm = document.getElementById('confirm-form');
+
+    const closeConfirmModal = () => {
+        if (!confirmModal) return;
+        confirmContent.classList.remove('scale-100', 'opacity-100');
+        confirmContent.classList.add('scale-95', 'opacity-0');
+        confirmOverlay.classList.remove('opacity-100');
+        confirmOverlay.classList.add('opacity-0');
+        setTimeout(() => {
+            confirmModal.classList.add('hidden');
+        }, 200);
+    };
+
+    document.body.addEventListener('click', function (e) {
+        const btnDelete = e.target.closest('.btn-delete');
+        if (btnDelete) {
+            e.preventDefault();
+            const deleteUrl = btnDelete.getAttribute('data-delete-url');
+            if (confirmForm && deleteUrl) {
+                confirmForm.action = deleteUrl;
+            }
+
+            // Close any open dropdowns
+            document.querySelectorAll('.dropdown-menu:not(.hidden)').forEach(menu => {
+                closeDropdown(menu);
+            });
+
+            // Open modal
+            if (confirmModal) {
+                confirmModal.classList.remove('hidden');
+                // Small delay for CSS transition
+                setTimeout(() => {
+                    confirmContent.classList.remove('scale-95', 'opacity-0');
+                    confirmContent.classList.add('scale-100', 'opacity-100');
+                    confirmOverlay.classList.remove('opacity-0');
+                    confirmOverlay.classList.add('opacity-100');
+                }, 10);
+            }
+        }
+    });
+
+    if (btnCancelConfirm) btnCancelConfirm.addEventListener('click', closeConfirmModal);
+    if (confirmOverlay) confirmOverlay.addEventListener('click', closeConfirmModal);
 });

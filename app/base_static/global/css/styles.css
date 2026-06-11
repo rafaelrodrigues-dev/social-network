@@ -1,7 +1,7 @@
 /* static/css/styles.css */
 
 /* ================================================================
-   LIQUID GLASS — Efeito Profundidade e Camadas Translúcidas
+   LIQUID GLASS — Depth Effect and Translucent Layers
    ================================================================ */
 .liquid-glass {
     background-color: rgba(255, 255, 255, 0.7);
@@ -29,7 +29,7 @@
 }
 
 /* ================================================================
-   MICRO-INTERAÇÕES E FEEDBACK VISUAL (Tendências 2025)
+   MICRO-INTERACTIONS AND VISUAL FEEDBACK (2025 Trends)
    ================================================================ */
 .btn-micro {
     transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -63,7 +63,7 @@
 }
 
 /* ================================================================
-   HIDE SCROLLBAR (feeds horizontais, listas de comentários)
+   HIDE SCROLLBAR (horizontal feeds, comment lists)
    ================================================================ */
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
@@ -75,7 +75,7 @@
 }
 
 /* ================================================================
-   BENTO CARD — Base de todos os blocos do grid modular
+   BENTO CARD — Base of all modular grid blocks
    ================================================================ */
 .bento-card {
     border-radius: 1.5rem;
@@ -94,37 +94,37 @@
 }
 
 /* ================================================================
-   POST DE TEXTO PURO — height:auto, sem restrições fixas
-   Garante que cards de texto se expandam pelo conteúdo (Feed)
+   PURE TEXT POST — height:auto, no fixed restrictions
+   Ensures text cards expand by content (Feed)
    ================================================================ */
 .post-text-body {
-    /* height e min-height = auto: eliminam o "buraco preto" abaixo
-       do texto em posts somente-texto no feed */
+    /* height and min-height = auto: eliminate the "black hole" below
+       the text in text-only posts in the feed */
     height: auto;
     min-height: unset;
     position: relative;
-    /* Tipografia fluida para leitura de textos longos */
+    /* Fluid typography for reading long texts */
     line-height: 1.75;
 }
 
 /* ================================================================
-   POST DETAIL — Bloco de texto somente (post_detail.html)
-   Contrai organicamente com o conteúdo, sem vácuo preto.
+   POST DETAIL — Text block only (post_detail.html)
+   Contracts organically with the content, without a black hole.
    ================================================================ */
 .post-detail-text-body {
     height: auto;
     min-height: unset;
     position: relative;
-    /* Padding mínimo para respiração visual */
+    /* Minimum padding for visual breathing room */
     padding-bottom: 0;
 }
 
 /* ================================================================
-   FUNCIONALIDADE "LER MAIS" / "VER MENOS"
-   Animação suave com max-height; INP < 200ms (sem reflow pesado)
+   "READ MORE" / "SHOW LESS" FUNCTIONALITY
+   Smooth animation with max-height; INP < 200ms (no heavy reflow)
    ================================================================ */
 .post-text-full {
-    /* Transição suave ao expandir */
+    /* Smooth transition when expanding */
     animation: textReveal 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
@@ -139,7 +139,7 @@
     }
 }
 
-/* Botão "Ler mais" / "Ver menos" */
+/* "Read more" / "Show less" button */
 .btn-read-more {
     display: inline-flex;
     align-items: center;
@@ -158,23 +158,23 @@
     color: rgb(59, 130, 246);
 }
 
-/* Ícone rotaciona quando expandido */
+/* Icon rotates when expanded */
 .btn-read-more[aria-expanded="true"] svg {
     transform: rotate(180deg);
 }
 
 /* ================================================================
-   AD SLOTS — Prevenção de CLS e colapso elegante
+   AD SLOTS — CLS prevention and elegant collapse
    ================================================================ */
 
-/* In-feed (Feed + Post Detail): sem anúncio real, colapsa para 0 */
+/* In-feed (Feed + Post Detail): no actual ad, collapses to 0 */
 .ad-slot-infeed {
-    /* Reserva espaço APENAS quando o AdSense for injetado (.has-ad) */
+    /* Reserves space ONLY when AdSense is injected (.has-ad) */
     min-height: 0;
     width: 100%;
     border-radius: 1rem;
     overflow: hidden;
-    /* Placeholder visível em dev */
+    /* Visible placeholder in dev */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -185,12 +185,12 @@
     transition: min-height 0.3s ease;
 }
 
-/* Quando o AdSense real é injetado: adicione .has-ad ao elemento */
+/* When the actual AdSense is injected: add .has-ad to the element */
 .ad-slot-infeed.has-ad {
     min-height: 250px;
 }
 
-/* Sem anúncio: placeholder ocupa espaço mínimo, sem "buraco" */
+/* No ad: placeholder takes up minimal space, no "hole" */
 .ad-slot-infeed:not(.has-ad) .ad-slot-placeholder {
     padding: 1rem;
 }
@@ -199,7 +199,7 @@
     background-color: #1e1e1e;
 }
 
-/* Ad Slot no Post Detail (sidebar) — min-height 250px como CLS guard */
+/* Ad Slot in Post Detail (sidebar) — min-height 250px as CLS guard */
 .ad-slot-detail {
     min-height: 250px;
     width: 100%;
@@ -211,10 +211,10 @@
     transition: min-height 0.3s ease;
 }
 
-/* Colapso elegante quando placeholder sem anúncio real */
+/* Elegant collapse when placeholder has no actual ad */
 .ad-slot-detail:not(.has-ad) {
-    /* Mantém espaço mínimo para não criar "poço preto" na sidebar,
-       mas menor que o guard do CLS (usado apenas em dev/placeholder) */
+    /* Keeps minimal space to avoid creating a "black hole" in the sidebar,
+       but smaller than the CLS guard (used only in dev/placeholder) */
     min-height: 80px;
 }
 
@@ -223,13 +223,13 @@
 }
 
 /* ================================================================
-   UTILITÁRIOS TYPOGRÁFICOS
+   TYPOGRAPHICAL UTILITIES
    ================================================================ */
 .balance-text {
     text-wrap: balance;
 }
 
-/* Tipografia adaptativa para leitura de textos longos */
+/* Adaptive typography for reading long texts */
 .post-text-body p,
 .post-detail-text-body p {
     line-height: 1.75;
@@ -289,11 +289,32 @@
 }
 
 .skeleton-wrapper {
-    display: none; /* Inativo por padrão; o JS controla a exibição */
+    display: none; /* Inactive by default; JS controls the display */
 }
 
 /* ================================================================
-   ANIMAÇÕES AUXILIARES
+   DROPDOWN & MODAL ANIMATIONS
+   ================================================================ */
+@keyframes dropdownEntry {
+    from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes dropdownExit {
+    from { opacity: 1; transform: scale(1) translateY(0); }
+    to   { opacity: 0; transform: scale(0.95) translateY(-5px); }
+}
+
+.dropdown-animate-in {
+    animation: dropdownEntry 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.dropdown-animate-out {
+    animation: dropdownExit 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ================================================================
+   AUXILIARY ANIMATIONS
    ================================================================ */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(6px); }
@@ -304,7 +325,7 @@
     animation: fadeIn 0.3s ease both;
 }
 
-/* Animação de Erro: Shake */
+/* Error Animation: Shake */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     20%, 60% { transform: translateX(-4px); }
@@ -315,7 +336,7 @@
     animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-/* Micro-interação: Input Válido */
+/* Micro-interaction: Valid Input */
 .valid-input {
     border-color: #10b981 !important; /* Tailwind green-500 */
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);

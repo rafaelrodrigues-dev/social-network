@@ -6,7 +6,7 @@
     class="bento-card group relative bg-white/60 dark:bg-[#121212]/60 backdrop-blur-2xl border border-white/40 dark:border-white/10 flex flex-col mb-8 overflow-hidden hover-glow transition-all duration-300">
 
     <!-- Post Header -->
-    <div class="flex items-center justify-between p-4 z-20 relative">
+    <div class="flex items-center justify-between p-4 z-40 relative">
         <div class="flex items-center space-x-3">
             <a href="{% url 'profiles:profile' post.author.username %}" class="block focus:outline-none btn-micro">
                 {% if post.author.profile.picture %}
@@ -26,13 +26,37 @@
                 <p class="text-xs text-gray-500 dark:text-gray-400 block mt-0.5">{{ post.created_at|timesince }} {% translate "ago" %}</p>
             </div>
         </div>
-        <button
-            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-xl focus:outline-none focus:bg-white/50 dark:focus:bg-white/10 transition-colors btn-micro">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
-                </path>
-            </svg>
-        </button>
+        <!-- 3-dots with dropdown -->
+        <div class="relative inline-block text-left dropdown-container">
+            <button
+                class="btn-options text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-xl focus:outline-none focus:bg-white/50 dark:focus:bg-white/10 transition-colors btn-micro" aria-haspopup="true" aria-expanded="false" aria-label="More options">
+                <svg class="w-5 h-5 pointer-events-none" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
+                    </path>
+                </svg>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 rounded-2xl bg-white/95 dark:bg-surface/95 backdrop-blur-xl py-2 shadow-xl z-50 origin-top-right border border-gray-100 dark:border-white/10" role="menu">
+                <!-- Option: Save -->
+                <button class="btn-save w-full text-left px-4 py-2.5 text-sm hover:bg-gray-100/50 dark:hover:bg-white/10 transition-colors flex items-center gap-3 focus:outline-none focus:bg-gray-100/50 dark:focus:bg-white/10 {% if request.user in post.saved.all %}saved font-medium text-blue-600 dark:text-blue-400{% else %}text-gray-700 dark:text-gray-200{% endif %}" role="menuitem" data-id="{{ post.id }}">
+                    <svg class="w-5 h-5 transition-transform" fill="{% if request.user in post.saved.all %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                    </svg>
+                    <span class="save-text">{% if request.user in post.saved.all %}{% translate "Saved" %}{% else %}{% translate "Save" %}{% endif %}</span>
+                </button>
+
+                <!-- Option: Delete -->
+                {% if request.user == post.author %}
+                <button class="btn-delete w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors flex items-center gap-3 focus:outline-none focus:bg-red-50 dark:focus:bg-red-500/10" role="menuitem" data-delete-url="{% url 'publications:delete-publication' post.id %}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    {% translate "Delete" %}
+                </button>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
     <!-- Media or Main Text -->

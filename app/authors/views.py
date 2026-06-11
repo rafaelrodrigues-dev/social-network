@@ -38,7 +38,7 @@ def register_create(request):
 
         request.session.pop('register_form_data',None)
 
-        return redirect(reverse('publications:home'))
+        return redirect(reverse('profiles:profile',kwargs={'username':user.username}))
     
     return redirect(reverse('authors:register'))
 

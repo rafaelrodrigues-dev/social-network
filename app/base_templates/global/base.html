@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 {% load static %}
+{% load i18n %}
 <html lang="{{ html_lang }}" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Socialnet is a platform for you to meet new people and interact with them through posts">
     <meta name="csrf-token" content="{{ csrf_token }}">
-    <!-- Meta tags focado em Web Vitals e Performance -->
+    <!-- Meta tags focused on Web Vitals and Performance -->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
-    <!-- Preconnect e DNS-Prefetch para carregamento mais rápido do Google Fonts -->
+    <!-- Preconnect and DNS-Prefetch for faster loading of Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     
-    <!-- Title Padrão/Customizável -->
+    <!-- Default/Customizable Title -->
     <title>{% block title %}Socialnet{% endblock %}</title>
 
-    <!-- Tailwind CSS (via CDN p/ Desenvolvimento Rápido e Bento Grids) -->
+    <!-- Tailwind CSS (via CDN for Rapid Development and Bento Grids) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,10 +26,10 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3B82F6', // Azul Tailwind clássico
-                        secondary: '#10B981', // Verde Esmeralda (Sucesso/Follow)
-                        dark: '#0f0f11', // Fundo OLED extra escuro para baixo consumo
-                        surface: '#18181b', // Superfície do dark mode (Zinco)
+                        primary: '#3B82F6', // Classic Tailwind Blue
+                        secondary: '#10B981', // Emerald Green (Success/Follow)
+                        dark: '#0f0f11', // Extra dark OLED background for low power consumption
+                        surface: '#18181b', // Dark mode surface (Zinc)
                         glass: 'rgba(255, 255, 255, 0.05)',
                     },
                     fontFamily: {
@@ -52,38 +53,56 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5530029456930361"
     crossorigin="anonymous"></script>
     
-    <!-- Carregamento Assíncrono da Fonte Variável (Inter) -->
+    <!-- Asynchronous Loading of the Variable Font (Inter) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Estilos Customizados (Liquid Glass, Micro-interactions) -->
+    <!-- Custom Styles (Liquid Glass, Micro-interactions) -->
     <link rel="stylesheet" href="{% static 'global/css/styles.css' %}">
     
-    <!-- Espaço reservado para estilos específicos das páginas filhas -->
+    <!-- Placeholder for child page specific styles -->
     {% block extra_css %}{% endblock %}
     <link rel="manifest" href="/static/manifest.json">
 </head>
 
 <body class="bg-gray-50 dark:bg-dark text-gray-900 dark:text-gray-100 antialiased font-sans transition-colors duration-300">
     
-    <!-- Navbar Dinâmica Superior (Desktop) -->
+    <!-- Dynamic Top Navbar (Desktop) -->
     {% include 'global/components/navbar.html' %}
 
-    <!-- Container Principal usando Bento Grid Strategy -->
-    <!-- pt-20 para não sobrepor a Navbar Fixa e pb-20 para Bottom Navbar no Mobile -->
+    <!-- Main Container using Bento Grid Strategy -->
+    <!-- pt-20 to not overlap Fixed Navbar and pb-20 for Bottom Navbar on Mobile -->
     <main class="container mx-auto px-0 sm:px-6 lg:px-8 pt-20 pb-20 md:pb-8 lg:max-w-7xl min-h-screen">
         {% block content %}
         {% endblock %}
     </main>
 
-    <!-- Bottom Navbar Dinâmica (Mobile) - Será Inclusa na mesma Navbar mas fica no DOM -->
+    <!-- Dynamic Bottom Navbar (Mobile) - Will be included in the same Navbar but stays in the DOM -->
 
-    <!-- Modal de Criação Global -->
+    <!-- Global Creation Modal -->
     {% include 'global/components/create_post_modal.html' %}
 
-    <!-- Lógica de Frontend Principal (Atrasamos o máximo possível para priorizar o LCP/DCL) -->
+    <!-- Global Minimalist Confirmation Modal -->
+    <div id="confirm-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+        <!-- Overlay -->
+        <div id="confirm-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-200"></div>
+        <!-- Minimalist Content -->
+        <div id="confirm-content" class="relative bento-card w-full max-w-sm p-6 mx-4 bg-white dark:bg-[#1a1a1a] shadow-2xl scale-95 opacity-0 transition-all duration-200 text-center">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">{% translate "Delete" %}</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">{% translate "This action cannot be undone." %}</p>
+            <div class="flex justify-center gap-3">
+                <button id="confirm-cancel-btn" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700">{% translate "Cancel" %}</button>
+                <form id="confirm-form" method="POST" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors focus:outline-none shadow-md shadow-red-500/20 active:scale-95">{% translate "Delete" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Frontend Logic (Delayed as much as possible to prioritize LCP/DCL) -->
     <script src="{% static 'global/js/main.js' %}" defer></script>
 
-    <!-- Blocos específicos de Scripts das páginas -->
+    <!-- Specific script blocks for pages -->
     {% block javascript %}
     {% endblock %}
     <script>
