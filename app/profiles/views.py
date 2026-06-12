@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden, JsonResponse
 from .models import Profile
 from .forms import EditProfileForm
 from publications.models import Publication
@@ -42,19 +42,30 @@ def follow(request,username):
     
     if profile in request.user.profile.follow.all():
         profile.followers.remove(request.user.profile)
+        is_following = False
     else:
         profile.followers.add(request.user.profile)
+        is_following = True
 
-    return redirect(reverse('profiles:profile',kwargs={'username':username}))
+    return JsonResponse({
+        'is_following':is_following
+    })
 
 def profile_detail(request,username):
     profile = get_object_or_404(Profile,user__username=username)
-    publications = Publication.objects.filter(author__profile=profile).order_by('-id')
+    active_tab = request.GET.get('tab', 'posts')
+
+    if active_tab == 'posts':
+        publications = Publication.objects.filter(author__profile=profile).order_by('-id')
+    elif active_tab == 'saved':
+        publications = Publication.objects.filter(saved=profile.user).order_by('-saved')
+
     paginator = Paginator(publications,6)
     page_num = request.GET.get('page')
     page_obj = paginator.get_page(page_num)
 
     return render(request,'profiles/profile_detail.html',context={
         'profile':profile,
-        'page_obj':page_obj
+        'page_obj':page_obj,
+        'active_tab': active_tab
     })

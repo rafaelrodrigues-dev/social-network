@@ -19,9 +19,15 @@
                         <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 max-w-[180px] truncate">{{ user.profile.bio }}</p>
                     </div>
                 </a>
-                <button class="btn-follow min-h-[44px] px-5 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-blue-600 transition-colors btn-micro shadow-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark">
-                    <span>{% translate "Follow" %}</span>
-                </button>
+                {% if request.user.profile in user.profile.followers.all %}
+                    <button data-username="{{ user.username }}" class="btn-follow following min-h-[44px] px-5 py-2 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors btn-micro shadow-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark">
+                        <span>{% translate "Following" %}</span>
+                    </button>
+                {% else %}
+                    <button data-username="{{ user.username }}" class="btn-follow min-h-[44px] px-5 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-blue-600 transition-colors btn-micro shadow-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark">
+                        <span>{% translate "Follow" %}</span>
+                    </button>
+                {% endif %}
             </div>
             {% endfor %}
         </div>

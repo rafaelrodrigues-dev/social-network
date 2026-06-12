@@ -216,21 +216,70 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnFollow = e.target.closest('.btn-follow');
         if (btnFollow) {
             e.preventDefault();
-            const isFollowing = btnFollow.classList.contains('following');
-            const textSpan = btnFollow.querySelector('span') || btnFollow;
+            const username = btnFollow.dataset.username;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-            if (isFollowing) {
-                // Unfollow
-                btnFollow.classList.remove('following');
-                btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
-                btnFollow.classList.add('bg-primary', 'text-white');
-                textSpan.textContent = 'Follow';
+            if (username && csrfToken) {
+                fetch(`/profile/${username}/follow`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`;
+                        return;
+                    }
+                    if (response.status === 403) {
+                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`;
+                        return;
+                    }
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        const isFollowing = data.is_following;
+                        const textSpan = btnFollow.querySelector('span') || btnFollow;
+
+                        if (!isFollowing) {
+                            // Unfollow
+                            btnFollow.classList.remove('following');
+                            btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                            btnFollow.classList.add('bg-primary', 'text-white');
+                            textSpan.textContent = 'Follow';
+                        } else {
+                            // Follow
+                            btnFollow.classList.add('following');
+                            btnFollow.classList.remove('bg-primary', 'text-white');
+                            btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                            textSpan.textContent = 'Following';
+                        }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
             } else {
-                // Follow
-                btnFollow.classList.add('following');
-                btnFollow.classList.remove('bg-primary', 'text-white');
-                btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
-                textSpan.textContent = 'Following';
+                // Fallback UI logic if missing data
+                const isFollowing = btnFollow.classList.contains('following');
+                const textSpan = btnFollow.querySelector('span') || btnFollow;
+
+                if (isFollowing) {
+                    // Unfollow
+                    btnFollow.classList.remove('following');
+                    btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                    btnFollow.classList.add('bg-primary', 'text-white');
+                    textSpan.textContent = 'Follow';
+                } else {
+                    // Follow
+                    btnFollow.classList.add('following');
+                    btnFollow.classList.remove('bg-primary', 'text-white');
+                    btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                    textSpan.textContent = 'Following';
+                }
             }
         }
     });

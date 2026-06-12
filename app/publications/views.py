@@ -20,21 +20,35 @@ def create_publication(request):
     return redirect('publications:home')
 
 def home(request):
-    filter_publications = request.GET.get('f', '')
-    if filter_publications == 'saved':
-        publications = Publication.objects.filter(saved=request.user).order_by('-id')
-    elif filter_publications == 'following':
-        publications = Publication.objects.filter(author__profile__in=request.user.profile.follow.all()).order_by('-id')
-    else:
-        publications = Publication.objects.all().order_by('-id')
-        filter_publications = 'feed'
-
+    publications = Publication.objects.all().order_by('-id')
     paginator = Paginator(publications,PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request,'publications/pages/home.html',{
         'page_obj':page_obj,
-        'filter_publications': filter_publications
+        'filter_publications': 'home'
+        })
+
+@login_required
+def following_publications(request):
+    publications = Publication.objects.filter(author__profile__in=request.user.profile.follow.all()).order_by('-id')
+    paginator = Paginator(publications,PER_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'publications/pages/home.html',{
+        'page_obj':page_obj,
+        'filter_publications': 'following'
+        })
+
+@login_required
+def publications_saved(request):
+    publications = Publication.objects.filter(saved=request.user).order_by('-saved')
+    paginator = Paginator(publications,PER_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'publications/pages/home.html',{
+        'page_obj':page_obj,
+        'filter_publications': 'saved'
         })
 
 def publication_detail(request, pk):
