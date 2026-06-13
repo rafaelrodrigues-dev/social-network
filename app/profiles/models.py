@@ -11,6 +11,7 @@ class Profile(models.Model):
     picture = models.ImageField(_("Picture"), upload_to='profiles/picture',null=True,blank=True)
     bio = models.CharField(_("Bio"), max_length=50,blank=True)
     follow = models.ManyToManyField("self",symmetrical=False,related_name='followers',blank=True)
+    thumbnail = models.ImageField(_("Thumbnail"),upload_to='profiles/thumbnail',null=True,blank=True)
 
     class Meta:
         verbose_name = _("Profile")

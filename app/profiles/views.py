@@ -16,7 +16,9 @@ from django.contrib import messages
 class EditProfileView(LoginRequiredMixin,FormView):
     template_name = 'profiles/edit_profile.html'
     form_class = EditProfileForm
-    success_url = reverse_lazy('publications:home')
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy('profiles:profile',kwargs={'username':self.request.user.username})
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

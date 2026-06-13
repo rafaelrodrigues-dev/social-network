@@ -1,3 +1,22 @@
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
+from django import utils
 from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -19,6 +38,7 @@ class EditProfileForm(forms.ModelForm):
     
         if user and hasattr(user,'profile'):
             self.fields['picture'].initial = user.profile.picture
+            self.fields['thumbnail'].initial = user.profile.thumbnail
             self.fields['bio'].initial = user.profile.bio
 
     first_name = forms.CharField(
@@ -54,15 +74,23 @@ class EditProfileForm(forms.ModelForm):
         required=False,
         label=_('Bio')
     )
+
+    thumbnail = forms.ImageField(
+        label=_('Thumbnail'),
+        required=False,
+        widget=forms.FileInput
+    )
  
     def save(self, commit = True):
         user = super().save(commit)
         picture = self.cleaned_data.get('picture')
+        thumbnail = self.cleaned_data.get('thumbnail')
         bio = self.cleaned_data.get('bio')
 
         profile = user.profile
 
         profile.picture = picture
+        profile.thumbnail = thumbnail
         profile.bio = bio
 
         profile.save()

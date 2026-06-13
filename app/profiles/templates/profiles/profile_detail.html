@@ -14,6 +14,9 @@
             
             <!-- Profile Cover -->
             <div class="h-48 sm:h-64 w-full bg-gradient-to-tr from-primary via-blue-500 to-purple-600 relative overflow-hidden">
+                {% if profile.thumbnail %}
+                <img src="{{ profile.thumbnail.url }}" alt="Cover" class="w-full h-full object-cover">
+                {% endif %}
                 <div class="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
             </div>
 
@@ -38,7 +41,6 @@
                         <div class="mt-4 text-center sm:text-left flex flex-col items-center sm:items-start">
                             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
                                 {{ profile.user.get_full_name }}
-                                <svg class="w-6 h-6 text-blue-500 drop-shadow-sm" fill="currentColor" viewBox="0 0 24 24" title="Verificado"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                             </h1>
                             <p class="text-[15px] font-medium text-gray-500 dark:text-gray-400">@{{ profile.user.username }}</p>
                         </div>
@@ -60,9 +62,6 @@
                                     <span>{% translate "Follow" %}</span>
                                 </button>
                             {% endif %}
-                            <button class="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition btn-micro shadow-sm border border-gray-200 dark:border-white/10 focus-ring">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                            </button>
                         {% endif %}
                     </div>
                 </div>

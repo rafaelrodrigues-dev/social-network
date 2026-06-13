@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-09 17:44-0300\n"
+"POT-Creation-Date: 2026-06-12 14:47-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,19 +27,31 @@ msgstr "Nome de Usuário"
 msgid "Password"
 msgstr "Senha"
 
-#: .\authors\forms\register_form.py:9 .\profiles\forms\edit_profile_form.py:8
+#: .\authors\forms\register_form.py:9
+#: .\authors\templates\authors\pages\register.html:141
+#: .\profiles\forms\edit_profile_form.py:8
+#: .\profiles\templates\profiles\edit_profile.html:205
 msgid "Male"
 msgstr "Masculino"
 
-#: .\authors\forms\register_form.py:10 .\profiles\forms\edit_profile_form.py:9
+#: .\authors\forms\register_form.py:10
+#: .\authors\templates\authors\pages\register.html:142
+#: .\profiles\forms\edit_profile_form.py:9
+#: .\profiles\templates\profiles\edit_profile.html:206
 msgid "Female"
 msgstr "Feminino"
 
-#: .\authors\forms\register_form.py:11 .\profiles\forms\edit_profile_form.py:10
+#: .\authors\forms\register_form.py:11
+#: .\authors\templates\authors\pages\register.html:143
+#: .\profiles\forms\edit_profile_form.py:10
+#: .\profiles\templates\profiles\edit_profile.html:207
 msgid "Search me"
 msgstr "Sei lá"
 
-#: .\authors\forms\register_form.py:12 .\profiles\forms\edit_profile_form.py:11
+#: .\authors\forms\register_form.py:12
+#: .\authors\templates\authors\pages\register.html:144
+#: .\profiles\forms\edit_profile_form.py:11
+#: .\profiles\templates\profiles\edit_profile.html:208
 msgid "Other"
 msgstr "Outro"
 
@@ -80,73 +92,212 @@ msgstr "O nome de usuário precisa ser alfanúmerico."
 msgid "This email is already in use"
 msgstr "Este e-mail já está em uso."
 
-#: .\authors\templates\authors\pages\login.html:6
-#: .\authors\templates\authors\pages\login.html:13
-#: .\authors\templates\authors\pages\register.html:21
-#: .\base_templates\global\partials\header.html:10
-#: .\base_templates\global\partials\menu.html:46
+#: .\authors\templates\authors\pages\about.html:5
+msgid "About us"
+msgstr "Sobre nós"
+
+#: .\authors\templates\authors\pages\contact.html:5
+#: .\publications\templates\publications\pages\home.html:87
+msgid "Contact"
+msgstr "Contato"
+
+#: .\authors\templates\authors\pages\login.html:5
 msgid "Login"
 msgstr "Entrar"
 
-#: .\authors\templates\authors\pages\login.html:15
-msgid "Don't have an account yet??"
-msgstr "Ainda não tem uma conta??"
+#: .\authors\templates\authors\pages\login.html:21
+msgid "Access your account"
+msgstr "Acesse sua conta"
 
-#: .\authors\templates\authors\pages\login.html:15
-#: .\authors\templates\authors\pages\register.html:6
-#: .\authors\templates\authors\pages\register.html:19
-#: .\base_templates\global\partials\header.html:11
-#: .\base_templates\global\partials\menu.html:47
+#: .\authors\templates\authors\pages\login.html:24
+msgid "Or"
+msgstr "Ou"
+
+#: .\authors\templates\authors\pages\login.html:24
+#, fuzzy
+#| msgid "Register"
+msgid "register now"
+msgstr "Registrar-se"
+
+#: .\authors\templates\authors\pages\login.html:49
+msgid "Log in"
+msgstr "Entrar"
+
+#: .\authors\templates\authors\pages\login.html:61
+msgid "Or continue with"
+msgstr "Ou continue com"
+
+#: .\authors\templates\authors\pages\login.html:68
+msgid "Log in with Google"
+msgstr "Entrar com o Google"
+
+#: .\authors\templates\authors\pages\privacy.html:5
+msgid "Privacy Policy"
+msgstr "Política de Privacidade"
+
+#: .\authors\templates\authors\pages\register.html:5
 msgid "Register"
 msgstr "Registrar-se"
 
-#: .\authors\templates\authors\pages\register.html:21
-msgid "Do you have an account?? "
+#: .\authors\templates\authors\pages\register.html:17
+msgid "Join us"
+msgstr "Junte-se a nós"
+
+#: .\authors\templates\authors\pages\register.html:20
+#, fuzzy
+#| msgid "Do you have an account?? "
+msgid "Do you already have an account?"
 msgstr "Já tem uma conta??"
 
-#: .\authors\tests\test_authors_login.py:26 .\authors\views.py:73
+#: .\authors\templates\authors\pages\register.html:22
+msgid "Log in here"
+msgstr "Faça login aqui"
+
+#: .\authors\templates\authors\pages\register.html:62
+msgid "Optional"
+msgstr "Opcional"
+
+#: .\authors\templates\authors\pages\register.html:112
+msgid "Personal data"
+msgstr "Dados pessoais"
+
+#: .\authors\templates\authors\pages\register.html:140
+#: .\profiles\templates\profiles\edit_profile.html:204
+msgid "Select"
+msgstr "Selecione"
+
+#: .\authors\templates\authors\pages\register.html:184
+msgid "I agree to the"
+msgstr "Eu concordo com os"
+
+#: .\authors\templates\authors\pages\register.html:185
+msgid "Terms and Privacy Policy"
+msgstr "Termos e Políticas de Privacidade"
+
+#: .\authors\templates\authors\pages\register.html:191
+#, fuzzy
+#| msgid "Create Publication"
+msgid "Create Account"
+msgstr "Criar conta"
+
+#: .\authors\templates\authors\pages\register.html:202
+msgid "Quick registration with"
+msgstr "Registro rápido com"
+
+#: .\authors\templates\authors\pages\register.html:244
+#: .\profiles\templates\profiles\edit_profile.html:198
+#: .\profiles\templates\profiles\edit_profile.html:214
+msgid "You must be at least 18 years old."
+msgstr "Você deve ter pelo menos 18 anos."
+
+#: .\authors\templates\authors\pages\register.html:250
+msgid "Age verified."
+msgstr "Idade verificada."
+
+#: .\authors\tests\test_authors_login.py:26 .\authors\views.py:76
 msgid "Invalid username or password"
 msgstr "Nome de Usuário ou senhas inválidos"
 
-#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:70
+#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:73
 msgid "Invalid credentials"
 msgstr "Credencias inválidas"
 
-#: .\authors\views.py:65
+#: .\authors\views.py:68
 msgid "Login successful"
 msgstr "Usuário foi conectado com sucesso"
 
-#: .\authors\views.py:80
+#: .\authors\views.py:83
 msgid "User has been logged out"
 msgstr "O usário foi desconectado com sucesso"
 
-#: .\base_templates\global\partials\header.html:8
-#: .\base_templates\global\partials\menu.html:26 .\profiles\models.py:16
+#: .\base_templates\global\base.html:90 .\base_templates\global\base.html:96
+#: .\base_templates\global\components\post_card.html:55
+#: .\publications\templates\publications\pages\publication-detail.html:121
+msgid "Delete"
+msgstr "Apagar"
+
+#: .\base_templates\global\base.html:91
+msgid "This action cannot be undone."
+msgstr "Esta ação não pode ser desfeita."
+
+#: .\base_templates\global\base.html:93
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: .\base_templates\global\components\create_post_modal.html:12
+#, fuzzy
+#| msgid "Create Publication"
+msgid "Create new publication"
+msgstr "Criar publicação"
+
+#: .\base_templates\global\components\create_post_modal.html:33
+msgid "Drag photos and videos here"
+msgstr "Arraste fotos e vídeos para cá"
+
+#: .\base_templates\global\components\create_post_modal.html:34
+msgid "Optimized for 4:5 vertical aspect ratio."
+msgstr "Otimizado para proporção vertical 4:5."
+
+#: .\base_templates\global\components\create_post_modal.html:57
+msgid "Share"
+msgstr "Compartilhar"
+
+#: .\base_templates\global\components\navbar.html:25
+msgid "Search for posts, people"
+msgstr "Pesquise por posts, pessoas"
+
+#: .\base_templates\global\components\navbar.html:76
+msgid "Feed"
+msgstr "Ínicio"
+
+#: .\base_templates\global\components\navbar.html:80
+#, fuzzy
+#| msgid "Search me"
+msgid "Search"
+msgstr "Sei lá"
+
+#: .\base_templates\global\components\navbar.html:93
+msgid "Alerts"
+msgstr "Notificações"
+
+#: .\base_templates\global\components\navbar.html:101 .\profiles\models.py:17
 msgid "Profile"
 msgstr "Perfil"
 
-#: .\base_templates\global\partials\menu.html:16
-msgid "Home"
-msgstr "Início"
-
-#: .\base_templates\global\partials\menu.html:21
-msgid "Add publication"
-msgstr "Adicionar publicação"
-
-#: .\base_templates\global\partials\menu.html:31
-#: .\profiles\templates\profiles\edit_profile.html:6
-msgid "Edit Profile"
-msgstr "Editar Perfil"
-
-#: .\base_templates\global\partials\menu.html:36
-msgid "Logout"
-msgstr "Sair"
-
-#: .\base_templates\global\partials\publication.html:21
-#: .\publications\templates\publications\pages\publication-detail.html:24
-#: .\publications\templates\publications\pages\publication-detail.html:60
+#: .\base_templates\global\components\post_card.html:26
+#: .\publications\templates\publications\pages\publication-detail.html:92
+#: .\publications\templates\publications\pages\publication-detail.html:195
 msgid "ago"
 msgstr "atrás"
+
+#: .\base_templates\global\components\post_card.html:46
+#: .\profiles\templates\profiles\profile_detail.html:108
+#: .\publications\templates\publications\pages\home.html:24
+#: .\publications\templates\publications\pages\publication-detail.html:112
+msgid "Saved"
+msgstr "Salvo"
+
+#: .\base_templates\global\components\post_card.html:46
+#: .\publications\templates\publications\pages\publication-detail.html:112
+msgid "Save"
+msgstr "Salvar"
+
+#: .\base_templates\global\components\post_card.html:127
+#: .\publications\templates\publications\pages\publication-detail.html:58
+#, fuzzy
+#| msgid "View  more"
+msgid "Read more"
+msgstr "Ver mais"
+
+#: .\base_templates\global\components\post_card.html:184
+msgid "View all"
+msgstr "Visualizar tudo"
+
+#: .\base_templates\global\components\post_card.html:184
+#, fuzzy
+#| msgid "Comments"
+msgid "comments"
+msgstr "Comentários"
 
 #: .\profiles\forms\edit_profile_form.py:47 .\profiles\models.py:11
 msgid "Picture"
@@ -156,80 +307,186 @@ msgstr "Foto de perfil"
 msgid "Bio"
 msgstr "Biográfia"
 
-#: .\profiles\models.py:17
+#: .\profiles\models.py:14
+msgid "Thumbnail"
+msgstr "Thumbnail"
+
+#: .\profiles\models.py:18
 msgid "Profiles"
 msgstr "Perfis"
 
-#: .\profiles\templates\profiles\edit_profile.html:19
-#: .\publications\templates\publications\pages\create_publication.html:12
-#: .\publications\templates\publications\pages\publication-detail.html:41
-msgid "Send"
-msgstr "Enviar"
+#: .\profiles\templates\profiles\edit_profile.html:5
+#: .\profiles\templates\profiles\edit_profile.html:126
+#: .\profiles\templates\profiles\profile_detail.html:50
+msgid "Edit Profile"
+msgstr "Editar Perfil"
 
-#: .\profiles\templates\profiles\profile_detail.html:21
-msgid "Followers"
-msgstr "Seguidores"
+#: .\profiles\templates\profiles\edit_profile.html:124
+#: .\publications\templates\publications\pages\publication-detail.html:15
+msgid "Back"
+msgstr "Voltar"
 
-#: .\profiles\templates\profiles\profile_detail.html:25
+#: .\profiles\templates\profiles\edit_profile.html:130
+msgid "Save changes"
+msgstr "Salvar mudanças"
+
+#: .\profiles\templates\profiles\edit_profile.html:150
+msgid "Change thumb"
+msgstr "Mudar thumbnail"
+
+#: .\profiles\templates\profiles\edit_profile.html:179
+msgid "ID"
+msgstr "ID"
+
+#: .\profiles\templates\profiles\edit_profile.html:196
+msgid "Personal Data"
+msgstr "Dados Pessoais"
+
+#: .\profiles\templates\profiles\profile_detail.html:55
+#: .\profiles\templates\profiles\profile_detail.html:94
+#: .\publications\templates\publications\pages\home.html:20
+#: .\search\templates\search\pages\search_users_results.html:24
 msgid "Following"
 msgstr "Seguindo"
 
-#: .\profiles\templates\profiles\profile_detail.html:32
+#: .\profiles\templates\profiles\profile_detail.html:59
+#: .\search\templates\search\pages\search_users_results.html:28
+msgid "Follow"
+msgstr "Seguir"
+
+#: .\profiles\templates\profiles\profile_detail.html:90
+msgid "Followers"
+msgstr "Seguidores"
+
+#: .\profiles\templates\profiles\profile_detail.html:153
 #, fuzzy
-msgid "unfollow"
-msgstr "Deixar de seguir"
+#| msgid "View  more"
+msgid "See more"
+msgstr "Ver mais"
 
-#: .\profiles\templates\profiles\profile_detail.html:34
-#, fuzzy
-msgid "follow"
-msgstr "seguir"
-
-#: .\profiles\tests\test_new_publication.py:16
-#: .\publications\form\publication_form.py:7
-msgid "Text publication"
-msgstr "Texto da publicação"
-
-#: .\profiles\tests\test_new_publication.py:17
-#: .\publications\form\publication_form.py:11 .\publications\models.py:10
-msgid "Image"
-msgstr "Imagem"
-
-#: .\profiles\views.py:31
+#: .\profiles\views.py:30
 msgid "Profile updated successfuly"
 msgstr "Usuário atualizado com sucesso"
 
-#: .\publications\models.py:9 .\publications\models.py:21
+#: .\publications\models.py:9 .\publications\models.py:22
 msgid "Text"
 msgstr "Texto"
 
-#: .\publications\templates\publications\pages\create_publication.html:7
-msgid "Create Publication"
-msgstr "Criar publicação"
+#: .\publications\models.py:10
+#: .\publications\tests\test_create_publication.py:16
+msgid "Image"
+msgstr "Imagem"
 
-#: .\publications\templates\publications\pages\publication-detail.html:40
+#: .\publications\templates\publications\pages\home.html:5
+msgid "Main feed"
+msgstr "Feed Principal"
+
+#: .\publications\templates\publications\pages\home.html:54
 #, fuzzy
-#| msgid "search something here... "
-msgid "Comment something..."
-msgstr "Comente algo..."
+#| msgid "No notification found."
+msgid "No publications found"
+msgstr "Nenhuma publicação encontrada"
 
-#: .\publications\templates\publications\pages\publication-detail.html:43
+#: .\publications\templates\publications\pages\home.html:57
+msgid ""
+"It looks like there are no posts here yet. Follow other users or share "
+"something new to warm up your feed!"
+msgstr ""
+"Parece que ainda não há posts aqui. Siga outros usuários ou compartilhe algo "
+"novo para aquecer seu feed!"
+
+#: .\publications\templates\publications\pages\home.html:60
+msgid "Refresh feed"
+msgstr "Atualizar feed"
+
+#: .\publications\templates\publications\pages\home.html:85
+msgid "About"
+msgstr "Sobre"
+
+#: .\publications\templates\publications\pages\home.html:86
+msgid "Privacy"
+msgstr "Privacidade"
+
+#: .\publications\templates\publications\pages\publication-detail.html:5
+msgid "Post by"
+msgstr "Postagem de"
+
+#: .\publications\templates\publications\pages\publication-detail.html:171
 msgid "Comments"
 msgstr "Comentários"
 
-#: .\publications\templates\publications\pages\publication-detail.html:67
+#: .\publications\templates\publications\pages\publication-detail.html:216
 #, fuzzy
 #| msgid "View  more"
-msgid "view more"
+msgid "View more"
 msgstr "Ver mais"
 
-#: .\publications\templates\publications\pages\search_results.html:7
+#: .\publications\templates\publications\pages\publication-detail.html:230
+msgid "Publish"
+msgstr "Publicar"
+
+#: .\publications\tests\test_create_publication.py:15
+msgid "Text publication"
+msgstr "Texto da publicação"
+
+#: .\search\templates\search\base.html:52
+#, fuzzy
+msgid "Search results for"
+msgstr "Resultados para"
+
+#: .\search\templates\search\base.html:61
 #, fuzzy
 msgid "Results for"
 msgstr "Resultados para"
 
-#: .\publications\templates\publications\pages\search_results.html:14
-msgid "No results found"
-msgstr "Nenhum resultado encontrado"
+#: .\search\templates\search\base.html:63
+msgid "Showing the best results"
+msgstr "Mostrando os melhores resultados"
+
+#: .\search\templates\search\base.html:70
+msgid "Posts"
+msgstr "Postagens"
+
+#: .\search\templates\search\base.html:73
+#, fuzzy
+#| msgid "Username"
+msgid "Users"
+msgstr "Usuários"
+
+#: .\search\templates\search\pages\search_posts_results.html:24
+msgid "Try searching using different or more general terms."
+msgstr "Tente pesquisar usando termos diferentes ou mais gerais."
+
+#~ msgid "Don't have an account yet??"
+#~ msgstr "Ainda não tem uma conta??"
+
+#~ msgid "Home"
+#~ msgstr "Início"
+
+#~ msgid "Add publication"
+#~ msgstr "Adicionar publicação"
+
+#~ msgid "Logout"
+#~ msgstr "Sair"
+
+#~ msgid "Send"
+#~ msgstr "Enviar"
+
+#, fuzzy
+#~ msgid "unfollow"
+#~ msgstr "Deixar de seguir"
+
+#, fuzzy
+#~ msgid "follow"
+#~ msgstr "seguir"
+
+#, fuzzy
+#~| msgid "search something here... "
+#~ msgid "Comment something..."
+#~ msgstr "Comente algo..."
+
+#~ msgid "No results found"
+#~ msgstr "Nenhum resultado encontrado"
 
 #~ msgid "Welcome to this platform, there will be new additions soon."
 #~ msgstr "Bem-vindo a esta plataforma, em breve teremos novidades."
@@ -260,15 +517,6 @@ msgstr "Nenhum resultado encontrado"
 
 #~ msgid "Comment"
 #~ msgstr "Comentar"
-
-#~ msgid "Delete"
-#~ msgstr "Apagar"
-
-#~ msgid "No notification found."
-#~ msgstr "Não há notificações"
-
-#~ msgid "Follow"
-#~ msgstr "Seguir"
 
 #~ msgid "has started following you."
 #~ msgstr "Começou a seguir você"
