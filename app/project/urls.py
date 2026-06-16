@@ -25,6 +25,7 @@ urlpatterns = [
     path('a/', include('authors.urls')),
     path('profile/', include('profiles.urls')),
     path('search/', include('search.urls'), name='search'),
+    path('notifications/', include('notifications.urls')),
 ]
 
 if settings.DEBUG:

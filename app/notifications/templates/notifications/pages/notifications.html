@@ -1,0 +1,313 @@
+{% extends 'global/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+<style>
+    /* Entrance Animation for Bento Grid */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .notification-card {
+        animation: fadeInUp 0.5s ease-out forwards;
+        opacity: 0;
+    }
+
+    /* Staggered animation delays for the Bento Grid items */
+    .notification-card:nth-child(1) { animation-delay: 0.1s; }
+    .notification-card:nth-child(2) { animation-delay: 0.2s; }
+    .notification-card:nth-child(3) { animation-delay: 0.3s; }
+    .notification-card:nth-child(4) { animation-delay: 0.4s; }
+    .notification-card:nth-child(5) { animation-delay: 0.5s; }
+    .notification-card:nth-child(6) { animation-delay: 0.6s; }
+
+    /* Liquid Glass Effect */
+    .liquid-glass {
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Native Dark Mode Adaptation for Liquid Glass */
+    .dark .liquid-glass {
+        background: rgba(15, 23, 42, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+    
+    <!-- Header -->
+    <header class="mb-10">
+        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">{%translate "Notifications" %}</h1>
+        <p class="text-gray-500 dark:text-gray-400 mt-2 text-lg">Your recent updates and interactions.</p>
+    </header>
+
+    <!-- Bento Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Main Notifications Feed -->
+        <main class="lg:col-span-8 xl:col-span-9 space-y-10">
+            
+            <section aria-labelledby="section-all">
+                <h2 id="section-all" class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-800 pb-2">Activity</h2>
+                
+                <!-- Bento Grid for Notifications -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {% for notification in notifications %}
+                    
+                    <!-- Notification Card -->
+                    <article id="notif-{{ notification.id }}" 
+                             class="notification-card group relative flex flex-col justify-between p-5 rounded-3xl liquid-glass shadow-lg dark:shadow-2xl transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:bg-white/60 dark:hover:bg-slate-800/60 {% if not notification.is_read %}ring-2 ring-blue-500/50{% endif %}"
+                             data-id="{{ notification.id }}"
+                             data-read="{{ notification.is_read|yesno:'true,false' }}">
+                        
+                        <div class="flex items-start gap-4">
+                            <!-- Avatar (Fixed dimensions for CLS < 0.08) -->
+                            <div class="relative shrink-0 w-12 h-12">
+                                {% if notification.sender and notification.sender.profile.picture %}
+                                <img src="{{ notification.sender.profile.picture.url }}" 
+                                     alt="Avatar"
+                                     width="48" height="48"
+                                     class="w-full h-full rounded-full object-cover shadow-sm border border-gray-100 dark:border-gray-700"
+                                     {% if forloop.counter > 6 %}loading="lazy"{% endif %}>
+                                {% elif notification.sender %}
+                                <div class="w-full h-full rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-bold shadow-sm">
+                                    {{ notification.sender.username|make_list|first|upper }}
+                                </div>
+                                {% else %}
+                                <div class="w-full h-full rounded-full bg-gradient-to-tr from-gray-500 to-gray-800 flex items-center justify-center text-white font-bold shadow-sm">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                </div>
+                                {% endif %}
+                                
+                                <!-- Unread Indicator Badge -->
+                                {% if not notification.is_read %}
+                                <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-4 w-4 bg-blue-600 border-2 border-white dark:border-slate-900 shadow-[0_0_8px_rgba(37,99,235,0.8)]"></span>
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-1 min-w-0 pt-1">
+                                <p class="text-[15px] text-gray-800 dark:text-gray-200 leading-snug">
+                                    {% if notification.sender %}
+                                    <a href="{% url 'profiles:profile' notification.sender.username %}" class="font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                        {{ notification.sender.username }}
+                                    </a> 
+                                    {% else %}
+                                    <span class="font-bold text-gray-900 dark:text-white">System</span>
+                                    {% endif %}
+                                    <span class="opacity-90">{{ notification.text }}</span>
+                                    {% if notification.publication %}
+                                    <a href="{% url 'publications:publication-detail' notification.publication.id %}" class="font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">on the post</a>.
+                                    {% endif %}
+                                </p>
+                                <time class="block mt-2 text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 uppercase">
+                                    {{ notification.created_at|timesince }} {% translate "ago" %}
+                                </time>
+                            </div>
+                        </div>
+
+                        <!-- Micro-interactions 2.0 & Actions Hover Menu -->
+                        <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5">
+                            {% if not notification.is_read %}
+                            <!-- Action: Mark as read -->
+                            <button onclick="markAsRead('{{ notification.id }}')" 
+                                    class="p-2 rounded-full bg-white/80 dark:bg-slate-700/80 hover:bg-blue-100 dark:hover:bg-blue-500/30 text-blue-600 dark:text-blue-400 backdrop-blur-md transition-all shadow-sm transform hover:scale-110 active:scale-95"
+                                    title="{% translate 'Mark as read' %}">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            </button>
+                            {% endif %}
+                            
+                            <!-- UGC Compliance Actions -->
+                            <div class="relative inline-block text-left">
+                                <button onclick="toggleDropdown('dropdown-{{ notification.id }}')" 
+                                        class="p-2 rounded-full bg-white/80 dark:bg-slate-700/80 hover:bg-gray-100 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 backdrop-blur-md transition-all shadow-sm transform hover:scale-110 active:scale-95"
+                                        title="{% translate 'More options' %}">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg>
+                                </button>
+                                
+                                <!-- Dropdown Menu -->
+                                <div id="dropdown-{{ notification.id }}" class="hidden absolute right-0 mt-2 w-52 rounded-2xl shadow-xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl ring-1 ring-black/5 dark:ring-white/10 divide-y divide-gray-100 dark:divide-slate-700 focus:outline-none z-20 transform opacity-0 scale-95 transition-all duration-200 origin-top-right">
+                                    <div class="p-1">
+                                        <button onclick="deleteNotification('{{ notification.id }}')" class="group flex w-full items-center px-4 py-2 text-sm font-medium text-red-600 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            {% translate "Delete" %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <!-- Empty State -->
+                    <div class="col-span-full py-16 text-center liquid-glass rounded-3xl border-dashed border-2 border-gray-300 dark:border-slate-700">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 dark:bg-slate-800 mb-5 shadow-inner">
+                            <svg class="w-10 h-10 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">{% translate "You're all caught up" %}!</h3>
+                        <p class="mt-2 text-base text-gray-500 dark:text-gray-400 max-w-sm mx-auto">{% translate "No new notifications at the moment. Keep interacting to see updates here." %}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+
+        <!-- Sidebar Rail (Monetization - Google AdSense) -->
+        <aside class="lg:col-span-4 xl:col-span-3">
+            <div class="sticky top-28">
+                <!-- Ad Slot container with fixed dimensions (300x600) to prevent CLS -->
+                <div class="w-[300px] h-[600px] mx-auto bg-gray-50 dark:bg-slate-800/80 rounded-3xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center relative backdrop-blur-sm">
+                    <span class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] font-semibold absolute top-3">Advertisement</span>
+                    
+                    <!-- Placeholder for Development or actual AdSense Script -->
+                    <ins class="adsbygoogle block mt-6"
+                         style="display:inline-block;width:300px;height:600px"
+                         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                         data-ad-slot="XXXXXXXXXX"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    // Include CSRF Token for security in AJAX requests
+    const csrfToken = '{{ csrf_token }}';
+
+    // Dropdown Logic for UGC Compliance actions
+    function toggleDropdown(id) {
+        const dropdown = document.getElementById(id);
+        const allDropdowns = document.querySelectorAll('[id^="dropdown-"]');
+        
+        // Close other open dropdowns
+        allDropdowns.forEach(el => {
+            if (el.id !== id && !el.classList.contains('hidden')) {
+                closeDropdownAnim(el);
+            }
+        });
+
+        // Toggle requested dropdown with smooth animation
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+            // Small frame delay to let display block apply before transitioning opacity
+            requestAnimationFrame(() => {
+                dropdown.classList.remove('opacity-0', 'scale-95');
+                dropdown.classList.add('opacity-100', 'scale-100');
+            });
+        } else {
+            closeDropdownAnim(dropdown);
+        }
+    }
+
+    function closeDropdownAnim(element) {
+        element.classList.remove('opacity-100', 'scale-100');
+        element.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            element.classList.add('hidden');
+        }, 200); // Wait for transition duration
+    }
+
+    // Close dropdowns when clicking anywhere outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.relative.inline-block')) {
+            const openDropdowns = document.querySelectorAll('[id^="dropdown-"]:not(.hidden)');
+            openDropdowns.forEach(closeDropdownAnim);
+        }
+    });
+
+    // AJAX: Mark Notification as Read (Fast INP < 200ms)
+    async function markAsRead(notificationId) {
+        const card = document.getElementById(`notif-${notificationId}`);
+        if (!card) return;
+
+        // Micro-interaction: Optimistic UI Update for immediate feedback
+        card.style.transform = 'scale(0.97)';
+        setTimeout(() => card.style.transform = '', 150);
+        
+        // Remove unread styling
+        card.classList.remove('ring-2', 'ring-blue-500/50');
+        
+        // Animate badge removal
+        const badge = card.querySelector('.animate-ping')?.parentElement;
+        if (badge) {
+            badge.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            badge.style.transform = 'scale(0)';
+            badge.style.opacity = '0';
+            setTimeout(() => badge.remove(), 300);
+        }
+        
+        // Hide the read button
+        const readBtn = card.querySelector('button[title="{% translate 'Mark as read' %}"]');
+        if (readBtn) readBtn.remove();
+
+        // Background Fetch
+        try {
+            const response = await fetch(`/notifications/${notificationId}/read/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+
+        } catch (error) {
+            console.error('Error marking as read:', error);
+        }
+    }
+
+    // AJAX: Delete Notification
+    async function deleteNotification(notificationId) {
+        const card = document.getElementById(`notif-${notificationId}`);
+        if (!card) return;
+
+        // Visual feedback: shrink and fade out
+        card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        card.style.transform = 'scale(0.9) translateY(10px)';
+        card.style.opacity = '0';
+
+        try {
+            // Background Fetch
+            const response = await fetch(`/notifications/${notificationId}/delete/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) throw new Error('Deletion failed');
+
+            setTimeout(() => {
+                card.remove();
+            }, 300);
+
+        } catch (error) {
+            console.error('Error deleting notification:', error);
+            // Revert on error
+            card.style.transform = '';
+            card.style.opacity = '1';
+        }
+    }
+</script>
+{% endblock javascript %}
