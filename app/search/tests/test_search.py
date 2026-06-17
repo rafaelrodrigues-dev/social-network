@@ -64,7 +64,7 @@ class TestSearchView(TestCase):
     def test_search_uses_correct_template(self):
         """Test if correct template is used"""
         response = self.client.get(reverse('search:search') + '?q=publication')
-        self.assertTemplateUsed(response, 'search/pages/search_results.html')
+        self.assertTemplateUsed(response, 'search/pages/search_posts_results.html')
 
     def test_search_pagination(self):
         """Test search pagination"""
@@ -150,7 +150,7 @@ class TestSearchUserView(TestCase):
     def test_search_user_uses_correct_template(self):
         """Test if correct template is used for user search"""
         response = self.client.get(reverse('search:search_user') + '?q=john')
-        self.assertTemplateUsed(response, 'search/pages/search_user_results.html')
+        self.assertTemplateUsed(response, 'search/pages/search_users_results.html')
 
     def test_search_user_pagination(self):
         """Test user search pagination"""

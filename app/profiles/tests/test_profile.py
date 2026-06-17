@@ -22,8 +22,8 @@ class ProfileTest(TestCase):
         # Follow the second user
         url = reverse('profiles:follow', kwargs={'username':user2.username})
         response = self.client.post(url,follow=True)
-        # Response shows a 'Unfollow' button
-        self.assertIn('unfollow',response.content.decode('utf-8'))
+        # Response shows is_following = true
+        self.assertIn('{"is_following": true}',response.content.decode('utf-8'))
 
     def test_unfollow_user(self):
         # Create a seconde user to follow
@@ -33,8 +33,8 @@ class ProfileTest(TestCase):
         self.client.post(url,follow=True)
         # Unffolow the second user
         response =self.client.post(url,follow=True)
-        # Response shows a 'Follow' button
-        self.assertIn('follow',response.content.decode('utf-8'))
+        # Response shows is_following = false
+        self.assertIn('{"is_following": false}',response.content.decode('utf-8'))
 
     def test_follow_if_method_is_not_post(self):
         url = reverse('profiles:follow', kwargs={'username': self.user.username})

@@ -36,13 +36,13 @@ class EditProfileIntegrationTest(DjangoTestCase):
         self.assertIn('This is a bio',response.content.decode('utf-8'))
         self.assertIn('lastuser',response.content.decode('utf-8'))
 
-    def test_edit_profile_form_redirects_to_home(self):
+    def test_edit_profile_form_redirects_to_profile_page(self):
         response = self.client.post(reverse('profiles:edit_profile'), {
             'username': self.user.username,
             'first_name': self.user.first_name,
             'date_of_birth': self.user.date_of_birth,
         })
-        self.assertRedirects(response, reverse('publications:home'))
+        self.assertRedirects(response, reverse('profiles:profile', kwargs={'username': self.user.username}))
 
     def test_edit_profile_first_name(self):
         needed = 'newfirstname'
