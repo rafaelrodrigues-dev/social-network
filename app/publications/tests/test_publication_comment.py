@@ -14,7 +14,7 @@ class CommentTest(TestCase):
         
     def test_comment_http_method_is_not_post(self):
         response = self.client.get(reverse('publications:comment',kwargs={'pk':self.publication.pk}))
-        self.assertEqual(response.status_code,404)
+        self.assertEqual(response.status_code,405)
     
     def test_comment_publication(self):
         data = {

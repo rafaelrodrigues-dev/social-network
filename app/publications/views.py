@@ -2,18 +2,17 @@ import os
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponseForbidden, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from publications.models import Comment, Publication
 
 PER_PAGE = os.getenv('PER_PAGE',4)
 
+@require_POST
 @login_required
 def create_publication(request):
-    if request.method != 'POST':
-        raise Http404()
-    
     data = request.POST
     files = request.FILES
     Publication.objects.create(text=data.get('text'),author=request.user,img=files.get('img'))
@@ -62,11 +61,9 @@ def publication_detail(request, pk):
         'comments':comments,
     })
 
+@require_POST
 @login_required
 def delete_publication(request, pk):
-    if request.method != 'POST':
-        raise Http404()
-
     publication = get_object_or_404(Publication, pk=pk)
     if request.user == publication.author:
         publication.delete()
@@ -74,11 +71,9 @@ def delete_publication(request, pk):
     else:
         return HttpResponseForbidden("You are not allowed to delete this publication.")
 
-@login_required(login_url='authors:login')
+@require_POST
+@login_required
 def like(request, pk):
-    if request.method != 'POST':
-        return JsonResponse({'error':'Invalid request'},status=400)
-
     publication = get_object_or_404(Publication,pk=pk)
     if publication in request.user.likes.all():
         publication.like.remove(request.user)
@@ -92,11 +87,9 @@ def like(request, pk):
         'likes_count': f'{publication.like.count()}',
     })
 
+@require_POST
 @login_required
 def save_publication(request, pk):
-    if request.method != 'POST':
-        raise Http404()
-    
     publication = get_object_or_404(Publication, pk=pk)
     if publication in request.user.saved.all():
         publication.saved.remove(request.user)
@@ -109,11 +102,9 @@ def save_publication(request, pk):
         'saved':saved,
     })
 
+@require_POST
 @login_required
 def comment(request, pk):
-    if request.method != 'POST':
-        raise Http404()
-    
     publication = get_object_or_404(Publication, pk=pk)
     text = request.POST.get('text')
     author = request.user
@@ -125,11 +116,9 @@ def comment(request, pk):
 
     return redirect(reverse('publications:publication-detail',kwargs={'pk': pk}))
 
+@require_POST
 @login_required
 def delete_comment(request, pk):
-    if request.method != 'POST':
-        raise Http404()
-    
     comment = get_object_or_404(Comment, pk=pk)
     publication_pk = comment.publication.pk
     if request.user == comment.author or request.user == comment.publication.author:

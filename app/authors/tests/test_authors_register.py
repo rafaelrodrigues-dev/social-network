@@ -28,6 +28,7 @@ class AuthorsRegisterIntegrationTest(DjangoTestCase):
     def test_clean_username_with_existing_username(self):
         url = reverse('authors:register_create')
         self.client.post(url, data=self.form_data,follow=True)
+        self.client.logout()
         response = self.client.post(url, data=self.form_data,follow=True)
 
         msg = _('This username is already in use')
@@ -45,6 +46,7 @@ class AuthorsRegisterIntegrationTest(DjangoTestCase):
     def test_clean_email_with_existing_email(self):
         url = reverse('authors:register_create')
         self.client.post(url, data=self.form_data,follow=True)
+        self.client.logout()
         response = self.client.post(url, data=self.form_data,follow=True)
 
         msg = _('This email is already in use')
@@ -54,4 +56,4 @@ class AuthorsRegisterIntegrationTest(DjangoTestCase):
         url = reverse('authors:register_create')
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 405)

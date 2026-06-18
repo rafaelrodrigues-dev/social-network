@@ -17,7 +17,7 @@ class AuthorsLoginUnitTest(TestCase):
 class AuthorsLoginIntegrationtest(DjangoTestCase):
     def test_login_create_if_method_is_not_post(self):
         response =self.client.get(reverse('authors:login_create'))
-        self.assertEqual(response.status_code,404)
+        self.assertEqual(response.status_code,405)
     
     def test_login_invalid_form(self):
         data = {'username':'','password':''}

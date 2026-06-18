@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from authors.forms import RegisterForm, LoginForm
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 User = get_user_model()
 
@@ -18,9 +18,8 @@ def register_view(request):
     return render(request,'authors/pages/register.html',context={
         'form':form })
 
+@require_POST
 def register_create(request):
-    if not request.method == 'POST':
-        raise Http404()
     request.session['register_form_data'] = request.POST
     
     form = RegisterForm(request.POST)
@@ -46,14 +45,14 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect(reverse('publications:home'))
     form = LoginForm()
+
     return render(request,'authors/pages/login.html',context={
         'form':form,
     }
 )
 
+@require_POST
 def login_create(request):
-    if not request.method == 'POST':
-        raise Http404()
 
     form = LoginForm(request.POST)
 
@@ -77,11 +76,12 @@ def login_create(request):
 
     return redirect(reverse('authors:login'))
 
-@login_required(login_url='authors:login')
+@require_POST
+@login_required
 def logout_view(request):
     logout(request)
     messages.success(request,_('User has been logged out'))
-    return redirect('/')
+    return redirect(reverse('authors:login'))
 
 def about(request):
     return render(request, 'authors/pages/about.html')

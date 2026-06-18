@@ -36,7 +36,4 @@ class LikeViewTest(TestCase):
     def test_like_invalid_request_method(self):
         url = reverse('publications:like', args=(self.publication.pk,))
         response = self.client.get(url)  # Sending GET instead of POST
-        self.assertEqual(response.status_code, 400)
-        self.assertJSONEqual(response.content.decode('utf-8'), {
-            'error': 'Invalid request',
-        })
+        self.assertEqual(response.status_code, 405)

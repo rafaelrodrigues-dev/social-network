@@ -17,7 +17,7 @@ class DeleteCommentTest(TestCase):
     def test_delete_comment_method_not_post(self):
         self.client.login(username='user1', password='pass1')
         response = self.client.get(self.delete_url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 405)
 
     def test_delete_comment_by_author(self):
         self.client.login(username='user2', password='pass2')
