@@ -11,5 +11,4 @@ urlpatterns = [
    path('logout/',views.logout_view,name='logout'),
    path('about/',views.about,name='about'),
    path('privacy/',views.privacy_policy,name='privacy'),
-   path('contact/',views.contact,name='contact')
 ]
