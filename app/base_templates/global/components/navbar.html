@@ -41,15 +41,27 @@
                     {% endif %}
 
                 </a>
-                <div class="relative ml-2">
-                    <a href="{% url "profiles:profile" request.user.username %}" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition duration-150 ease-in-out">
+                <div class="relative ml-2 dropdown-container">
+                    <button id="desktop-account-btn" aria-expanded="false" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition duration-150 ease-in-out btn-options">
                         <!-- Dynamic placeholder -->
                         {% if request.user.profile.picture %}
                         <img class="h-9 w-9 rounded-full object-cover" src="{{ request.user.profile.picture.url }}" alt="User Avatar">
                         {% else %}
                         <img class="h-9 w-9 rounded-full object-cover" src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=3B82F6&color=fff" alt="User Avatar">
                         {% endif %}
-                    </a>
+                    </button>
+                    <!-- Desktop Dropdown -->
+                    <div id="account-menu-desktop" class="dropdown-menu hidden absolute right-0 mt-2 w-56 rounded-2xl liquid-glass shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dropdown-animate-out" role="menu">
+                        <div class="p-2 bento-card">
+                            <a href="{% url 'profiles:profile' request.user.username %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Profile' %}</a>
+                            <a href="{% url 'publications:saved' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Saved posts' %}</a>
+                            <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                            <form method="POST" action="{% url 'authors:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Logout' %}</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 {% endif %}
             </div>
@@ -97,16 +109,35 @@
             {% endif %}
             <span class="text-[10px] font-medium">{% translate 'Notifications' %}</span>
         </a>
-        <a href="{% url "profiles:profile" request.user.username %}" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors">
+        <button id="mobile-account-btn" aria-expanded="false" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors">
             {% if request.user.profile.picture %}
             <img class="h-6 w-6 rounded-full object-cover mb-1 border border-transparent dark:border-gray-700" src="{{ request.user.profile.picture.url }}" alt="User Profile Picture">
             {% else %}
             <img class="h-6 w-6 rounded-full object-cover mb-1 border border-transparent dark:border-gray-700" src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=3B82F6&color=fff" alt="User Profile Picture">
             {% endif %}
             <span class="text-[10px] font-medium">{% translate 'Profile' %}</span>
-        </a>
+        </button>
     </div>
 </nav>
+
+<!-- Mobile Bottom Sheet Overlay & Menu -->
+<div id="account-sheet-overlay" class="hidden md:hidden fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+<div id="account-menu-mobile" class="hidden md:hidden fixed bottom-0 left-0 right-0 z-[70] liquid-glass rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_-8px_30px_rgba(0,0,0,0.5)] transform translate-y-full transition-transform duration-300 pb-safe sheet-animate-out" role="menu">
+    <!-- swipe indicator -->
+    <div class="w-full flex justify-center pt-3 pb-2 touch-none" id="swipe-indicator">
+        <div class="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+    </div>
+    <!-- Menu items -->
+    <div class="p-4 flex flex-col gap-2 bento-card">
+        <a href="{% url 'profiles:profile' request.user.username %}" class="flex items-center px-4 py-3 text-base text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Profile' %}</a>
+        <a href="{% url 'publications:saved' %}" class="flex items-center px-4 py-3 text-base text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Saved posts' %}</a>
+        <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+        <form method="POST" action="{% url 'authors:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="w-full text-left flex items-center px-4 py-3 text-base font-medium text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Logout' %}</button>
+        </form>
+    </div>
+</div>
 {% endif %}
 
 <!-- Special CSS for iPhone safe padding -->

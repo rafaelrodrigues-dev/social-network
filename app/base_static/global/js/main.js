@@ -542,4 +542,96 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnCancelConfirm) btnCancelConfirm.addEventListener('click', closeConfirmModal);
     if (confirmOverlay) confirmOverlay.addEventListener('click', closeConfirmModal);
+
+    // ==========================================
+    // 7. Mobile Account Bottom Sheet Logic
+    // ==========================================
+    const mobileAccountBtn = document.getElementById('mobile-account-btn');
+    const accountSheetOverlay = document.getElementById('account-sheet-overlay');
+    const accountMenuMobile = document.getElementById('account-menu-mobile');
+    let startY = 0;
+    let currentY = 0;
+
+    const openBottomSheet = () => {
+        if (!accountMenuMobile || !accountSheetOverlay) return;
+        accountSheetOverlay.classList.remove('hidden');
+        accountMenuMobile.classList.remove('hidden');
+        // Trigger reflow
+        void accountMenuMobile.offsetWidth;
+        accountSheetOverlay.classList.remove('opacity-0');
+        accountSheetOverlay.classList.add('opacity-100');
+        accountMenuMobile.classList.remove('sheet-animate-out');
+        accountMenuMobile.classList.add('sheet-animate-in');
+        if(mobileAccountBtn) mobileAccountBtn.setAttribute('aria-expanded', 'true');
+    };
+
+    const closeBottomSheet = () => {
+        if (!accountMenuMobile || !accountSheetOverlay) return;
+        accountSheetOverlay.classList.remove('opacity-100');
+        accountSheetOverlay.classList.add('opacity-0');
+        accountMenuMobile.classList.remove('sheet-animate-in');
+        accountMenuMobile.classList.add('sheet-animate-out');
+        accountMenuMobile.style.transform = ''; // reset inline transform from swipe
+        if(mobileAccountBtn) mobileAccountBtn.setAttribute('aria-expanded', 'false');
+        
+        setTimeout(() => {
+            if (accountMenuMobile.classList.contains('sheet-animate-out')) {
+                accountSheetOverlay.classList.add('hidden');
+                accountMenuMobile.classList.add('hidden');
+            }
+        }, 300);
+    };
+
+    if (mobileAccountBtn) {
+        mobileAccountBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isExpanded = mobileAccountBtn.getAttribute('aria-expanded') === 'true';
+            if (isExpanded) {
+                closeBottomSheet();
+            } else {
+                openBottomSheet();
+            }
+        });
+    }
+
+    if (accountSheetOverlay) {
+        accountSheetOverlay.addEventListener('click', closeBottomSheet);
+    }
+
+    // Esc key support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeBottomSheet();
+            // Also close desktop dropdowns
+            document.querySelectorAll('.dropdown-menu:not(.hidden)').forEach(menu => {
+                if (typeof closeDropdown === 'function') closeDropdown(menu);
+            });
+        }
+    });
+
+    // Swipe down gesture
+    if (accountMenuMobile) {
+        accountMenuMobile.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        accountMenuMobile.addEventListener('touchmove', (e) => {
+            currentY = e.touches[0].clientY;
+            const diffY = currentY - startY;
+            if (diffY > 0) {
+                e.preventDefault(); // prevent scroll
+                accountMenuMobile.style.transform = `translateY(${diffY}px)`;
+            }
+        }, { passive: false });
+
+        accountMenuMobile.addEventListener('touchend', (e) => {
+            const diffY = currentY - startY;
+            if (diffY > 100) { // threshold
+                closeBottomSheet();
+            } else {
+                // snap back
+                accountMenuMobile.style.transform = '';
+            }
+        });
+    }
 });

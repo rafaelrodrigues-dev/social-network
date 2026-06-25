@@ -345,3 +345,14 @@
     border-color: #059669 !important; /* Tailwind green-600 */
     box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
 }
+
+/* ================================================================
+   BOTTOM SHEET ANIMATIONS
+   ================================================================ */
+.sheet-animate-in {
+    transform: translateY(0) !important;
+}
+
+.sheet-animate-out {
+    transform: translateY(100%) !important;
+}

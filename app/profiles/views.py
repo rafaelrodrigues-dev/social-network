@@ -1,6 +1,6 @@
 import os
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseForbidden, JsonResponse
@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from notifications.utils import notify
 
 
 class EditProfileView(LoginRequiredMixin,FormView):
@@ -48,6 +49,12 @@ def follow(request,username):
     else:
         profile.followers.add(request.user.profile)
         is_following = True
+        notify(
+            recipient=profile.user,
+            text=_('Start following you'),
+            sender=request.user,
+            notification_type='follow',
+        )
 
     return JsonResponse({
         'is_following':is_following

@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from notifications.utils import notify
 
 User = get_user_model()
 
@@ -36,6 +37,11 @@ def register_create(request):
         login(request,authenticated_user)
 
         request.session.pop('register_form_data',None)
+        notify(
+            recipient=request.user,
+            text=_('Welcome to our platform!'),
+            notification_type='system'
+        )
 
         return redirect(reverse('profiles:profile',kwargs={'username':user.username}))
     
@@ -80,7 +86,6 @@ def login_create(request):
 @login_required
 def logout_view(request):
     logout(request)
-    messages.success(request,_('User has been logged out'))
     return redirect(reverse('authors:login'))
 
 def about(request):
