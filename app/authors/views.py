@@ -93,6 +93,3 @@ def about(request):
 
 def privacy_policy(request):
     return render(request, 'authors/pages/privacy.html')
-
-def contact(request):
-    return render(request, 'authors/pages/contact.html')
