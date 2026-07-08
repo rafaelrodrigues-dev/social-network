@@ -118,8 +118,8 @@ class MarkNotificationAsReadTest(TestCase):
     def test_mark_as_read_nonexistent_notification(self):
         self.client.login(username='testuser', password='testpassword')
         url = reverse('notifications:mark-as-read', kwargs={'id': 9999})
-        with self.assertRaises(Notification.DoesNotExist):
-            self.client.post(url)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 404)
 
     def test_mark_as_read_already_read(self):
         self.notification.is_read = True
@@ -161,5 +161,5 @@ class DeleteNotificationTest(TestCase):
     def test_delete_notification_nonexistent(self):
         self.client.login(username='testuser', password='testpassword')
         url = reverse('notifications:delete', kwargs={'id': 9999})
-        with self.assertRaises(Notification.DoesNotExist):
-            self.client.post(url)
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 404)
