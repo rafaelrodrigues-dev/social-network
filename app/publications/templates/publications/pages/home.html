@@ -37,10 +37,6 @@
             {% for post in page_obj %}
             <!-- Include Post Card -->
                 {% include 'global/components/post_card.html' %}
-                <!-- Insert Google Ad Slot optimized without CLS every 2 fake posts (simulation) -->
-                {% if forloop.counter|divisibleby:2 %}
-                    {% include 'global/components/ad_slot.html' %}
-                {% endif %}
             {% empty %}
             <div class="flex flex-col items-center justify-center p-8 md:p-12 text-center bento-card bg-white/80 dark:bg-surface/90 backdrop-blur-md border border-gray-100 dark:border-white/5 rounded-2xl shadow-sm transition-all duration-300 hover:shadow-md">
                 <div class="relative flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-primary">
@@ -71,15 +67,9 @@
         </div>
     </main>
 
-    <!-- Right Sidebar (Recommendations and Sticky AdSense) -->
+    <!-- Right Sidebar -->
     <aside class="hidden lg:block lg:col-span-3">
         <div class="sticky top-24 space-y-6">
-            <!-- Sticky Sidebar AdSense Area Optimized for Viewability -->
-            <div class="bento-card border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-[#151515] p-4 text-center min-h-[400px] flex flex-col justify-center items-center relative overflow-hidden">
-                <span class="block text-[10px] uppercase text-gray-400 mb-2 font-bold tracking-widest absolute top-4">Patrocinado</span>
-                <span class="text-sm text-gray-500">AdSense Display<br><span class="text-xs">(Vertical Slot)</span></span>
-            </div>
-
             <!-- Mini Footer (Requested AdSense Links) -->
             <footer class="text-[13px] text-gray-500 flex flex-wrap justify-center gap-x-3 gap-y-1">
                 <a href="{% url "authors:about" %}" class="hover:underline hover:text-gray-900 dark:hover:text-gray-300">{% translate 'About' %}</a>

@@ -10,13 +10,6 @@
                 <div class="post-result-wrapper transform transition-all duration-500 hover:z-10">
                     {% include 'global/components/post_card.html' %}
                 </div>
-                
-                <!-- Organic AdSense (native ad slot) injected organically into the feed -->
-                {% if forloop.counter|divisibleby:2 %}
-                    <div class="ad-wrapper transform transition-all duration-500">
-                        {% include 'global/components/ad_slot.html' %}
-                    </div>
-                {% endif %}
             {% empty %}
                 <div class="text-center py-10 liquid-glass bento-card border border-gray-200 dark:border-white/10">
                     <svg class="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
