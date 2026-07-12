@@ -3,7 +3,7 @@
 {% block results %}
     <!-- Discovery UX: results -> people -->
     <section class="mb-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 auto-rows-max">
+        <div id="feed-container" class="grid grid-cols-1 md:grid-cols-2 gap-5 auto-rows-max">
             {% for user in page_obj %}
             <!-- Person Card -->
             <div class="bento-card bento-grid-item liquid-glass p-5 flex items-center justify-between cursor-pointer group">

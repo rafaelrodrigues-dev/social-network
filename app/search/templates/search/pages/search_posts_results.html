@@ -4,7 +4,7 @@
 {% block results %}
     <!-- Results -> Posts -->
     <section>  
-        <div class="space-y-6 feed-scroll-container">
+        <div id="feed-container" class="space-y-6 feed-scroll-container">
             {% for post in page_obj %}
                 <!-- Standardized post (same as main feed) with smooth transition -->
                 <div class="post-result-wrapper transform transition-all duration-500 hover:z-10">

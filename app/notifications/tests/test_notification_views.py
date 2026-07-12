@@ -110,10 +110,10 @@ class MarkNotificationAsReadTest(TestCase):
         self.notification.refresh_from_db()
         self.assertTrue(self.notification.is_read)
 
-    def test_mark_as_read_get_returns_404(self):
+    def test_mark_as_read_if_method_not_allowed(self):
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 405)
 
     def test_mark_as_read_nonexistent_notification(self):
         self.client.login(username='testuser', password='testpassword')
@@ -153,10 +153,10 @@ class DeleteNotificationTest(TestCase):
             Notification.objects.filter(id=self.notification.id).exists()
         )
 
-    def test_delete_notification_get_returns_404(self):
+    def test_delete_notification_if_method_not_allowed(self):
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 405)
 
     def test_delete_notification_nonexistent(self):
         self.client.login(username='testuser', password='testpassword')

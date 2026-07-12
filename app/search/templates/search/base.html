@@ -74,6 +74,14 @@
         </a>
     </div>
     {% block results %}{% endblock results %}
+
+    <!-- Infinite Scroll Placeholder -->
+    <div class="flex justify-center py-6 mt-4" style="display:none" id="loading-indicator">
+        <svg class="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    </div>
 </div>
 {% endblock %}
 
@@ -109,7 +117,7 @@
             });
         }, observerOptions);
 
-        const feedItems = document.querySelectorAll('.post-result-wrapper, .ad-wrapper');
+        const feedItems = document.querySelectorAll('.post-result-wrapper, .ad-wrapper, .bento-grid-item');
         feedItems.forEach((item, index) => {
             // Initial styles for animation
             item.style.opacity = '0';
@@ -117,6 +125,61 @@
             item.style.transitionDelay = `${(index % 5) * 50}ms`; // staggered animation bounded
             observer.observe(item);
         });
+
+        // Infinite scroll logic
+        let currentPage = 1;
+        const totalPages = {{ page_obj.paginator.num_pages|default:1 }};
+        let isFetching = false;
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const feedContainer = document.getElementById('feed-container');
+
+        if (currentPage < totalPages && loadingIndicator && feedContainer) {
+            loadingIndicator.style.display = 'flex';
+
+            const infiniteObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !isFetching && currentPage < totalPages) {
+                    loadMoreResults();
+                }
+            }, { rootMargin: "200px" });
+            infiniteObserver.observe(loadingIndicator);
+        }
+
+        async function loadMoreResults() {
+            isFetching = true;
+            currentPage++;
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('page', currentPage);
+                const response = await fetch(`?${urlParams.toString()}`);
+                const htmlText = await response.text();
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                const newResultsContainer = doc.getElementById('feed-container');
+                if (newResultsContainer) {
+                    Array.from(newResultsContainer.children).forEach((child, index) => {
+                        feedContainer.appendChild(child);
+
+                        // Observe new items for scroll reveal
+                        if(child.classList && (child.classList.contains('post-result-wrapper') || child.classList.contains('ad-wrapper') || child.classList.contains('bento-grid-item'))) {
+                            child.style.opacity = '0';
+                            child.style.transform = 'translateY(20px)';
+                            child.style.transitionDelay = `${(index % 5) * 50}ms`;
+                            observer.observe(child);
+                        }
+                    });
+                }
+
+                if (currentPage >= totalPages) {
+                    loadingIndicator.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading more results:', error);
+            } finally {
+                isFetching = false;
+            }
+        }
     });
 </script>
 {% endblock %}
