@@ -3,6 +3,9 @@ from django.test import TestCase as DjangoTestCase
 from django.urls import reverse
 from authors.forms import RegisterForm
 from django.utils.translation import gettext as _
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class AuthorsRegisterUnitTest(TestCase):
@@ -25,6 +28,13 @@ class AuthorsRegisterIntegrationTest(DjangoTestCase):
         }
         return super().setUp()
     
+    def test_register_view_if_authenticated_user_redirects_to_home(self):
+        User.objects.create_user(username='testuser',password='testpassword')
+        self.client.login(username='testuser',password='testpassword')
+
+        response = self.client.get(reverse('authors:register'))
+        self.assertRedirects(response,reverse('publications:home'))
+
     def test_clean_username_with_existing_username(self):
         url = reverse('authors:register_create')
         self.client.post(url, data=self.form_data,follow=True)

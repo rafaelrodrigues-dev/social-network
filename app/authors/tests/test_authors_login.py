@@ -15,6 +15,13 @@ class AuthorsLoginUnitTest(TestCase):
         self.assertEqual(form['password'].field.label, _('Password'))
 
 class AuthorsLoginIntegrationtest(DjangoTestCase):
+    def test_login_view_if_authenticated_user_redirects_to_home(self):
+        User.objects.create_user(username='testuser',password='testpassword')
+        self.client.login(username='testuser',password='testpassword')
+
+        response = self.client.get(reverse('authors:login'))
+        self.assertRedirects(response,reverse('publications:home'))
+
     def test_login_create_if_method_is_not_post(self):
         response =self.client.get(reverse('authors:login_create'))
         self.assertEqual(response.status_code,405)
