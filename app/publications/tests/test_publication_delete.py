@@ -41,3 +41,9 @@ class DeletePublicationTest(TestCase):
         nonexistent_url = reverse('publications:delete-publication', kwargs={'pk': 999})
         response = self.client.post(nonexistent_url)
         self.assertEqual(response.status_code, 404)  # Not Found
+
+    def test_delete_publication_invalid_method(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 405)  # Method Not Allowed
+        self.assertTrue(Publication.objects.filter(pk=self.publication.pk).exists())
