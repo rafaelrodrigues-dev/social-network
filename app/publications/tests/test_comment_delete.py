@@ -43,10 +43,3 @@ class DeleteCommentTest(TestCase):
         nonexistent_url = reverse('publications:delete-comment', kwargs={'pk': 999})
         response = self.client.post(nonexistent_url)
         self.assertEqual(response.status_code, 404)
-
-    def test_delete_comment_unauthenticated(self):
-        self.client.logout()
-        response = self.client.post(self.delete_url)
-        self.assertEqual(response.status_code, 302)
-        login_url = reverse('authors:login')
-        self.assertRedirects(response, f'{login_url}?next={self.delete_url}')

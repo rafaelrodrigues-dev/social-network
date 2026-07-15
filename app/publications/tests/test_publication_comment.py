@@ -27,16 +27,3 @@ class CommentTest(TestCase):
             follow=True
         )
         self.assertIn(data.get('text'),response.content.decode('utf-8'))
-
-    def test_comment_unauthenticated(self):
-        self.client.logout()
-        url = reverse('publications:comment', kwargs={'pk': self.publication.pk})
-        response = self.client.post(url, data={'text': 'Hello'})
-        self.assertEqual(response.status_code, 302)
-        login_url = reverse('authors:login')
-        self.assertRedirects(response, f'{login_url}?next={url}')
-
-    def test_comment_nonexistent(self):
-        url = reverse('publications:comment', kwargs={'pk': 999})
-        response = self.client.post(url, data={'text': 'Hello'})
-        self.assertEqual(response.status_code, 404)

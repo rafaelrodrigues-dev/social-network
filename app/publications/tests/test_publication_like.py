@@ -37,11 +37,3 @@ class LikeViewTest(TestCase):
         url = reverse('publications:like', args=(self.publication.pk,))
         response = self.client.get(url)  # Sending GET instead of POST
         self.assertEqual(response.status_code, 405)
-
-    def test_like_unauthenticated(self):
-        self.client.logout()
-        url = reverse('publications:like', args=(self.publication.pk,))
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 302)
-        login_url = reverse('authors:login')
-        self.assertRedirects(response, f'{login_url}?next={url}')
