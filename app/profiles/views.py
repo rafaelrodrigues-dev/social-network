@@ -66,7 +66,7 @@ def profile_detail(request,username):
 
     if active_tab == 'posts':
         publications = Publication.objects.filter(author__profile=profile).order_by('-id')
-    elif active_tab == 'saved':
+    if active_tab == 'saved':
         publications = Publication.objects.filter(saved=profile.user).order_by('-saved')
 
     paginator = Paginator(publications,6)

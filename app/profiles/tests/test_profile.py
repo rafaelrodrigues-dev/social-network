@@ -97,18 +97,6 @@ class ProfileTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['page_obj']), 2)
 
-    def test_edit_profile_redirects_if_not_authenticated(self):
-        self.client.logout()
-        url = reverse('profiles:edit_profile')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-
-    def test_edit_profile_loads_successfully_when_authenticated(self):
-        url = reverse('profiles:edit_profile')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'profiles/edit_profile.html')
-
     def test_follow_creates_notification(self):
         user2 = User.objects.create_user(username='testuser2', password='password')
         url = reverse('profiles:follow', kwargs={'username': user2.username})
@@ -122,4 +110,4 @@ class ProfileTest(TestCase):
                 sender=self.user,
                 notification_type='follow'
             ).exists()
-        )
+        )

@@ -44,6 +44,18 @@ class EditProfileIntegrationTest(DjangoTestCase):
         })
         self.assertRedirects(response, reverse('profiles:profile', kwargs={'username': self.user.username}))
 
+    def test_edit_profile_redirects_if_not_authenticated(self):
+        self.client.logout()
+        url = reverse('profiles:edit_profile')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+    def test_edit_profile_loads_successfully_when_authenticated(self):
+        url = reverse('profiles:edit_profile')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/edit_profile.html')
+
     def test_edit_profile_first_name(self):
         needed = 'newfirstname'
 
