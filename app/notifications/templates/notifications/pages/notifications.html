@@ -51,7 +51,7 @@
     <!-- Header -->
     <header class="mb-10">
         <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">{%translate "Notifications" %}</h1>
-        <p class="text-gray-500 dark:text-gray-400 mt-2 text-lg">Your recent updates and interactions.</p>
+        <p class="text-gray-500 dark:text-gray-400 mt-2 text-lg">{%translate "Your recent updates and interactions." %}</p>
     </header>
 
     <!-- Bento Grid Layout -->
@@ -61,7 +61,7 @@
         <main class="lg:col-span-8 xl:col-span-9 space-y-10">
             
             <section aria-labelledby="section-all">
-                <h2 id="section-all" class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-800 pb-2">Activity</h2>
+                <h2 id="section-all" class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-800 pb-2">{%translate "Activity" %}</h2>
                 
                 <!-- Bento Grid for Notifications -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -113,7 +113,7 @@
                                     {% endif %}
                                     <span class="opacity-90">{{ notification.text }}</span>
                                     {% if notification.publication %}
-                                    <a href="{% url 'publications:publication-detail' notification.publication.id %}" class="font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">on the post</a>.
+                                    <a href="{% url 'publications:publication-detail' notification.publication.id %}" class="font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{% translate "on the post" %}</a>.
                                     {% endif %}
                                 </p>
                                 <time class="block mt-2 text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 uppercase">

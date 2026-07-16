@@ -289,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const modal = document.getElementById('create-post-modal');
     const btnOpenModalMobile = document.getElementById('mobile-create-post-btn');
+    const btnOpenModalDesktop = document.getElementById('desktop-create-post-btn');
     const btnCloseModal = document.getElementById('close-modal-btn');
     const modalOverlay = document.getElementById('modal-overlay');
     const modalContent = document.getElementById('modal-content');
@@ -340,6 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (btnOpenModalMobile) btnOpenModalMobile.addEventListener('click', openModal);
+    if (btnOpenModalDesktop) btnOpenModalDesktop.addEventListener('click', openModal);
     if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
@@ -631,6 +633,96 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // snap back
                 accountMenuMobile.style.transform = '';
+            }
+        });
+    }
+
+    // ==========================================
+    // 8. Mobile Search Overlay
+    // ==========================================
+    const mobileSearchBtn = document.getElementById('mobile-search-btn');
+    const mobileSearchOverlay = document.getElementById('mobile-search-overlay');
+    const closeSearchOverlayBtn = document.getElementById('close-search-overlay');
+    const mobileSearchInput = document.getElementById('mobile-search-input');
+    
+    let searchStartY = 0;
+    let searchCurrentY = 0;
+
+    const openSearchOverlay = () => {
+        if (!mobileSearchOverlay) return;
+        mobileSearchOverlay.classList.remove('hidden');
+        // Trigger reflow
+        void mobileSearchOverlay.offsetWidth;
+        mobileSearchOverlay.classList.remove('search-overlay-slide-down');
+        mobileSearchOverlay.classList.add('search-overlay-slide-up');
+        
+        // Force focus on input immediately
+        if (mobileSearchInput) {
+            setTimeout(() => {
+                mobileSearchInput.focus();
+            }, 50); // slight delay to allow display:block to settle
+        }
+    };
+
+    const closeSearchOverlay = () => {
+        if (!mobileSearchOverlay) return;
+        mobileSearchOverlay.classList.remove('search-overlay-slide-up');
+        mobileSearchOverlay.classList.add('search-overlay-slide-down');
+        mobileSearchOverlay.style.transform = ''; // reset swipe transform
+        
+        // Wait for animation
+        setTimeout(() => {
+            if (mobileSearchOverlay.classList.contains('search-overlay-slide-down')) {
+                mobileSearchOverlay.classList.add('hidden');
+            }
+        }, 200);
+    };
+
+    if (mobileSearchBtn) {
+        mobileSearchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openSearchOverlay();
+        });
+    }
+
+    if (closeSearchOverlayBtn) {
+        closeSearchOverlayBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeSearchOverlay();
+        });
+    }
+
+    // Esc key support for search
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (mobileSearchOverlay && !mobileSearchOverlay.classList.contains('hidden')) {
+                closeSearchOverlay();
+            }
+        }
+    });
+
+    // Swipe down gesture
+    if (mobileSearchOverlay) {
+        mobileSearchOverlay.addEventListener('touchstart', (e) => {
+            searchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        mobileSearchOverlay.addEventListener('touchmove', (e) => {
+            searchCurrentY = e.touches[0].clientY;
+            const diffY = searchCurrentY - searchStartY;
+            if (diffY > 0) {
+                // If the user is swiping down
+                mobileSearchOverlay.style.transform = `translateY(${diffY}px)`;
+            }
+        }, { passive: true });
+
+        mobileSearchOverlay.addEventListener('touchend', (e) => {
+            const diffY = searchCurrentY - searchStartY;
+            if (diffY > 100) { // threshold for close
+                closeSearchOverlay();
+            } else {
+                // snap back
+                mobileSearchOverlay.style.transform = '';
             }
         });
     }

@@ -356,3 +356,43 @@
 .sheet-animate-out {
     transform: translateY(100%) !important;
 }
+
+/* ================================================================
+   MOBILE SEARCH OVERLAY
+   ================================================================ */
+.search-overlay-glass {
+    /* Exact request for liquid glass: bg-black/60 com backdrop-blur-xl */
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.search-overlay-slide-up {
+    animation: searchOverlaySlideUp 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.search-overlay-slide-down {
+    animation: searchOverlaySlideDown 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes searchOverlaySlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes searchOverlaySlideDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+}
