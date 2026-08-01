@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-16 18:43-0300\n"
+"POT-Creation-Date: 2026-07-31 11:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,7 +109,6 @@ msgid "Don't have an account?"
 msgstr "Ainda não tem uma conta?"
 
 #: .\authors\templates\authors\pages\login.html:22
-
 msgid "Register now"
 msgstr "Registrar-se"
 
@@ -204,7 +203,6 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: .\base_templates\global\components\create_post_modal.html:12
-
 msgid "Create new publication"
 msgstr "Criar nova publicação"
 
@@ -318,7 +316,9 @@ msgstr "Você está atualizado"
 #: .\notifications\templates\notifications\pages\notifications.html:163
 msgid ""
 "No new notifications at the moment. Keep interacting to see updates here."
-msgstr "Nenhuma notificação nova no momento. Continue interagindo para ver atualizações aqui."
+msgstr ""
+"Nenhuma notificação nova no momento. Continue interagindo para ver "
+"atualizações aqui."
 
 #: .\profiles\forms\edit_profile_form.py:67 .\profiles\models.py:11
 msgid "Picture"
@@ -435,9 +435,13 @@ msgstr "Postagem de"
 msgid "Comments"
 msgstr "Comentários"
 
-#: .\publications\templates\publications\pages\publication-detail.html:204W
+#: .\publications\templates\publications\pages\publication-detail.html:204
 msgid "View more"
 msgstr "Ver mais"
+
+#: .\publications\templates\publications\pages\publication-detail.html:216
+msgid "Add a comment"
+msgstr "Adicione um comentário"
 
 #: .\publications\templates\publications\pages\publication-detail.html:218
 msgid "Publish"
@@ -551,9 +555,6 @@ msgstr "Tente pesquisar usando termos diferentes ou mais gerais."
 
 #~ msgid "It looks like there's nothing around here..."
 #~ msgstr "Parece que não há nada por aqui..."
-
-#~ msgid "Add a comment here..."
-#~ msgstr "Adicione um comentário aqui..."
 
 #~ msgid "No comments yet"
 #~ msgstr "Sem comentários ainda"
