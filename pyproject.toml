@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["app"]
+
+[project]
+name = "social_network"
+version = "1.0.0"
+description = "Django-based social network platform for sharing posts and connecting with friends."
+requires-python = ">=3.13"
+license = {text = "MIT"}
+
+dependencies = [
+    "django>=6.0.0",
+    "django-storages>=1.14.6",
+    "gunicorn>=23.0.0",
+    "pillow>=11.1.0",
+    "psycopg2-binary>=2.9.10",
+    "whitenoise>=6.12.0",
+    "boto3>=1.43.53",
+    "pytest>=8.3.4",
+    "pytest-django>=4.9.0",
+    "coverage>=7.6.10",
+]

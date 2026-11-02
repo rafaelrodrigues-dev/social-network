@@ -15,7 +15,7 @@ from django.contrib.messages import constants
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR.parent / 'data' / 'web'
+DATA_DIR = Path('/data/web')
 
 
 # Quick-start development settings - unsuitable for production

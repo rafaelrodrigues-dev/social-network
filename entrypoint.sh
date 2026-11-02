@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e
 
 while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
@@ -9,12 +8,8 @@ done
 
 echo "✅ Postgres Database Started Successfully ($POSTGRES_HOST:$POSTGRES_PORT)"
 
-chown -R duser:duser /data/web/static
-chown -R duser:duser /data/web/media
-chmod -R 755 /data/web/static
-chmod -R 755 /data/web/media
+python manage.py collectstatic --noinput
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
 
-su-exec duser python manage.py collectstatic --noinput
-su-exec duser python manage.py makemigrations --noinput
-su-exec duser python manage.py migrate --noinput
-exec su-exec duser gunicorn project.wsgi:application --bind 0.0.0.0:8000
+exec "$@"

@@ -14,13 +14,13 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./app:/app
+      - ./app:/code/app
       - media_volume:/data/web/media
       - static_volume:/data/web/static
     env_file:
       - ./dotenv_files/.env
     networks:
-    - socialnet-network
+      - socialnet-network
     depends_on:
       - db
     command: python manage.py runserver 0.0.0.0:8000

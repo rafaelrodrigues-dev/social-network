@@ -1,23 +1,39 @@
 FROM python:3.13-alpine
 
 ENV PYTHONDONTWRITEBYTECODE=1
-
 ENV PYTHONUNBUFFERED=1
 
-COPY ./app /app
+WORKDIR /code
+
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache netcat-openbsd && \
+    rm -rf /var/cache/apk/* && \
+    pip install --no-cache-dir --upgrade pip && \
+    adduser --disabled-password -h /home/duser duser && \
+    mkdir -p /data/web/static /data/web/media && \
+    chown -R duser:duser /data/web
+
+COPY pyproject.toml .
+COPY ./app ./app
 COPY ./entrypoint.sh /entrypoint.sh
 
-WORKDIR /app
+RUN pip install --no-cache-dir -e . && \
+    sed -i 's/\r$//' /entrypoint.sh && \
+    chmod +x /entrypoint.sh && \
+    chown -R duser:duser /code
+
+USER duser
+
+WORKDIR /code/app
 
 EXPOSE 8000
 
-RUN pip install --upgrade pip && \
-    pip install -r /app/requirements.txt && \
-    apk add --no-cache su-exec && \
-    adduser --disabled-password --no-create-home duser && \
-    mkdir -p /data/web/static && \
-    mkdir -p /data/web/media && \
-    sed -i 's/\r$//' /entrypoint.sh && \
-    chmod -R +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/entrypoint.sh"]
+CMD ["gunicorn", "project.wsgi:application", \
+    "--bind", "0.0.0.0:8000", \
+    "--workers", "2", \
+    "--timeout", "60", \
+    "--max-requests", "1000", \
+    "--max-requests-jitter", "50"]
