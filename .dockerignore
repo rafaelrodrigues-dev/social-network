@@ -1,13 +1,39 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# ==========================================
+# Docker Ignore File for Social Network (Django)
+# ==========================================
 
-# C extensions
+# Git / Version Control
+.git/
+.gitignore
+.gitattributes
+
+# Environment Variables & Secrets (Sensitive files)
+.env
+.env.*
+*.env
+dotenv_files/
+
+# Docker Files (not needed inside the image)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python Bytecode & Cache
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
 *.so
-
-# Distribution / packaging
 .Python
+
+# Packaging & Distribution
 build/
 develop-eggs/
 dist/
@@ -26,89 +52,57 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
+# Testing & Coverage (Unit tests, pytest, coverage)
+**/.pytest_cache/
+**/.coverage
+**/.coverage.*
+**/htmlcov/
+**/.coveragerc
+coverage.xml
+nosetests.xml
+.hypothesis/
 .tox/
 .nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
+.cache/
 
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-static
-
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
+# Type Checking & Linters
+**/.mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Pyre type checker
 .pyre/
-
-# pytype static type analyzer
 .pytype/
+.ruff_cache/
 
-# Cython debug symbols
-cython_debug/
+# Database & SQLite files
+*.sqlite3
+*.sqlite3-journal
+**/*.sqlite3
+**/*.sqlite3-journal
+db.sqlite3
 
-# Dependency directories
-node_modules/
+# Logs & Run files
+*.log
+**/*.log
+celerybeat-schedule*
+celerybeat.pid
 
-# VS Code
-.vscode
+# Django local media & collected data
+# (Persistence is handled via Docker volumes)
+data/
+media/
+staticfiles/
+
+# IDEs, Editors & OS Files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Documentation & Repo Meta (not needed in container)
+README.md
+LICENSE
+docs/
+/site

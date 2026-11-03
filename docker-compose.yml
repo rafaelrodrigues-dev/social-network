@@ -11,6 +11,7 @@ services:
   web:
     build:
       context: .
+      target: development
     ports:
       - "8000:8000"
     volumes:
@@ -23,7 +24,6 @@ services:
       - socialnet-network
     depends_on:
       - db
-    command: python manage.py runserver 0.0.0.0:8000
 
 volumes:
   db_socialnet:

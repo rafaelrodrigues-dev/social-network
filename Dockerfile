@@ -1,4 +1,5 @@
-FROM python:3.13-alpine
+# Base
+FROM python:3.13-alpine AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -15,10 +16,13 @@ RUN apk update && \
     chown -R duser:duser /data/web
 
 COPY pyproject.toml .
-COPY ./app ./app
 COPY ./entrypoint.sh /entrypoint.sh
 
-RUN pip install --no-cache-dir -e . && \
+# Dev
+FROM base AS development
+COPY ./app ./app
+
+RUN pip install --no-cache-dir -e ".[dev]" && \
     sed -i 's/\r$//' /entrypoint.sh && \
     chmod +x /entrypoint.sh && \
     chown -R duser:duser /code
@@ -28,6 +32,24 @@ USER duser
 WORKDIR /code/app
 
 EXPOSE 8000
+
+ENTRYPOINT [ "/entrypoint.sh" ]
+
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+
+# Prod
+FROM base AS production
+
+COPY ./app ./app
+
+RUN pip install --no-cache-dir . && \
+    sed -i 's/\r$//' /entrypoint.sh && \
+    chmod +x /entrypoint.sh && \
+    chown -R duser:duser /code
+
+USER duser
+
+WORKDIR /code/app
 
 ENTRYPOINT ["/entrypoint.sh"]
 
