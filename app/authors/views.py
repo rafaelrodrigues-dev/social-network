@@ -70,7 +70,6 @@ def login_create(request):
 
         if authenticated_user:
             login(request,authenticated_user)
-            messages.success(request,_('Login successful'))
 
             return redirect(reverse('publications:home'))
         

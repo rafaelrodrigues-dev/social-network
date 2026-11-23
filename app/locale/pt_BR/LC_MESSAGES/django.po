@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 11:59-0300\n"
+"POT-Creation-Date: 2026-11-22 22:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,28 +28,28 @@ msgid "Password"
 msgstr "Senha"
 
 #: .\authors\forms\register_form.py:9
-#: .\authors\templates\authors\pages\register.html:141
+#: .\authors\templates\authors\pages\register.html:142
 #: .\profiles\forms\edit_profile_form.py:27
 #: .\profiles\templates\profiles\edit_profile.html:210
 msgid "Male"
 msgstr "Masculino"
 
 #: .\authors\forms\register_form.py:10
-#: .\authors\templates\authors\pages\register.html:142
+#: .\authors\templates\authors\pages\register.html:143
 #: .\profiles\forms\edit_profile_form.py:28
 #: .\profiles\templates\profiles\edit_profile.html:211
 msgid "Female"
 msgstr "Feminino"
 
 #: .\authors\forms\register_form.py:11
-#: .\authors\templates\authors\pages\register.html:143
+#: .\authors\templates\authors\pages\register.html:144
 #: .\profiles\forms\edit_profile_form.py:29
 #: .\profiles\templates\profiles\edit_profile.html:212
 msgid "Search me"
 msgstr "Sei lá"
 
 #: .\authors\forms\register_form.py:12
-#: .\authors\templates\authors\pages\register.html:144
+#: .\authors\templates\authors\pages\register.html:145
 #: .\profiles\forms\edit_profile_form.py:30
 #: .\profiles\templates\profiles\edit_profile.html:213
 msgid "Other"
@@ -96,19 +96,19 @@ msgstr "Este e-mail já está em uso."
 msgid "About us"
 msgstr "Sobre nós"
 
-#: .\authors\templates\authors\pages\login.html:5
+#: .\authors\templates\authors\pages\login.html:6
 msgid "Login"
 msgstr "Entrar"
 
-#: .\authors\templates\authors\pages\login.html:17
+#: .\authors\templates\authors\pages\login.html:18
 msgid "Welcome back"
 msgstr "Bem-vindo de volta"
 
-#: .\authors\templates\authors\pages\login.html:20
+#: .\authors\templates\authors\pages\login.html:21
 msgid "Don't have an account?"
 msgstr "Ainda não tem uma conta?"
 
-#: .\authors\templates\authors\pages\login.html:22
+#: .\authors\templates\authors\pages\login.html:23
 msgid "Register now"
 msgstr "Registrar-se"
 
@@ -116,76 +116,96 @@ msgstr "Registrar-se"
 msgid "Log in"
 msgstr "Entrar"
 
+#: .\authors\templates\authors\pages\login.html:85
+msgid "Or continue with"
+msgstr "Ou continue com"
+
+#: .\authors\templates\authors\pages\login.html:93
+msgid "Log in with Google"
+msgstr "Entrar com o Google"
+
+#: .\authors\templates\authors\pages\login.html:103
+msgid "Log in with GitHub"
+msgstr "Entrar com o GitHub"
+
 #: .\authors\templates\authors\pages\privacy.html:5
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: .\authors\templates\authors\pages\register.html:5
+#: .\authors\templates\authors\pages\register.html:6
 msgid "Register"
 msgstr "Registrar-se"
 
-#: .\authors\templates\authors\pages\register.html:17
+#: .\authors\templates\authors\pages\register.html:18
 msgid "Join us"
 msgstr "Junte-se a nós"
 
-#: .\authors\templates\authors\pages\register.html:20
+#: .\authors\templates\authors\pages\register.html:21
 msgid "Do you already have an account?"
 msgstr "Já tem uma conta?"
 
-#: .\authors\templates\authors\pages\register.html:22
+#: .\authors\templates\authors\pages\register.html:23
 msgid "Log in here"
 msgstr "Faça login aqui"
 
-#: .\authors\templates\authors\pages\register.html:62
+#: .\authors\templates\authors\pages\register.html:63
 msgid "Optional"
 msgstr "Opcional"
 
-#: .\authors\templates\authors\pages\register.html:112
+#: .\authors\templates\authors\pages\register.html:113
 msgid "Personal data"
 msgstr "Dados pessoais"
 
-#: .\authors\templates\authors\pages\register.html:140
+#: .\authors\templates\authors\pages\register.html:141
 #: .\profiles\templates\profiles\edit_profile.html:209
 msgid "Select"
 msgstr "Selecione"
 
-#: .\authors\templates\authors\pages\register.html:184
+#: .\authors\templates\authors\pages\register.html:185
 msgid "I agree to the"
 msgstr "Eu concordo com os"
 
-#: .\authors\templates\authors\pages\register.html:185
+#: .\authors\templates\authors\pages\register.html:186
 msgid "Terms and Privacy Policy"
 msgstr "Termos e Políticas de Privacidade"
 
-#: .\authors\templates\authors\pages\register.html:191
+#: .\authors\templates\authors\pages\register.html:192
 msgid "Create Account"
 msgstr "Criar conta"
 
+#: .\authors\templates\authors\pages\register.html:203
+msgid "Quick registration with"
+msgstr "Registro rápido com"
+
+#: .\authors\templates\authors\pages\register.html:211
+msgid "Register with Google"
+msgstr "Cadastrar com o Google"
+
 #: .\authors\templates\authors\pages\register.html:222
+msgid "Register with GitHub"
+msgstr "Cadastrar com o GitHub"
+
+#: .\authors\templates\authors\pages\register.html:258
 #: .\profiles\templates\profiles\edit_profile.html:203
 #: .\profiles\templates\profiles\edit_profile.html:219
 msgid "You must be at least 18 years old."
 msgstr "Você deve ter pelo menos 18 anos."
 
-#: .\authors\templates\authors\pages\register.html:228
+#: .\authors\templates\authors\pages\register.html:264
 msgid "Age verified."
 msgstr "Idade verificada."
 
-#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:81
+#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:80
 msgid "Invalid username or password"
 msgstr "Nome de Usuário ou senhas inválidos"
 
-#: .\authors\tests\test_authors_login.py:40 .\authors\views.py:78
+#: .\authors\tests\test_authors_login.py:40 .\authors\views.py:77
 msgid "Invalid credentials"
 msgstr "Credencias inválidas"
 
 #: .\authors\views.py:42
 msgid "Welcome to our platform!"
 msgstr "Seja bem-vindo(a) a nossa plataforma!"
-
-#: .\authors\views.py:73
-msgid "Login successful"
-msgstr "Usuário foi conectado com sucesso"
 
 #: .\base_templates\global\base.html:88 .\base_templates\global\base.html:94
 #: .\base_templates\global\components\post_card.html:55
@@ -471,6 +491,9 @@ msgstr "Usuários"
 msgid "Try searching using different or more general terms."
 msgstr "Tente pesquisar usando termos diferentes ou mais gerais."
 
+#~ msgid "Login successful"
+#~ msgstr "Usuário foi conectado com sucesso"
+
 #~ msgid "Contact"
 #~ msgstr "Contato"
 
@@ -479,15 +502,6 @@ msgstr "Tente pesquisar usando termos diferentes ou mais gerais."
 
 #~ msgid "Or"
 #~ msgstr "Ou"
-
-#~ msgid "Or continue with"
-#~ msgstr "Ou continue com"
-
-#~ msgid "Log in with Google"
-#~ msgstr "Entrar com o Google"
-
-#~ msgid "Quick registration with"
-#~ msgstr "Registro rápido com"
 
 #~ msgid "User has been logged out"
 #~ msgstr "O usário foi desconectado com sucesso"
