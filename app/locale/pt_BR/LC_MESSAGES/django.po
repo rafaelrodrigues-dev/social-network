@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 22:44-0300\n"
+"POT-Creation-Date: 2026-11-23 22:37-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: .\authors\forms\login_form.py:6 .\authors\forms\register_form.py:20
+#: .\authors\templates\authors\pages\settings.html:237
 #: .\authors\tests\test_authors_login.py:14
 msgid "Username"
 msgstr "Nome de Usuário"
@@ -129,6 +130,7 @@ msgid "Log in with GitHub"
 msgstr "Entrar com o GitHub"
 
 #: .\authors\templates\authors\pages\privacy.html:5
+#: .\authors\templates\authors\pages\settings.html:339
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
@@ -195,17 +197,164 @@ msgstr "Você deve ter pelo menos 18 anos."
 msgid "Age verified."
 msgstr "Idade verificada."
 
-#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:80
+#: .\authors\templates\authors\pages\settings.html:5
+#: .\authors\templates\authors\pages\settings.html:53
+#: .\base_templates\global\components\navbar.html:63
+msgid "Settings"
+msgstr "Configurações"
+
+#: .\authors\templates\authors\pages\settings.html:56
+msgid "Manage your account, privacy and preferences."
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:72
+msgid "Settings navigation"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:87
+#, fuzzy
+#| msgid "Profile"
+msgid "Profile & Data"
+msgstr "Perfil"
+
+#: .\authors\templates\authors\pages\settings.html:101
+#, fuzzy
+#| msgid "Create Account"
+msgid "Security & Account"
+msgstr "Criar conta"
+
+#: .\authors\templates\authors\pages\settings.html:115
+msgid "About & Policies"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:134
+msgid "Sign Out"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:192
+#: .\profiles\templates\profiles\edit_profile.html:5
+#: .\profiles\templates\profiles\edit_profile.html:126
+#: .\profiles\templates\profiles\profile_detail.html:53
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: .\authors\templates\authors\pages\settings.html:203
+#, fuzzy
+#| msgid "Profile"
+msgid "Your Profile"
+msgstr "Perfil"
+
+#: .\authors\templates\authors\pages\settings.html:218
+msgid "This is the public link to your profile page."
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:233
+msgid "Account Info"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:241
+msgid "Email"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:247
+msgid "Member since"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:270
+#: .\authors\templates\authors\pages\settings.html:396
+#, fuzzy
+#| msgid "Create Account"
+msgid "Delete Account"
+msgstr "Criar conta"
+
+#: .\authors\templates\authors\pages\settings.html:273
+msgid ""
+"Permanently removes all your data, posts and interactions. This action is "
+"irreversible."
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:287
+#, fuzzy
+#| msgid "Create Account"
+msgid "Delete My Account"
+msgstr "Criar conta"
+
+#: .\authors\templates\authors\pages\settings.html:312
+msgid "About Socialnet"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:315
+msgid "Our mission, vision and team."
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:342
+msgid "How we collect, use and protect your data."
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:399
+msgid "This action is irreversible."
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:408
+msgid "Close"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:417
+#, python-format
+msgid ""
+"\n"
+"            You are about to permanently delete the account "
+"<strong>@%(username)s</strong>.\n"
+"            All your posts, followers and data will be erased immediately.\n"
+"            "
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:430
+msgid "Type"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:432
+msgid "to confirm"
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:448
+msgid "Type DELETE exactly to confirm."
+msgstr ""
+
+#: .\authors\templates\authors\pages\settings.html:459
+#: .\base_templates\global\base.html:91
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: .\authors\templates\authors\pages\settings.html:468
+#, fuzzy
+#| msgid "Delete"
+msgid "Delete Forever"
+msgstr "Apagar"
+
+#: .\authors\templates\authors\pages\settings.html:602
+msgid "Deleting..."
+msgstr ""
+
+#: .\authors\tests\test_authors_login.py:33 .\authors\views.py:81
 msgid "Invalid username or password"
 msgstr "Nome de Usuário ou senhas inválidos"
 
-#: .\authors\tests\test_authors_login.py:40 .\authors\views.py:77
+#: .\authors\tests\test_authors_login.py:40 .\authors\views.py:78
 msgid "Invalid credentials"
 msgstr "Credencias inválidas"
 
-#: .\authors\views.py:42
+#: .\authors\views.py:43
 msgid "Welcome to our platform!"
 msgstr "Seja bem-vindo(a) a nossa plataforma!"
+
+#: .\authors\views.py:107
+msgid "Confirmation text did not match. Account was NOT deleted."
+msgstr ""
+
+#: .\authors\views.py:113
+msgid "Your account has been permanently deleted."
+msgstr ""
 
 #: .\base_templates\global\base.html:88 .\base_templates\global\base.html:94
 #: .\base_templates\global\components\post_card.html:55
@@ -217,10 +366,6 @@ msgstr "Apagar"
 #: .\base_templates\global\base.html:89
 msgid "This action cannot be undone."
 msgstr "Esta ação não pode ser desfeita."
-
-#: .\base_templates\global\base.html:91
-msgid "Cancel"
-msgstr "Cancelar"
 
 #: .\base_templates\global\components\create_post_modal.html:12
 msgid "Create new publication"
@@ -239,7 +384,7 @@ msgid "Share"
 msgstr "Compartilhar"
 
 #: .\base_templates\global\components\navbar.html:25
-#: .\base_templates\global\components\navbar.html:161
+#: .\base_templates\global\components\navbar.html:162
 msgid "Search for posts, people"
 msgstr "Pesquise por posts, pessoas"
 
@@ -248,30 +393,30 @@ msgid "New Post"
 msgstr "Nova Postagem"
 
 #: .\base_templates\global\components\navbar.html:61
-#: .\base_templates\global\components\navbar.html:123
-#: .\base_templates\global\components\navbar.html:137 .\profiles\models.py:17
+#: .\base_templates\global\components\navbar.html:124
+#: .\base_templates\global\components\navbar.html:138 .\profiles\models.py:17
 msgid "Profile"
 msgstr "Perfil"
 
 #: .\base_templates\global\components\navbar.html:62
-#: .\base_templates\global\components\navbar.html:138
+#: .\base_templates\global\components\navbar.html:139
 msgid "Saved posts"
 msgstr "Postagens salvas"
 
-#: .\base_templates\global\components\navbar.html:66
-#: .\base_templates\global\components\navbar.html:142
+#: .\base_templates\global\components\navbar.html:67
+#: .\base_templates\global\components\navbar.html:143
 msgid "Logout"
 msgstr "Sair"
 
-#: .\base_templates\global\components\navbar.html:96
+#: .\base_templates\global\components\navbar.html:97
 msgid "Feed"
 msgstr "Ínicio"
 
-#: .\base_templates\global\components\navbar.html:100
+#: .\base_templates\global\components\navbar.html:101
 msgid "Search"
 msgstr "Pesquisar"
 
-#: .\base_templates\global\components\navbar.html:115
+#: .\base_templates\global\components\navbar.html:116
 #: .\notifications\templates\notifications\pages\notifications.html:53
 msgid "Notifications"
 msgstr "Notificações"
@@ -355,12 +500,6 @@ msgstr "Thumbnail"
 #: .\profiles\models.py:18
 msgid "Profiles"
 msgstr "Perfis"
-
-#: .\profiles\templates\profiles\edit_profile.html:5
-#: .\profiles\templates\profiles\edit_profile.html:126
-#: .\profiles\templates\profiles\profile_detail.html:53
-msgid "Edit Profile"
-msgstr "Editar Perfil"
 
 #: .\profiles\templates\profiles\edit_profile.html:124
 #: .\publications\templates\publications\pages\publication-detail.html:15
@@ -539,9 +678,6 @@ msgstr "Tente pesquisar usando termos diferentes ou mais gerais."
 
 #~ msgid "Welcome to this platform, there will be new additions soon."
 #~ msgstr "Bem-vindo a esta plataforma, em breve teremos novidades."
-
-#~ msgid "Settings"
-#~ msgstr "Configurações"
 
 #~ msgid "first"
 #~ msgstr "primeiro"

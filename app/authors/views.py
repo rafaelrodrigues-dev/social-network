@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from notifications.utils import notify
+from django.views.decorators.csrf import csrf_protect
 
 User = get_user_model()
 
@@ -92,3 +93,22 @@ def about(request):
 
 def privacy_policy(request):
     return render(request, 'authors/pages/privacy.html')
+
+@login_required
+def settings_view(request):
+    return render(request, 'authors/pages/settings.html')
+
+@require_POST
+@login_required
+@csrf_protect
+def delete_account(request):
+    confirm_text = request.POST.get('confirm_text', '').strip()
+    if confirm_text != 'DELETE':
+        messages.error(request, _('Confirmation text did not match. Account was NOT deleted.'))
+        return redirect(reverse('authors:settings'))
+
+    user = request.user
+    logout(request)
+    user.delete()
+    messages.success(request, _('Your account has been permanently deleted.'))
+    return redirect(reverse('authors:register'))

@@ -396,3 +396,56 @@
         transform: translateY(100%);
     }
 }
+
+/* ================================================================
+   SETTINGS PAGE — Liquid Glass sidebar + Bento panels
+   ================================================================ */
+
+/* Glass card used as sidebar navigation */
+.settings-nav-glass {
+    background-color: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.dark .settings-nav-glass {
+    background-color: rgba(0, 0, 0, 0.30);
+    border-color: rgba(255, 255, 255, 0.07);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.40),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Active nav tab highlight */
+.settings-nav-active {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.35) !important;
+    color: rgb(96, 165, 250);
+    box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+/* Delete-account modal overlay deepens the glass effect */
+.delete-modal-glass {
+    background-color: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(28px) saturate(1.4);
+    -webkit-backdrop-filter: blur(28px) saturate(1.4);
+}
+
+/* Danger pulsing border (hover on danger card) */
+@keyframes dangerRing {
+    0%, 100% { box-shadow: 0 0 0 0   rgba(239, 68, 68, 0.00); }
+    50%       { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14); }
+}
+
+.danger-card:hover {
+    animation: dangerRing 2.4s ease-in-out infinite;
+}
+
+/* Settings panel fade-in (overrides global .animate-fade-in for panels) */
+.settings-panel {
+    animation: fadeIn 0.25s ease both;
+}

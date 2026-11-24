@@ -60,6 +60,7 @@
                         <div class="p-2 bento-card">
                             <a href="{% url 'profiles:profile' request.user.username %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Profile' %}</a>
                             <a href="{% url 'publications:saved' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Saved posts' %}</a>
+                            <a href="{% url 'authors:settings' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Settings' %}</a>
                             <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
                             <form method="POST" action="{% url 'authors:logout' %}">
                                 {% csrf_token %}
@@ -136,6 +137,7 @@
     <div class="p-4 flex flex-col gap-2 bento-card">
         <a href="{% url 'profiles:profile' request.user.username %}" class="flex items-center px-4 py-3 text-base text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Profile' %}</a>
         <a href="{% url 'publications:saved' %}" class="flex items-center px-4 py-3 text-base text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Saved posts' %}</a>
+        <a href="{% url 'authors:settings' %}" class="flex items-center px-4 py-3 text-base text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors btn-micro" role="menuitem">{% translate 'Settings' %}</a>
         <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
         <form method="POST" action="{% url 'authors:logout' %}">
             {% csrf_token %}
