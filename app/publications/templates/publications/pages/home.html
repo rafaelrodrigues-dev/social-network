@@ -81,6 +81,35 @@
         </div>
     </aside>
 </div>
+
+{% if not request.user.is_authenticated %}
+<!-- Floating Conversion Banner for Unauthenticated Visitors -->
+<div id="conversion-banner" class="fixed bottom-4 inset-x-4 md:inset-x-auto md:right-8 z-40 max-w-md conversion-banner p-4 sm:p-5 rounded-2xl md:rounded-3xl bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100 will-change-transform" role="complementary" aria-label="{% translate 'Login prompt' %}">
+    <div class="relative flex flex-col gap-3">
+        <!-- Close button (x) -->
+        <button id="close-conversion-banner" type="button" class="absolute -top-1 -right-1 p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 rounded-full hover:bg-gray-100/60 dark:hover:bg-white/10 transition-colors btn-micro focus:outline-none" aria-label="{% translate 'Close' %}">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="pr-6">
+            <p class="text-sm sm:text-[15px] font-medium text-gray-800 dark:text-gray-100 leading-snug">
+                {% translate "Connect to Socialnet to publish, like and comment with the community" %}
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2.5 pt-1">
+            <a href="{% url 'login' %}" class="flex-1 py-2.5 px-4 text-center text-sm font-semibold text-gray-700 dark:text-gray-200 bg-gray-100/80 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl transition-all btn-micro focus:outline-none">
+                {% translate "Login" %}
+            </a>
+            <a href="{% url 'register' %}" class="flex-1 py-2.5 px-4 text-center text-sm font-semibold text-white bg-gradient-to-r from-primary to-secondary hover:from-blue-600 hover:to-emerald-600 rounded-xl shadow-md hover:shadow-lg hover-glow transition-all btn-micro focus:outline-none">
+                {% translate "Register" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
 {% block javascript %}
 <script>
