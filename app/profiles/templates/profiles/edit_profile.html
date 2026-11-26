@@ -139,6 +139,11 @@
         <div class="flex-1">
             <form id="profileForm" action="{% url "profiles:edit_profile" %}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="md:col-span-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-2xl p-4 text-sm">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
                 
                 <!-- Media Upload Bento Card (Cover & Avatar) -->
                 <div class="glass-card rounded-3xl p-1 md:col-span-2 overflow-hidden flex flex-col relative group">
@@ -185,12 +190,13 @@
                     <div class="space-y-4 flex flex-col md:flex-row gap-4">
                         <div class="flex-1">
                             <label for="first_name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{{ form.first_name.label }}</label>
-                            <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value }}" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 placeholder-gray-400">
-                            
+                            <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value|default_if_none:'' }}" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 placeholder-gray-400">
+                            {% if form.first_name.errors %}<p class="text-xs text-red-500 mt-1">{{ form.first_name.errors.0 }}</p>{% endif %}
                         </div>
                         <div class="flex-1">
                             <label for="last_name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{{ form.last_name.label }}</label>
-                            <input type="text" id="last_name" name="last_name" value="{{ form.last_name.value }}" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 placeholder-gray-400">
+                            <input type="text" id="last_name" name="last_name" value="{{ form.last_name.value|default_if_none:'' }}" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 placeholder-gray-400">
+                            {% if form.last_name.errors %}<p class="text-xs text-red-500 mt-1">{{ form.last_name.errors.0 }}</p>{% endif %}
                         </div>
                     </div>
                 </div>
@@ -212,11 +218,13 @@
                                 <option value="S"{% if form.gender.value == 'S' %} selected{% endif %}>{% translate "Search me" %}</option>
                                 <option value="O"{% if form.gender.value == 'O' %} selected{% endif %}>{% translate "Other" %}</option>
                             </select>
+                            {% if form.gender.errors %}<p class="text-xs text-red-500 mt-1">{{ form.gender.errors.0 }}</p>{% endif %}
                         </div>
                         <div class="flex-1 text-left">
                             <label for="date_of_birth" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{{ form.date_of_birth.label }} (18+)</label>
-                            <input type="date" id="date_of_birth" name="date_of_birth" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-purple-500" value="{{ form.date_of_birth.value|date:'Y-m-d' }}">
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-purple-500" value="{% if form.date_of_birth.value|date:'Y-m-d' %}{{ form.date_of_birth.value|date:'Y-m-d' }}{% else %}{{ form.date_of_birth.value|default_if_none:'' }}{% endif %}">
                             <p id="ageError" class="text-xs text-red-500 mt-1 hidden">{% translate "You must be at least 18 years old." %}</p>
+                            {% if form.date_of_birth.errors %}<p class="text-xs text-red-500 mt-1">{{ form.date_of_birth.errors.0 }}</p>{% endif %}
                         </div>
                     </div>
                 </div>
@@ -227,7 +235,8 @@
                         <label for="bio" class="block text-sm font-bold text-gray-700 dark:text-gray-300">{{ form.bio.label }}</label>
                         <span id="bioCounter" class="text-xs font-semibold text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md transition-colors shadow-sm">0 / 300</span>
                     </div>
-                    <textarea id="bio" name="bio" rows="3" maxlength="300" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 resize-none hide-scrollbar placeholder-gray-400" placeholder="Type something about yourself...">{{ form.bio.value }}</textarea>
+                    <textarea id="bio" name="bio" rows="3" maxlength="300" class="input-micro w-full bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:border-indigo-500 resize-none hide-scrollbar placeholder-gray-400" placeholder="Type something about yourself...">{{ form.bio.value|default_if_none:'' }}</textarea>
+                    {% if form.bio.errors %}<p class="text-xs text-red-500 mt-1">{{ form.bio.errors.0 }}</p>{% endif %}
                 </div>
 
             </form>
