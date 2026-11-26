@@ -100,11 +100,11 @@
 <nav class="md:hidden fixed bottom-0 w-full z-50 liquid-glass pb-safe rounded-t-3xl shadow-[0_-4px_25px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_25px_rgba(0,0,0,0.5)] border-t border-white/20">
     <div class="flex justify-around items-center h-[72px] px-2 text-gray-500 dark:text-gray-400">
         <!-- Icons formatted for friendly touch targets (48x48 min) -->
-        <a href="/" class="p-2 text-primary flex flex-col items-center btn-micro w-16">
+        <a href="/" class="{%if request.path == '/'%}p-2 text-primary flex flex-col items-center btn-micro w-16 {% else %}p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors{% endif %}">
             <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             <span class="text-[10px] font-semibold">{% translate 'Feed' %}</span>
         </a>
-        <a href="#" id="mobile-search-btn" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors">
+        <a href="#" id="mobile-search-btn" class="{%if request.path|slice:8 == '/search/' %}p-2 text-primary flex flex-col items-center btn-micro w-16 {% else %}p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors{% endif %}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             <span class="text-[10px] font-medium">{% translate 'Search' %}</span>
         </a>
@@ -116,14 +116,14 @@
             </button>
         </div>
         
-        <a href="{% url 'notifications:notifications-list' %}" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors relative">
+        <a href="{% url 'notifications:notifications-list' %}" class="{%if request.path == '/notifications/'%}p-2 text-primary flex flex-col items-center btn-micro w-16 {% else %}p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors relative{% endif %}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
             {% if request.user.has_unread_notifications %}
             <span class="absolute top-2 right-4 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#121212]"></span>
             {% endif %}
             <span class="text-[10px] font-medium">{% translate 'Notifications' %}</span>
         </a>
-        <button id="mobile-account-btn" aria-expanded="false" class="p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors">
+        <button id="mobile-account-btn" aria-expanded="false" class="{%if request.path == user.profile.get_absolute_url%}p-2 text-primary flex flex-col items-center btn-micro w-16 {% else %}p-2 hover:text-gray-900 dark:hover:text-gray-100 flex flex-col items-center btn-micro w-16 transition-colors relative{% endif %}">
             {% if request.user.profile.picture %}
             <img class="h-6 w-6 rounded-full object-cover mb-1 border border-transparent dark:border-gray-700" src="{{ request.user.profile.picture.url }}" alt="User Profile Picture">
             {% else %}
