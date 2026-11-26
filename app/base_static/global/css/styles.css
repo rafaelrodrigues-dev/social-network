@@ -33,8 +33,8 @@
    ================================================================ */
 .btn-micro {
     transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 150ms ease-in-out,
-                background-color 150ms ease;
+        box-shadow 150ms ease-in-out,
+        background-color 150ms ease;
 }
 
 .btn-micro:active {
@@ -133,6 +133,7 @@
         opacity: 0;
         transform: translateY(-4px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -242,13 +243,11 @@
    ================================================================ */
 .skeleton {
     background-color: #e2e8f0;
-    background-image: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.4) 20%,
-        rgba(255, 255, 255, 0) 40%,
-        rgba(255, 255, 255, 0) 100%
-    );
+    background-image: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0,
+            rgba(255, 255, 255, 0.4) 20%,
+            rgba(255, 255, 255, 0) 40%,
+            rgba(255, 255, 255, 0) 100%);
     background-size: 200% 100%;
     background-repeat: no-repeat;
     animation: shimmer 1.5s infinite linear;
@@ -257,18 +256,21 @@
 
 .dark .skeleton {
     background-color: rgb(31, 41, 55);
-    background-image: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.05) 20%,
-        rgba(255, 255, 255, 0) 40%,
-        rgba(255, 255, 255, 0) 100%
-    );
+    background-image: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0,
+            rgba(255, 255, 255, 0.05) 20%,
+            rgba(255, 255, 255, 0) 40%,
+            rgba(255, 255, 255, 0) 100%);
 }
 
 @keyframes shimmer {
-    0%   { background-position: 100% 0; }
-    100% { background-position: -100% 0; }
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
 }
 
 .skeleton-text {
@@ -289,20 +291,35 @@
 }
 
 .skeleton-wrapper {
-    display: none; /* Inactive by default; JS controls the display */
+    display: none;
+    /* Inactive by default; JS controls the display */
 }
 
 /* ================================================================
    DROPDOWN & MODAL ANIMATIONS
    ================================================================ */
 @keyframes dropdownEntry {
-    from { opacity: 0; transform: scale(0.95) translateY(-5px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 @keyframes dropdownExit {
-    from { opacity: 1; transform: scale(1) translateY(0); }
-    to   { opacity: 0; transform: scale(0.95) translateY(-5px); }
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95) translateY(-5px);
+    }
 }
 
 .dropdown-animate-in {
@@ -317,8 +334,15 @@
    AUXILIARY ANIMATIONS
    ================================================================ */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .animate-fade-in {
@@ -327,22 +351,37 @@
 
 /* Error Animation: Shake */
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-4px); }
-    40%, 80% { transform: translateX(4px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-4px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(4px);
+    }
 }
 
 .animate-shake {
-    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
 }
 
 /* Micro-interaction: Valid Input */
 .valid-input {
-    border-color: #10b981 !important; /* Tailwind green-500 */
+    border-color: #10b981 !important;
+    /* Tailwind green-500 */
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
+
 .dark .valid-input {
-    border-color: #059669 !important; /* Tailwind green-600 */
+    border-color: #059669 !important;
+    /* Tailwind green-600 */
     box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
 }
 
@@ -380,6 +419,7 @@
         opacity: 0;
         transform: translateY(100%);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -391,6 +431,7 @@
         opacity: 1;
         transform: translateY(0);
     }
+
     to {
         opacity: 0;
         transform: translateY(100%);
@@ -437,8 +478,15 @@
 
 /* Danger pulsing border (hover on danger card) */
 @keyframes dangerRing {
-    0%, 100% { box-shadow: 0 0 0 0   rgba(239, 68, 68, 0.00); }
-    50%       { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14); }
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.00);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14);
+    }
 }
 
 .danger-card:hover {
@@ -448,4 +496,83 @@
 /* Settings panel fade-in (overrides global .animate-fade-in for panels) */
 .settings-panel {
     animation: fadeIn 0.25s ease both;
+}
+
+/* ================================================================
+   FLOATING CONVERSION BANNER (Liquid Glass & GPU Transitions)
+   ================================================================ */
+.conversion-banner {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 300ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 300ms ease;
+}
+
+.conversion-banner.banner-hidden {
+    transform: translate3d(0, 24px, 0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Light / Dark Mode Liquid Glass Contrast */
+#conversion-banner {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dark #conversion-banner {
+    background-color: rgba(18, 18, 18, 0.78);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7),
+        0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 767px) {
+
+    /* Mobile safe distance: sits comfortably above the 72px mobile bottom navbar */
+    #conversion-banner.conversion-banner {
+        bottom: 5.5rem;
+    }
+}
+
+/* ================================================================
+   QUICK LOGIN MODAL (Liquid Glass & GPU Transitions)
+   ================================================================ */
+#quick-login-modal {
+    will-change: opacity;
+}
+
+#quick-login-overlay {
+    will-change: opacity;
+    transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#quick-login-content {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#quick-login-modal:not(.hidden) #quick-login-content {
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.25);
+}
+
+.dark #quick-login-modal:not(.hidden) #quick-login-content {
+    background-color: rgba(24, 24, 27, 0.90);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8);
 }

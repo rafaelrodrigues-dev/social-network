@@ -28,6 +28,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
+    // Auth State & Quick Login Modal (INP < 200ms)
+    // ==========================================
+    const isGuest = () => document.body.getAttribute('data-authenticated') === 'false';
+
+    const quickLoginModal = document.getElementById('quick-login-modal');
+    const quickLoginOverlay = document.getElementById('quick-login-overlay');
+    const quickLoginContent = document.getElementById('quick-login-content');
+    const closeQuickLoginBtn = document.getElementById('close-quick-login-btn');
+
+    const openQuickLoginModal = () => {
+        if (!quickLoginModal) return;
+        quickLoginModal.classList.remove('hidden');
+        void quickLoginModal.offsetWidth; // Reflow for instant transition
+        requestAnimationFrame(() => {
+            if (quickLoginOverlay) {
+                quickLoginOverlay.classList.remove('opacity-0');
+                quickLoginOverlay.classList.add('opacity-100');
+            }
+            if (quickLoginContent) {
+                quickLoginContent.classList.remove('scale-95', 'opacity-0');
+                quickLoginContent.classList.add('scale-100', 'opacity-100');
+            }
+        });
+    };
+
+    const closeQuickLoginModal = () => {
+        if (!quickLoginModal) return;
+        if (quickLoginOverlay) {
+            quickLoginOverlay.classList.remove('opacity-100');
+            quickLoginOverlay.classList.add('opacity-0');
+        }
+        if (quickLoginContent) {
+            quickLoginContent.classList.remove('scale-100', 'opacity-100');
+            quickLoginContent.classList.add('scale-95', 'opacity-0');
+        }
+        setTimeout(() => {
+            quickLoginModal.classList.add('hidden');
+        }, 200);
+    };
+
+    if (closeQuickLoginBtn) closeQuickLoginBtn.addEventListener('click', closeQuickLoginModal);
+    if (quickLoginOverlay) quickLoginOverlay.addEventListener('click', closeQuickLoginModal);
+
+    // ==========================================
+    // Floating Conversion Banner Dismissal
+    // ==========================================
+    const conversionBanner = document.getElementById('conversion-banner');
+    const closeConversionBannerBtn = document.getElementById('close-conversion-banner');
+
+    if (closeConversionBannerBtn && conversionBanner) {
+        closeConversionBannerBtn.addEventListener('click', () => {
+            conversionBanner.classList.add('banner-hidden');
+            setTimeout(() => {
+                conversionBanner.style.display = 'none';
+            }, 300);
+        });
+    }
+    // ==========================================
     // 2. Read more / show less – INP < 200ms
     // ==========================================
     // Event delegation: a single listener manages all buttons,
@@ -75,6 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // Event delegation on the body handles new dynamic posts without reattaching events
     document.body.addEventListener('click', function (e) {
+        // Auth Guard: intercept restricted actions for unauthenticated visitors
+        const restrictedAction = e.target.closest('.btn-like, .btn-save, .btn-follow, .btn-restricted, [data-requires-auth="true"], a[aria-label="Comment"], button[aria-label="Comment"]');
+        if (restrictedAction && isGuest()) {
+            e.preventDefault();
+            e.stopPropagation();
+            openQuickLoginModal();
+            return;
+        }
+
         const btnLike = e.target.closest('.btn-like');
         if (btnLike) {
             e.preventDefault();
@@ -227,41 +294,41 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(response => {
-                    if (response.redirected) {
-                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`;
-                        return;
-                    }
-                    if (response.status === 403) {
-                        window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`;
-                        return;
-                    }
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data) {
-                        const isFollowing = data.is_following;
-                        const textSpan = btnFollow.querySelector('span') || btnFollow;
-
-                        if (!isFollowing) {
-                            // Unfollow
-                            btnFollow.classList.remove('following');
-                            btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
-                            btnFollow.classList.add('bg-primary', 'text-white');
-                            textSpan.textContent = 'Follow';
-                        } else {
-                            // Follow
-                            btnFollow.classList.add('following');
-                            btnFollow.classList.remove('bg-primary', 'text-white');
-                            btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
-                            textSpan.textContent = 'Following';
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`;
+                            return;
                         }
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                        if (response.status === 403) {
+                            window.location.href = `/a/login/?next=${encodeURIComponent(window.location.pathname)}`;
+                            return;
+                        }
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data) {
+                            const isFollowing = data.is_following;
+                            const textSpan = btnFollow.querySelector('span') || btnFollow;
+
+                            if (!isFollowing) {
+                                // Unfollow
+                                btnFollow.classList.remove('following');
+                                btnFollow.classList.remove('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                                btnFollow.classList.add('bg-primary', 'text-white');
+                                textSpan.textContent = 'Follow';
+                            } else {
+                                // Follow
+                                btnFollow.classList.add('following');
+                                btnFollow.classList.remove('bg-primary', 'text-white');
+                                btnFollow.classList.add('bg-gray-200', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+                                textSpan.textContent = 'Following';
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             } else {
                 // Fallback UI logic if missing data
                 const isFollowing = btnFollow.classList.contains('following');
@@ -306,7 +373,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar = document.getElementById('progress-bar');
     const successIcon = document.getElementById('success-icon');
 
-    const openModal = () => {
+    const openModal = (e) => {
+        if (isGuest()) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            openQuickLoginModal();
+            return;
+        }
         if (!modal) return;
         modal.classList.remove('hidden');
         // Small delay so the CSS transition can run
@@ -564,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
         accountSheetOverlay.classList.add('opacity-100');
         accountMenuMobile.classList.remove('sheet-animate-out');
         accountMenuMobile.classList.add('sheet-animate-in');
-        if(mobileAccountBtn) mobileAccountBtn.setAttribute('aria-expanded', 'true');
+        if (mobileAccountBtn) mobileAccountBtn.setAttribute('aria-expanded', 'true');
     };
 
     const closeBottomSheet = () => {
@@ -574,8 +649,8 @@ document.addEventListener('DOMContentLoaded', () => {
         accountMenuMobile.classList.remove('sheet-animate-in');
         accountMenuMobile.classList.add('sheet-animate-out');
         accountMenuMobile.style.transform = ''; // reset inline transform from swipe
-        if(mobileAccountBtn) mobileAccountBtn.setAttribute('aria-expanded', 'false');
-        
+        if (mobileAccountBtn) mobileAccountBtn.setAttribute('aria-expanded', 'false');
+
         setTimeout(() => {
             if (accountMenuMobile.classList.contains('sheet-animate-out')) {
                 accountSheetOverlay.classList.add('hidden');
@@ -604,13 +679,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeBottomSheet();
+            closeQuickLoginModal();
             // Also close desktop dropdowns
             document.querySelectorAll('.dropdown-menu:not(.hidden)').forEach(menu => {
                 if (typeof closeDropdown === 'function') closeDropdown(menu);
             });
         }
     });
+    // Intercept comment forms and inputs for unauthenticated visitors
+    document.body.addEventListener('submit', function (e) {
+        if (isGuest() && (e.target.matches('form[action*="/comment/"]') || e.target.closest('form[action*="/comment/"]'))) {
+            e.preventDefault();
+            e.stopPropagation();
+            openQuickLoginModal();
+        }
+    });
 
+    document.body.addEventListener('focusin', function (e) {
+        if (isGuest() && e.target.matches('textarea[placeholder*="comment" i], textarea[placeholder*="coment" i], form[action*="/comment/"] textarea')) {
+            e.preventDefault();
+            e.target.blur();
+            openQuickLoginModal();
+        }
+    });
     // Swipe down gesture
     if (accountMenuMobile) {
         accountMenuMobile.addEventListener('touchstart', (e) => {
@@ -644,7 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileSearchOverlay = document.getElementById('mobile-search-overlay');
     const closeSearchOverlayBtn = document.getElementById('close-search-overlay');
     const mobileSearchInput = document.getElementById('mobile-search-input');
-    
+
     let searchStartY = 0;
     let searchCurrentY = 0;
 
@@ -655,7 +746,7 @@ document.addEventListener('DOMContentLoaded', () => {
         void mobileSearchOverlay.offsetWidth;
         mobileSearchOverlay.classList.remove('search-overlay-slide-down');
         mobileSearchOverlay.classList.add('search-overlay-slide-up');
-        
+
         // Force focus on input immediately
         if (mobileSearchInput) {
             setTimeout(() => {
@@ -669,7 +760,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileSearchOverlay.classList.remove('search-overlay-slide-up');
         mobileSearchOverlay.classList.add('search-overlay-slide-down');
         mobileSearchOverlay.style.transform = ''; // reset swipe transform
-        
+
         // Wait for animation
         setTimeout(() => {
             if (mobileSearchOverlay.classList.contains('search-overlay-slide-down')) {

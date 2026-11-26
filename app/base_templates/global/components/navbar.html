@@ -69,6 +69,14 @@
                         </div>
                     </div>
                 </div>
+                {% else %}
+                <!-- Visitor Desktop Actions -->
+                <a href="{% url 'authors:login' %}" class="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors btn-micro focus:outline-none">
+                    {% translate "Login" %}
+                </a>
+                <a href="{% url 'authors:register' %}" class="relative inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white rounded-full bg-gradient-to-r from-primary to-secondary shadow-md hover:shadow-lg hover:shadow-primary/25 hover-glow transition-all duration-300 transform hover:-translate-y-0.5 border border-white/20 active:scale-95 btn-micro focus:outline-none">
+                    <span class="relative z-10">{% translate "Register" %}</span>
+                </a>
                 {% endif %}
             </div>
             

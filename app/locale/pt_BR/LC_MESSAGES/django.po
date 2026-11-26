@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 22:37-0300\n"
+"POT-Creation-Date: 2026-11-25 20:19-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,6 +98,8 @@ msgid "About us"
 msgstr "Sobre nós"
 
 #: .\authors\templates\authors\pages\login.html:6
+#: .\base_templates\global\components\navbar.html:75
+#: .\publications\templates\publications\pages\home.html:104
 msgid "Login"
 msgstr "Entrar"
 
@@ -135,6 +137,8 @@ msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
 #: .\authors\templates\authors\pages\register.html:6
+#: .\base_templates\global\components\navbar.html:78
+#: .\publications\templates\publications\pages\home.html:107
 msgid "Register"
 msgstr "Registrar-se"
 
@@ -200,36 +204,33 @@ msgstr "Idade verificada."
 #: .\authors\templates\authors\pages\settings.html:5
 #: .\authors\templates\authors\pages\settings.html:53
 #: .\base_templates\global\components\navbar.html:63
+#: .\base_templates\global\components\navbar.html:151
 msgid "Settings"
 msgstr "Configurações"
 
 #: .\authors\templates\authors\pages\settings.html:56
 msgid "Manage your account, privacy and preferences."
-msgstr ""
+msgstr "Gerencie sua conta, privacidade e preferências."
 
 #: .\authors\templates\authors\pages\settings.html:72
 msgid "Settings navigation"
-msgstr ""
+msgstr "Navegação de configurações"
 
 #: .\authors\templates\authors\pages\settings.html:87
-#, fuzzy
-#| msgid "Profile"
 msgid "Profile & Data"
-msgstr "Perfil"
+msgstr "Perfil e Dados"
 
 #: .\authors\templates\authors\pages\settings.html:101
-#, fuzzy
-#| msgid "Create Account"
 msgid "Security & Account"
-msgstr "Criar conta"
+msgstr "Segurança e Conta"
 
 #: .\authors\templates\authors\pages\settings.html:115
 msgid "About & Policies"
-msgstr ""
+msgstr "Sobre e Políticas"
 
 #: .\authors\templates\authors\pages\settings.html:134
 msgid "Sign Out"
-msgstr ""
+msgstr "Sair"
 
 #: .\authors\templates\authors\pages\settings.html:192
 #: .\profiles\templates\profiles\edit_profile.html:5
@@ -239,65 +240,62 @@ msgid "Edit Profile"
 msgstr "Editar Perfil"
 
 #: .\authors\templates\authors\pages\settings.html:203
-#, fuzzy
-#| msgid "Profile"
 msgid "Your Profile"
-msgstr "Perfil"
+msgstr "Seu Perfil"
 
 #: .\authors\templates\authors\pages\settings.html:218
 msgid "This is the public link to your profile page."
-msgstr ""
+msgstr "Este é o link público para a página do seu perfil."
 
 #: .\authors\templates\authors\pages\settings.html:233
 msgid "Account Info"
-msgstr ""
+msgstr "Informações da conta"
 
 #: .\authors\templates\authors\pages\settings.html:241
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: .\authors\templates\authors\pages\settings.html:247
 msgid "Member since"
-msgstr ""
+msgstr "Membro desde"
 
 #: .\authors\templates\authors\pages\settings.html:270
 #: .\authors\templates\authors\pages\settings.html:396
-#, fuzzy
-#| msgid "Create Account"
 msgid "Delete Account"
-msgstr "Criar conta"
+msgstr "Apagar conta"
 
 #: .\authors\templates\authors\pages\settings.html:273
 msgid ""
 "Permanently removes all your data, posts and interactions. This action is "
 "irreversible."
 msgstr ""
+"Remove permanentemente todos os seus dados, publicações e interações. Esta "
+"ação é irreversível."
 
 #: .\authors\templates\authors\pages\settings.html:287
-#, fuzzy
-#| msgid "Create Account"
 msgid "Delete My Account"
-msgstr "Criar conta"
+msgstr "Apagar minha conta"
 
 #: .\authors\templates\authors\pages\settings.html:312
 msgid "About Socialnet"
-msgstr ""
+msgstr "Sobre o Socialnet"
 
 #: .\authors\templates\authors\pages\settings.html:315
-msgid "Our mission, vision and team."
-msgstr ""
+msgid "Our mission and vision."
+msgstr "Nossa missão e visão."
 
 #: .\authors\templates\authors\pages\settings.html:342
 msgid "How we collect, use and protect your data."
-msgstr ""
+msgstr "Como coletamos, usamos e protegemos seus dados."
 
 #: .\authors\templates\authors\pages\settings.html:399
 msgid "This action is irreversible."
-msgstr ""
+msgstr "Esta ação é irreversível"
 
 #: .\authors\templates\authors\pages\settings.html:408
+#: .\publications\templates\publications\pages\home.html:90
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: .\authors\templates\authors\pages\settings.html:417
 #, python-format
@@ -308,18 +306,24 @@ msgid ""
 "            All your posts, followers and data will be erased immediately.\n"
 "            "
 msgstr ""
+"\n"
+"            Você está prestes a excluir a conta permanentemente. "
+"<strong>@%(username)s</strong>.\n"
+"            Todas as suas publicações, seguidores e dados serão apagados "
+"imediatamente.\n"
+"            "
 
 #: .\authors\templates\authors\pages\settings.html:430
 msgid "Type"
-msgstr ""
+msgstr "Digite"
 
 #: .\authors\templates\authors\pages\settings.html:432
 msgid "to confirm"
-msgstr ""
+msgstr "para confirmar"
 
 #: .\authors\templates\authors\pages\settings.html:448
 msgid "Type DELETE exactly to confirm."
-msgstr ""
+msgstr "Digite DELETE "
 
 #: .\authors\templates\authors\pages\settings.html:459
 #: .\base_templates\global\base.html:91
@@ -327,14 +331,12 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: .\authors\templates\authors\pages\settings.html:468
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete Forever"
-msgstr "Apagar"
+msgstr "Apagar para sempre"
 
 #: .\authors\templates\authors\pages\settings.html:602
 msgid "Deleting..."
-msgstr ""
+msgstr "Apagando..."
 
 #: .\authors\tests\test_authors_login.py:33 .\authors\views.py:81
 msgid "Invalid username or password"
@@ -354,7 +356,7 @@ msgstr ""
 
 #: .\authors\views.py:113
 msgid "Your account has been permanently deleted."
-msgstr ""
+msgstr "Sua conta foi apagada permanentemente"
 
 #: .\base_templates\global\base.html:88 .\base_templates\global\base.html:94
 #: .\base_templates\global\components\post_card.html:55
@@ -384,39 +386,44 @@ msgid "Share"
 msgstr "Compartilhar"
 
 #: .\base_templates\global\components\navbar.html:25
-#: .\base_templates\global\components\navbar.html:162
+#: .\base_templates\global\components\navbar.html:175
 msgid "Search for posts, people"
 msgstr "Pesquise por posts, pessoas"
 
 #: .\base_templates\global\components\navbar.html:39
+#: .\base_templates\global\components\navbar.html:114
 msgid "New Post"
 msgstr "Nova Postagem"
 
 #: .\base_templates\global\components\navbar.html:61
-#: .\base_templates\global\components\navbar.html:124
-#: .\base_templates\global\components\navbar.html:138 .\profiles\models.py:17
+#: .\base_templates\global\components\navbar.html:126
+#: .\base_templates\global\components\navbar.html:132
+#: .\base_templates\global\components\navbar.html:149 .\profiles\models.py:17
 msgid "Profile"
 msgstr "Perfil"
 
 #: .\base_templates\global\components\navbar.html:62
-#: .\base_templates\global\components\navbar.html:139
+#: .\base_templates\global\components\navbar.html:150
 msgid "Saved posts"
 msgstr "Postagens salvas"
 
 #: .\base_templates\global\components\navbar.html:67
-#: .\base_templates\global\components\navbar.html:143
+#: .\base_templates\global\components\navbar.html:155
 msgid "Logout"
 msgstr "Sair"
 
-#: .\base_templates\global\components\navbar.html:97
+#: .\base_templates\global\components\navbar.html:103
+#: .\base_templates\global\components\navbar.html:105
 msgid "Feed"
 msgstr "Ínicio"
 
-#: .\base_templates\global\components\navbar.html:101
+#: .\base_templates\global\components\navbar.html:107
+#: .\base_templates\global\components\navbar.html:109
 msgid "Search"
 msgstr "Pesquisar"
 
-#: .\base_templates\global\components\navbar.html:116
+#: .\base_templates\global\components\navbar.html:119
+#: .\base_templates\global\components\navbar.html:124
 #: .\notifications\templates\notifications\pages\notifications.html:53
 msgid "Notifications"
 msgstr "Notificações"
@@ -585,6 +592,14 @@ msgstr "Sobre"
 #: .\publications\templates\publications\pages\home.html:76
 msgid "Privacy"
 msgstr "Privacidade"
+
+#: .\publications\templates\publications\pages\home.html:87
+msgid "Login prompt"
+msgstr "Convite para login"
+
+#: .\publications\templates\publications\pages\home.html:98
+msgid "Connect to Socialnet to publish, like and comment with the community"
+msgstr "Conecte ao Socialnet para publicar, curtir e comentar com a comunidade"
 
 #: .\publications\templates\publications\pages\publication-detail.html:5
 msgid "Post by"
