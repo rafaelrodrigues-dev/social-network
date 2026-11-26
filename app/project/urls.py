@@ -18,13 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from authors import views as authors_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('oauth/', include('allauth.urls')),
-    path('login/', authors_views.login_view, name='login'),
-    path('register/', authors_views.register_view, name='register'),
     path('', include('publications.urls')),
     path('a/', include('authors.urls')),
     path('profile/', include('profiles.urls')),
